@@ -44,7 +44,7 @@ export default function PrintHijab({ navigation }) {
 
             {/* Ukuran Baju Jersey */}
             <MyPicker
-              label="Ukuran Baju Jersey"
+              label="Ukuran Hijab"
               data={[
                 { label: "Pilih disini", value: " " },
                 { label: "110 x 110 cm", value: "110x110cm" },

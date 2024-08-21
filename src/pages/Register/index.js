@@ -173,7 +173,7 @@ export default function Register({ navigation, route }) {
                             ...kirim,
                             nama_lengkap: x
                         })
-                    }} iconname='person-outline' placeholder='Ketikan nama lengkap' />
+                    }} iconname='person-outline' placeholder='Isi nama lengkap' />
                 
                     <MyGap jarak={20} />
                     <MyInputLogin label='Nomor Telepon' onChangeText={x => {
@@ -205,8 +205,8 @@ export default function Register({ navigation, route }) {
                     <MyGap jarak={20} />
                     {/*INPUT KATA SANDI */}
                     <MyInputLogin
-                        placeholder="Ketikan kata sandi"
-                        label="Kata Sandi"
+                        placeholder="Isi Password"
+                        label="Password"
                         iconname="lock-closed-outline"
                         value={kirim.password}
                         secureTextEntry={true}
@@ -224,8 +224,8 @@ export default function Register({ navigation, route }) {
                     <MyInputLogin
                         borderColor={sama ? Color.blueGray[300] : colors.danger}
 
-                        placeholder="Ketikan ulang kata sandi"
-                        label="Ketikan ulang kata sandi"
+                        placeholder="Isi konfirmasi password"
+                        label="Konfirmasi Password"
                         iconname="lock-closed-outline"
                         secureTextEntry
                         value={kirim.repassword}

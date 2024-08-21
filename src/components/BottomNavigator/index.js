@@ -44,10 +44,13 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
 
   return (
     <View style={{
-      backgroundColor: Color.white[900], flexDirection: 'row',
+      backgroundColor: colors.secondary, flexDirection: 'row',
       borderTopWidth: 1,
       borderTopColor: Color.blueGray[100],
       height: 65,
+      
+
+
     }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -88,7 +91,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
           iconName = 'home';
           Newlabel = '';
         } else if (label === 'Riwayat') {
-          iconName = 'reload-circle';
+          iconName = 'time';
           Newlabel = '';
         } else if (label === 'TanyaJawab') {
           iconName = 'chatbubbles-outline';
@@ -141,13 +144,13 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
                   alignItems: 'center',
                 }}>
 
-                <Icon type='ionicon' name={iconName} size={24} color={isFocused ? Color.primary[900] : Color.blueGray[400]} />
+                <Icon type='ionicon' name={iconName} size={24} color={isFocused ? colors.primary : Color.blueGray[400]} />
                 <Text style={{
                   marginTop: 4,
                   fontFamily: fonts.body2.fontFamily,
                   textAlign: 'center',
                   fontSize: 12,
-                  color: isFocused ? Color.primary[900] : Color.blueGray[400]
+                  color: isFocused ? colors.primary : Color.blueGray[400]
                 }}>{Newlabel}</Text>
               </View>
             </View>

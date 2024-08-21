@@ -139,6 +139,8 @@ export default function PrintKainRoll({navigation}) {
                     <MyGap jarak={20} />
                     <MyInput label="Kecamatan" placeholder="Isi disini" />
                     <MyGap jarak={20} />
+                    <MyInput label="Kelurahan" placeholder="Isi disini" />
+                    <MyGap jarak={20} />
                     <MyInput label="Alamat Lengkap" placeholder="Isi disini" />
                   </>
                 )}

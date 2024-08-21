@@ -53,6 +53,11 @@ export default function CetakSampleJersey({navigation}) {
                     
                     <MyGap jarak={20}/>
 
+  {/* Kelurahan */}
+  <MyInput label="Kelurahan" placeholder="Isi disini"/>
+                    
+                    
+                    <MyGap jarak={20}/>
                     {/* Alamat Lengkap */}
                     <MyInput label="Alamat Lengkap" placeholder="Isi disini"/>
 

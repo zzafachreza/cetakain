@@ -50,6 +50,12 @@ export default function CetakSampleKainRoll({navigation}) {
 
                     {/* Kecamatan */}
                     <MyInput label="Kecamatan" placeholder="Isi disini"/>
+
+                         <MyGap jarak={20}/>
+
+                    {/* Kelurahan */}
+                    <MyInput label="Kelurahan" placeholder="Isi disini"/>
+                    
                     
                     <MyGap jarak={20}/>
 
