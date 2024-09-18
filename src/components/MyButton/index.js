@@ -6,7 +6,7 @@ import { colors } from '../../utils';
 
 export default function MyButton({
   title,
-  warna = colors.primary,
+  warna = colors.secondary,
   onPress,
   Icons,
   radius = 10,
@@ -30,6 +30,7 @@ export default function MyButton({
           marginRight: !kiri ? 5 : 0,
           ...fonts.subheadline3,
           // fontWeight: fontWeight,
+          fontFamily:fonts.primary[600]
         }}>
         {title}
       </Text>

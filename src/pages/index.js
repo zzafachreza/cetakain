@@ -43,6 +43,8 @@ import CetakSampleHijab from './CetakSample/hijab';
 import CetakSampleJersey from './CetakSample/jersey';
 import PrintHijab from './printhijab';
 import Riwayat from './Riwayat';
+import SecondPlash from './Splash/second';
+
 
 
 export {
@@ -91,6 +93,8 @@ export {
   CetakSampleJersey,
   PrintHijab,
   Riwayat,
+  SecondPlash,
+  
 
   
 

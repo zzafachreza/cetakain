@@ -41,7 +41,7 @@ export default function Splash({ navigation }) {
     setTimeout(() => {
     getData('user').then(res => {
     if (!res) {
-    navigation.replace('Login')
+    navigation.replace('SecondSplash')
     } else {
      navigation.replace('MainApp')
      }

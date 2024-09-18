@@ -47,6 +47,7 @@ import {
   CetakSampleJersey,
   PrintHijab,
   Riwayat,
+  SecondPlash,
 
 
 
@@ -81,6 +82,16 @@ export default function Router() {
           headerShown: false,
         }}
       />
+      
+<Stack.Screen
+        name="SecondSplash"
+        component={SecondPlash}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
 
 
 

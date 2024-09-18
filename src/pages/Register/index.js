@@ -131,40 +131,23 @@ export default function Register({ navigation, route }) {
         }}>
             {/* <MyHeader title="Daftar Akun" /> */}
 
-            <ImageBackground source={require("../../assets/bgsplash.png")} style={{
+            <View  style={{
                 flex:1,
                 width:"100%",
                 height:'100%',
 
             }}>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
 
-            <View style={{alignItems:'center',
-            marginTop: -80}}>
-                <Image style={{
-                    width:300,
-                    height:300
-                }} source={require("../../assets/logo.png")}/>
-            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+            <MyHeader title="Daftar"/>
+
+            
 
                 <View style={{
-                   borderTopLeftRadius:50,
-                   borderTopRightRadius:50,
-                    margin: 0,
-                    padding:20,
-                    backgroundColor : colors.primary,
-                    marginTop: -70
+                  padding:20
                 
                 }}>
-
-                    <Text style={{
-                        ...fonts.headline2,
-                        color: colors.secondary,
-                        textAlign: 'center',
-                        marginBottom: 2
-                    }}>Daftar</Text>
-             
 
                     <MyGap jarak={24} />
                     {/* NAMA LENGKAP */}
@@ -265,13 +248,15 @@ export default function Register({ navigation, route }) {
                             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                                 <Text style={{
                                     ...fonts.body3,
-                                    color: colors.white,
-                                    textAlign: 'center'
+                                    color: '#9E9E9E',
+                                    textAlign: 'center',
+                                    fontFamily:fonts.primary[500]
                                 }}>
                                     Sudah memiliki akun? Silahkan <Text style={{
                                         ...fonts.headline5,
-                                        color: colors.secondary,
-                                        textAlign: 'center'
+                                        color: colors.primary,
+                                        textAlign: 'center',
+                                        fontFamily:fonts.primary[800]
                                     }}>
                                         Masuk
                                     </Text>
@@ -287,7 +272,7 @@ export default function Register({ navigation, route }) {
 
 
             </ScrollView>
-            </ImageBackground>
+            </View>
 
         </SafeAreaView >
     );

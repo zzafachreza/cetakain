@@ -77,7 +77,7 @@ export default function Login({ navigation, route }) {
   }, []);
 
   return (
-    <SafeAreaView source={require('../../assets/bglogin.png')} style={{
+    <SafeAreaView  style={{
       flex: 1,
       width:'100%',
       height:'100%', 
@@ -86,121 +86,108 @@ export default function Login({ navigation, route }) {
     
     }}
     >
-    <ImageBackground source={require("../../assets/bgsplash.png")} style={{
+    <ImageBackground source={require("../../assets/bglogin.png")} style={{
       flex:1,
       width:'100%',
       height:"100%",
       margin:0,
       padding:0
     }}>
+
+    
     <ScrollView style={{position:"relative"}} showsVerticalScrollIndicator={false}>
-          <View style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: windowHeight / 2,
-          }}>
-            <Animated.Image source={require('../../assets/logo.png')} style={{
-              width: windowHeight / 3,
-              height: windowHeight / 5.6,
-              transform: [{ scale: img }],
-              marginTop:-30
-            }} />
-          </View>
+         
+         <View style={{
+          padding:10,
+          backgroundColor:colors.secondary,
+          borderBottomRightRadius:20,
+          borderBottomLeftRadius:20,
+          height:142,
+          flexDirection:"row",
+          alignItems:"center",
+          justifyContent:"center",
+          borderBottomWidth:2,
+          borderRightWidth:2,
+          borderLeftWidth:2,
+          borderColor:'#D6D6D6'
+        
 
-
-       
-   
-          <View style={{
-            borderRadius: 13,
-            margin: 0,
-            padding: 0,
-            marginTop:-90,
-       
-            height: 490
-           
-
-            
- 
-          }}>
-
-          <View style={{
-          borderTopLeftRadius:50,
-          borderTopRightRadius:50,
-          padding:20,
-          backgroundColor:colors.primary,
-          height:"100%"
          
 
-          }}>
+         }}>
 
-          <Text style={{
-            fontFamily:fonts.primary[400],
-            textAlign:'center',
-            color:colors.white,
-            fontSize:MyDimensi / 2
-          }}>Masuk</Text>
-
-            <MyInputLogin label="Username" onChangeText={x => {
-              setKirim({
-                ...kirim,
-                username: x
-              })
-            }} iconname="person-outline" placeholder="Ketikan username" />
-            <MyGap jarak={20} />
-            <MyInputLogin label="Kata Sandi" onChangeText={x => {
-              setKirim({
-                ...kirim,
-                password: x
-              })
-            }} iconname="lock-closed-outline" placeholder="Ketikan kata sandi" secureTextEntry={true} />
-            <TouchableOpacity onPress={() => {
-              let urlWA = 'https://wa.me/' + comp.tlp + `?text=Hallo admin saya lupa kata sandi . . .`;
-              Linking.openURL(urlWA)
-            }} style={{ marginTop: 0 }}>
-              <Text style={{
-                textAlign: 'right',
-                ...fonts.headline5,
-                marginTop: 10,
-                color: colors.white,
-              }}>Lupa kata sandi ?</Text>
-            </TouchableOpacity>
-
-            <MyGap jarak={40} />
-            {loading && <MyLoading />}
-            {!loading &&
-              <MyButton
-                warna={colors.tertiary}
-                onPress={masuk}
-                title="Masuk"
-                Icons="log-in-outline"
-                
-              />
-
-              
+         <Image style={{
+          width:263,
+          height:55,
+       
           
-            }
+         }} source={require('../../assets/logo.png')}/>
 
-            <MyGap jarak={10}/>
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                                <Text style={{
-                                    ...fonts.body3,
-                                    color: colors.white,
-                                    textAlign: 'center'
-                                }}>
-                                    Belum memiliki akun? Silahkan <Text style={{
-                                        ...fonts.headline5,
-                                        color: colors.secondary,
-                                        textAlign: 'center'
-                                    }}>
-                                        Daftar
-                                    </Text>
-                                </Text>
-                            </TouchableOpacity>
-          </View>
-            <MyGap jarak={50} />
+         </View>
 
 
-          </View>
+         <View style={{
+          padding:20,
+         }}>
+
+         <Text style={{
+          fontFamily:fonts.primary[600],
+          fontSize:25,
+          textAlign:"center",
+          color:colors.primary,
+
+         }}>Sign In to Your Account</Text>
+
+         <Text style={{
+          fontFamily:fonts.primary[600],
+          fontSize:18,
+          padding:12,
+          
+
+         }}>
+          Welcome
+         </Text>
+
+         <View style={{
+          padding:10,
+         }}>
+
+         <MyInput styleLabel={{color:'black'}}  label="Email atau Nomor Telepon" placeholder="Isi email atau nomor telepon"/>
+
+         <MyGap jarak={10}/>
+
+         <MyInput styleLabel={{color:'black'}}  label="Password" placeholder="Isi Password" secureTextEntry={true}/>
+
+         <View style={{flexDirection:'row', justifyContent:"flex-end"}}>
+          <TouchableWithoutFeedback>
+            <View>
+            <Text style={{fontFamily:fonts.primary[400], marginTop:10, fontSize:12, }}>Lupa Password?</Text>
+            </View>
+          </TouchableWithoutFeedback>
+         </View>
+
+         <View style={{marginTop:20}}>
+          <MyButton title="Masuk"/>
+         </View>
+
+
+         <View style={{alignItems:"center", marginTop:20}}>
+          <TouchableWithoutFeedback onPress={()=> navigation.navigate('Register')}>
+            <View style={{flexDirection:"row"}}> 
+              <Text style={{fontFamily:fonts.primary[400]}}>Belum memiliki akun? Silakan </Text>
+              <Text style={{fontFamily:fonts.primary[600], color:colors.primary}}>Daftar</Text>
+            </View>
+          </TouchableWithoutFeedback>
+         </View>
+
+
+
+
+
+         </View>
+
+         </View>
+
 
 
         </ScrollView>
