@@ -1,92 +1,86 @@
-import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { MyDimensi, colors, fonts, windowWidth } from '../../utils';
-import { TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';  // Import Picker dari library yang benar
 import { Icon } from 'react-native-elements';
+import { Color, colors } from '../../utils/colors';
+import { fonts } from '../../utils/fonts';
 
-export default function MyRadio({ label, iconname, value, onPress, onPress2, label1 = "Ya", label2 = "Tidak" }) {
-    return (
-        <View>
-            <View
-                style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    paddingVertical: 0,
-                    position: 'relative',
-                }}>
-                <Icon type="ionicon" name={iconname} color={colors.primary} size={MyDimensi / 4} />
-                <Text
-                    style={{
-                        fontFamily: fonts.secondary[600],
-                        color: colors.primary,
-                        left: 10,
-                        fontSize: MyDimensi / 4,
-                    }}>
-                    {label}
-                </Text>
-            </View>
-            <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginVertical: 10,
-                paddingRight: windowWidth / 4, // Adjusted for wider spacing between options
-            }}>
-                <TouchableWithoutFeedback onPress={onPress}>
-                    <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                    }}>
-                        <View style={styles.radioButton}>
-                            {value === label1 && (
-                                <View style={styles.radioButtonSelected} />
-                            )}
-                        </View>
-                        <Text style={styles.radioLabel}>
-                            {label1}
-                        </Text>
-                    </View>
-                </TouchableWithoutFeedback>
+export default function MyPicker({
+  label,
+  iconname,
+  onValueChange,
+  value,
+  data = [],
+  width = '100%',  // Custom width
+  height = 50,     // Custom height
+  colorIcon = colors.primary,
+}) {
+  return (
+    <View style={{ marginBottom: 20 }}>
+      {/* Label di atas */}
+      {label && (
+        <Text style={{
+          ...fonts.subheadline3,
+          color: colors.primary,
+          marginBottom: 8,
+          textAlign: 'center'  // Centered label
+        }}>
+          {label}
+        </Text>
+      )}
 
-                <TouchableWithoutFeedback onPress={onPress2}>
-                    <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                    }}>
-                        <View style={styles.radioButton}>
-                            {value === label2 && (
-                                <View style={styles.radioButtonSelected} />
-                            )}
-                        </View>
-                        <Text style={styles.radioLabel}>
-                            {label2}
-                        </Text>
-                    </View>
-                </TouchableWithoutFeedback>
-            </View>
+      {/* Picker Container */}
+      <View style={[styles.pickerContainer, { width, height }]}>
+        {/* Icon di kiri */}
+        {iconname && (
+          <View style={styles.iconContainer}>
+            <Icon type='ionicon' name={iconname} color={Color.blueGray[300]} size={24} />
+          </View>
+        )}
+
+        {/* Picker */}
+        <Picker
+          selectedValue={value}
+          onValueChange={onValueChange}
+          style={[styles.picker, { width: '80%', height }]}  // Custom width and height
+        >
+          {data.map((item, index) => (
+            <Picker.Item key={index} label={item.label} value={item.value} />
+          ))}
+        </Picker>
+
+        {/* Icon dropdown di kanan */}
+        <View style={styles.dropdownIcon}>
+          <Icon type='ionicon' name='caret-down-outline' color={Color.blueGray[300]} size={24} />
         </View>
-    );
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    radioButton: {
-        width: MyDimensi / 4,
-        height: MyDimensi / 4,
-        backgroundColor: colors.white, // Set the background color to white
-        borderRadius: 4, // Make it a square (remove circular border)
-        borderColor: colors.border, // Border color of the square
-        borderWidth: 2, // Thickness of the border
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    radioButtonSelected: {
-        width: MyDimensi / 4,
-        height: MyDimensi / 4,
-        backgroundColor: colors.primary,
-        borderRadius: 2, // Square shape for the selected state
-    },
-    radioLabel: {
-        left: 15, // Increased spacing between the button and label
-        fontFamily: fonts.secondary[600],
-        fontSize: MyDimensi / 4,
-    },
+  pickerContainer: {
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: Color.blueGray[300],
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+  },
+  iconContainer: {
+    position: 'absolute',
+    left: 12,
+    top: '50%',
+    transform: [{ translateY: -12 }],
+  },
+  picker: {
+    flex: 1,
+    marginLeft: 40,  // Adjusted to avoid overlap with the icon
+  },
+  dropdownIcon: {
+    position: 'absolute',
+    right: 10,
+  },
 });

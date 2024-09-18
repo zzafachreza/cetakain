@@ -44,7 +44,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
 
   return (
     <View style={{
-      backgroundColor: colors.secondary, flexDirection: 'row',
+      backgroundColor: colors.white, flexDirection: 'row',
       borderTopWidth: 1,
       borderTopColor: Color.blueGray[100],
       height: 65,

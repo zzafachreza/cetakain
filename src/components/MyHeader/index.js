@@ -1,11 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { colors, fonts } from '../../utils';
-import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 
 export default function MyHeader({ onPress, color = colors.primary, title, icon = false, iconname = 'search' }) {
-  const navigation = useNavigation();
   return (
     <View style={{ padding: 10 }}>
       <View
@@ -16,14 +14,14 @@ export default function MyHeader({ onPress, color = colors.primary, title, icon 
           alignItems: 'center',
           paddingVertical: 10, // Reduced padding to avoid overflowing
           backgroundColor: colors.white,
-          
           justifyContent: 'center',
           borderWidth: 1,
           borderRadius: 50,
           top: 10,
         }}
       >
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 0, left:10 }}>
+        {/* Use the onPress prop passed from the parent instead of navigation.goBack() */}
+        <TouchableOpacity onPress={onPress} style={{ marginTop: 0, left:10 }}>
           <View style={{ backgroundColor: colors.secondary, padding: 10, borderRadius: 100 }}>
             <Icon type='ionicon' name='arrow-back-outline' size={20} color={color} />
           </View>

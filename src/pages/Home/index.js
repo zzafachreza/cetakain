@@ -82,25 +82,223 @@ export default function Home({ navigation, route }) {
     <ScrollView>
     {/* JHEADER */}
         <View style={{
-          padding:10, 
-          backgroundColor:colors.danger
+          padding:10,
+          backgroundColor:colors.white
+         
         }}>
 
+{/* KALAU BISA WIDTH NYA LEBARNYA MENGIKUTI NAMA USERNAME USER */}
         <View style={{
           flexDirection:"row",
           padding:10,
           backgroundColor:colors.secondary,
-          borderRadius:50
+          borderRadius:50,
+          justifyContent:"center",
+          width:163,
+          alignItems:"center"
         }}>
 
-        <View>
-          {/*  */}
+        <View style={{marginRight:20}}>
+            {/* PROFILE PENGGUNA */}
+            <Image style={{
+            width:43,
+            height:43
+          }} source={require('../../assets/profile.png')}/>
         </View>
-          {/* PROFILE PENGGUNA */}
-          
+       
+
+        
+          <View style={{alignItems:'center', left:-10}}>
+          {/* SAMBUTAN DAN NAMA USER */}
+
+          <Text style={{fontFamily:fonts.primary[600], fontSize:15, color:colors.primary,
+          }}>Hai, (User)</Text>
+          </View>
         </View>
 
+       
+
         </View>
+        {/* END HEADER */}
+
+
+
+        {/* BG MENU PERTAMA (PRINT KAIN ROLL)  */}
+
+        <View>
+          <ImageBackground style={{
+            flex:1,
+            width:362,
+            height:224,
+          }} source={require('../../assets/bg_menu_one.png')}>
+            <View style={{
+              padding:20,
+             
+              width:'50%',
+              marginTop:10
+            }}>
+              <View>
+                <Text style={{
+                  fontFamily:fonts.primary[600],
+                  fontSize:20,
+                }}>
+                Print Kain Roll
+                </Text>
+
+                <Text style={{
+                  fontFamily:fonts.primary[400],
+                  fontSize:15,
+
+                }}>
+                Print Kain Roll
+                </Text>
+
+
+                <View style={{
+                  marginTop:70
+                }}>
+                  <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintKainRoll')}>
+                    <View style={{backgroundColor:colors.secondary,
+                    padding:10, 
+                    borderRadius:10,
+                    height:40,
+                    width:110
+                    }}>
+                      <Text style={{
+                        fontFamily:fonts.primary[600],
+                        color:colors.primary,
+                        textAlign:'center',
+                        fontSize:15,
+                      }}>PRINT</Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </View>
+              </View>
+            </View>
+          </ImageBackground>
+        </View>
+        {/* END MENU KAIN ROLL */}
+
+
+
+          {/* BG MENU KEDUA (PRINT HIJAB)  */}
+
+          <View>
+          <ImageBackground style={{
+            flex:1,
+            width:400,
+            height:228,
+            flexDirection:"row",
+            justifyContent:"flex-end"
+          }} source={require('../../assets/bg_menu_two.png')}>
+            <View style={{
+              padding:20,
+              width:'42%',
+              marginTop:0,
+              left: -20
+            }}>
+              <View>
+                <Text style={{
+                  fontFamily:fonts.primary[600],
+                  fontSize:20,
+                }}>
+                Print Hijab
+                </Text>
+
+                <Text style={{
+                  fontFamily:fonts.primary[400],
+                  fontSize:15,
+
+                }}>
+               Print Hijab
+                </Text>
+
+
+                <View style={{
+                  marginTop:70
+                }}>
+                  <TouchableWithoutFeedback>
+                    <View style={{backgroundColor:colors.secondary,
+                    padding:10, 
+                    borderRadius:10,
+                    height:40,
+                    width:110
+                    }}>
+                      <Text style={{
+                        fontFamily:fonts.primary[600],
+                        color:colors.primary,
+                        textAlign:'center',
+                        fontSize:15,
+                      }}>PRINT</Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </View>
+              </View>
+            </View>
+          </ImageBackground>
+        </View>
+        {/* END MENU PRINT HIJAB */}
+
+
+        
+        {/* BG MENU PERTAMA (PRINT KAIN ROLL)  */}
+
+        <View>
+          <ImageBackground style={{
+            flex:1,
+            width:404,
+            height:254,
+          }} source={require('../../assets/bg_menu_three.png')}>
+            <View style={{
+              padding:20,
+             
+              width:'50%',
+              marginTop:10
+            }}>
+              <View>
+                <Text style={{
+                  fontFamily:fonts.primary[600],
+                  fontSize:20,
+                }}>
+                Print Jersey
+                </Text>
+
+                <Text style={{
+                  fontFamily:fonts.primary[400],
+                  fontSize:15,
+
+                }}>
+                Print Jersey
+                </Text>
+
+
+                <View style={{
+                  marginTop:70
+                }}>
+                  <TouchableWithoutFeedback>
+                    <View style={{backgroundColor:colors.secondary,
+                    padding:10, 
+                    borderRadius:10,
+                    height:40,
+                    width:110
+                    }}>
+                      <Text style={{
+                        fontFamily:fonts.primary[600],
+                        color:colors.primary,
+                        textAlign:'center',
+                        fontSize:15,
+                      }}>PRINT</Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </View>
+              </View>
+            </View>
+          </ImageBackground>
+        </View>
+        {/* END MENU KAIN ROLL */}
+
+
+
     </ScrollView>
     </SafeAreaView>
   )

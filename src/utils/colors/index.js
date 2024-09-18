@@ -3,7 +3,7 @@ export const colors = {
   secondary: '#FFE351',
   tertiary: '#FFE351',
   foourty: '#FFF1A8',
-  background: '#E7EBF2',
+  background: '#f5f5f5',
   success: '#078422',
   warning: '#F37120',
   danger: '#FF0000',

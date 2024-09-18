@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Picker } from 'react-native';
-import { Icon, ListItem, Button } from 'react-native-elements';
+import { StyleSheet, Text, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';  // Import Picker dari library yang benar
+import { Icon } from 'react-native-elements';
 import { Color, colors } from '../../utils/colors';
 import { fonts } from '../../utils/fonts';
 
@@ -8,59 +9,85 @@ export default function MyPicker({
   label,
   iconname,
   onValueChange,
-  onChangeText,
   value,
-  keyboardType,
-  secureTextEntry,
-  styleInput,
-  placeholder,
-  label2,
-  styleLabel,
-  colorIcon = colors.primary,
   data = [],
+  width = '100%',  // Custom width
+  height = 50,     // Custom height
+  colorIcon = colors.primary,
 }) {
   return (
-    <>
-      <Text
-        style={{
+    <View style={{ marginBottom: 20 }}>
+      {/* Label di atas */}
+      {label && (
+        <Text style={{
           ...fonts.subheadline3,
           color: colors.primary,
           marginBottom: 8,
-          
+          textAlign: 'center'  // Centered label
         }}>
-        {label}
-      </Text>
+          {label}
+        </Text>
+      )}
 
-      <View style={{
-        backgroundColor: colors.white,
-        borderWidth: 1,
-        borderRadius: 8,
-        borderColor: Color.blueGray[300]
-      }}>
-        <View style={{
-          position: 'absolute',
-          left: 12,
-          top: 13,
-        }}>
-          <Icon type='ionicon' name={iconname} color={Color.blueGray[300]} size={24} />
-        </View>
-        <Picker style={{ width: '90%', height: 50, left: 30, transform: [{ scale: 1 }] }}
-          selectedValue={value} onValueChange={onValueChange}>
-          {data.map(item => {
-            return <Picker.Item textStyle={{ fontSize: 12, ...fonts.body2, color: colors.primary,  }} value={item.value} label={item.label} />;
-          })}
+      {/* Picker Container */}
+      <View style={[styles.pickerContainer, { width, height }]}>
+        {/* Icon di kiri */}
+        {iconname && (
+          <View style={styles.iconContainer}>
+            <Icon type='ionicon' name={iconname} color={Color.blueGray[300]} size={24} />
+          </View>
+        )}
+
+        {/* Picker */}
+        <Picker
+          selectedValue={value}
+          onValueChange={onValueChange}
+          style={[styles.picker, { width: '80%', height }]}  // Custom width and height
+          itemStyle={styles.pickerItem}  // Style untuk item picker
+        >
+          {data.map((item, index) => (
+            <Picker.Item key={index} label={item.label} value={item.value} />
+          ))}
         </Picker>
-        <View style={{
-          position: 'absolute',
-          right: 12,
-          top: 13,
-          backgroundColor: Color.white[900]
-        }}>
+
+        {/* Icon dropdown di kanan */}
+        <View style={styles.dropdownIcon}>
           <Icon type='ionicon' name='caret-down-outline' color={Color.blueGray[300]} size={24} />
         </View>
       </View>
-    </>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  pickerContainer: {
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: Color.blueGray[300],
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+  },
+  iconContainer: {
+    position: 'absolute',
+    left: 12,
+    top: '50%',
+    transform: [{ translateY: -12 }],
+  },
+  picker: {
+    flex: 1,
+    marginLeft: 40,  // Adjusted to avoid overlap with the icon
+  },
+  pickerItem: {
+    fontSize: 16,
+    ...fonts.body2,
+    color: colors.primary,
+    flexShrink: 1, // Prevent text from being cut off
+  },
+  dropdownIcon: {
+    position: 'absolute',
+    right: 10,
+  },
+});
