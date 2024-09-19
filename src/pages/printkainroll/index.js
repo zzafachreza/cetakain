@@ -187,7 +187,7 @@ export default function PrintKainRoll({navigation}) {
             {/* QTY & NAME */}
             <View style={{ left:-5, marginTop: 30, padding:10,
             width:'50%'}}>
-              <MyRadio value={selectedKain === 'Ceruti'}  onPress={() => handleRadioSelect('Ceruti')} label2='Ceruti' />
+              <MyRadio  value={selectedKain === 'Ceruti'}  onPress={() => handleRadioSelect('Ceruti')} label2='Ceruti' />
               <Text style={{fontFamily:fonts.primary[400],
               color:Color.blueGray[500], fontSize:9,}}>*Maksimal panjang kain  <Text style={{fontStyle:"italic"}}>sample</Text>  1 meter</Text>
               

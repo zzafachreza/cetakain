@@ -5,8 +5,13 @@ import { MyButton, MyGap, MyHeader, MyImageUpload, MyInput, MyPicker } from '../
 
 export default function PrintHijab({ navigation }) {
   const [currentPage, setCurrentPage] = useState(1); // State untuk mengelola halaman
-  const [selectedKain, setSelectedKain] = useState(''); // State to track the selected fabric
-  const [quantity, setQuantity] = useState(''); // Track user input for quantity
+  const [selectedBahan, setSelectedBahan] = useState('voal 45'); // Default to 'Voal 45'
+  const [selectedUkuran, setSelectedUkuran] = useState('110 x 110 cm'); // Default to '110 X 110 CM'
+  const [selectedLasserCut, setSelectedLasserCut] = useState('Motif 1'); // Default to 'Motif 1'
+  const [selectedQuantity, setSelectedQuantity] = useState(''); // Default empty, user must input
+  
+
+  
 const navigateTo = (page) => {
   setCurrentPage(page);
 };
@@ -17,45 +22,57 @@ setSelectedKain(kain);
 
 
 // Fungsi untuk memproses pesanan di Halaman 2 (Quantity)
-const handleOrderQuantity = () => {
-  // Cek apakah jumlah kualitas valid
-  if (!quantity || quantity === '0') {
-    Alert.alert("Error", "Mohon masukkan jumlah yang valid.");
+const handleOrderPrintHijab = () => {
+  // Validate that all fields are selected, especially quantity
+  if (!selectedQuantity || isNaN(selectedQuantity) || Number(selectedQuantity) <= 0) {
+    Alert.alert("Error", "Mohon masukkan jumlah Quantity yang valid.");
     return;
   }
 
-  // Membuka WhatsApp dengan jumlah yang dipilih
-  const message = `Halo, saya ingin memesan dengan jumlah kualitas: ${quantity} yard.`;
-  const phoneNumber = '6282281121299'; // Ganti dengan nomor WhatsApp yang diinginkan
+  // Construct WhatsApp message with all selected values
+  const message = `Halo, Saya ingin print hijab dengan informasi berikut:\n\n` +
+                  `Bahan: ${selectedBahan}\n` +
+                  `Ukuran: ${selectedUkuran}\n` +
+                  `Lasser Cut: ${selectedLasserCut}\n` +
+                  `Quantity: ${selectedQuantity} pcs`;
+  const phoneNumber = '6282281121299'; // WhatsApp number
   const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
+  // Open WhatsApp
   Linking.openURL(url).catch(() => {
     Alert.alert("Error", "Gagal membuka WhatsApp.");
   });
 };
+
 
 // Fungsi untuk memproses pesanan di Halaman 3 (Kain)
-const handleOrderKain = () => {
-  // Cek apakah kain dipilih
-  if (!selectedKain) {
-    Alert.alert("Error", "Mohon pilih kain.");
+const handleOrderSample = () => {
+  // Check if all fields are selected
+  if (!selectedBahan || !selectedUkuran || !selectedLasserCut) {
+    Alert.alert("Error", "Mohon lengkapi semua pilihan.");
     return;
   }
 
-  // Membuka WhatsApp dengan kain yang dipilih
-  const message = `Halo, saya ingin memesan kain: ${selectedKain}.`;
-  const phoneNumber = '6282281121299'; // Ganti dengan nomor WhatsApp yang diinginkan
+  // Construct WhatsApp message for sample
+  const message = `Halo, Saya ingin memesan *sample* print hijab dengan informasi berikut:\n\n` +
+                  `Bahan: ${selectedBahan}\n` +
+                  `Ukuran: ${selectedUkuran}\n` +
+                  `Lasser Cut: ${selectedLasserCut}`;
+  
+  const phoneNumber = '6282281121299'; // WhatsApp number
   const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
+  // Open WhatsApp
   Linking.openURL(url).catch(() => {
     Alert.alert("Error", "Gagal membuka WhatsApp.");
   });
 };
+
 // Konten Halaman 2 (Print)
 const PagePrint = () => (
   <View style={{ flex: 1, backgroundColor: colors.background }}>
     {/* Header with onPress to navigate back to page 1 */}
-    <MyHeader onPress={() => navigateTo(1)} title="Print HIjab" />
+    <MyHeader onPress={() => navigateTo(1)} title="Print Hijab" />
 
     <ScrollView>
     <View style={{padding:10}}>
@@ -65,28 +82,79 @@ const PagePrint = () => (
 
 
       <View style={{
-        padding:10, backgroundColor:'red',
+        
         flexDirection:"column",
+        padding:10,
+        marginTop:20
 
       }}>
 
       {/* SELECT ATAS */}
       <View style={{ flexDirection:"row", justifyContent:"space-around"}}>
         <View>
-      <MyPicker data={[
-        {label:'Voal 45', value:'voal 45'},
-        ]} width={153} label="Bahan"/>
+        <MyPicker
+                value={selectedBahan}
+                onValueChange={(itemValue) => setSelectedBahan(itemValue)}
+                data={[
+                  { label: 'Voal 45', value: 'voal 45' },
+                ]}
+                width={153}
+                label="Bahan"
+              />
         </View>
 
         <View>
-      <MyPicker data={[
-        {label:'110 X 110 CM', value:'110 x 110 cm'},
-        {label:'115 X 115 CM', value:'115 x 115 cm'},
-        {label:'120 X 120 CM', value:'120 x 120 cm'},
-        ]} width={153} label="Ukuran"/>
+        <MyPicker
+                value={selectedUkuran}
+                onValueChange={(itemValue) => setSelectedUkuran(itemValue)}
+                data={[
+                  { label: '110 X 110 CM', value: '110 x 110 cm' },
+                  { label: '115 X 115 CM', value: '115 x 115 cm' },
+                  { label: '120 X 120 CM', value: '120 x 120 cm' },
+                ]}
+                width={153}
+                label="Ukuran"
+              />
         </View>
       </View>
+      {/* END ATAS */}
 
+        {/* SELECT BAWAH */}
+        <View style={{ flexDirection:"row", justifyContent:"space-around"}}>
+        <View>
+        <MyPicker
+                value={selectedLasserCut}
+                onValueChange={(itemValue) => setSelectedLasserCut(itemValue)}
+                data={[
+                  { label: 'Motif 1', value: 'Motif 1' },
+                ]}
+                width={153}
+                label="Lasser Cut"
+              />
+        </View>
+
+        <View style={{
+          marginTop:-20
+        }}>
+        <MyInput
+                value={selectedQuantity}
+                onChangeText={setSelectedQuantity}
+                label="Quantity"
+                keyboardType='numeric'
+                width={153}
+                styleInput={{ paddingLeft: 10 }}
+                styleLabel={{ color: colors.primary, textAlign: 'center' }}
+                placeholder="..."
+              />
+        </View>
+      </View>
+      {/* END BAWAH */}
+
+      </View>
+      {/* END PICKER */}
+
+      <View style={{marginTop:50, padding:10}}>
+        <MyButton onPress={handleOrderPrintHijab} title="Buat Pesanan" warna={colors.primary} colorText={colors.white}/>
       </View>
     </View>
     </ScrollView>
@@ -96,14 +164,70 @@ const PagePrint = () => (
 // Konten Halaman 3 (Sample)
 const PageSample = () => (
   <View style={{ flex: 1, backgroundColor: colors.background }}>
-  {/* Header with onPress to navigate back to page 1 */}
-  <MyHeader onPress={() => navigateTo(1)} title="Print Kain Roll" />
+    {/* Header with onPress to navigate back to page 1 */}
+    <MyHeader onPress={() => navigateTo(1)} title="Print Hijab" />
 
-  <ScrollView>
-    
-  </ScrollView>
-</View>
+    <ScrollView>
+      <View style={{ padding: 10 }}>
+        <View style={{ alignItems: "center", marginTop: 10 }}>
+          <Image style={{ width: 145, height: 145 }} source={require('../../assets/upload_printhijab.png')} />
+        </View>
+
+        <View style={{ flexDirection: "column", padding: 10, marginTop: 20 }}>
+          {/* Bahan & Ukuran Pickers */}
+          <View style={{ alignItems:"center" }}>
+            <View>
+              <MyPicker
+                value={selectedBahan}
+                onValueChange={(itemValue) => setSelectedBahan(itemValue)}
+                data={[
+                  { label: 'Voal 45', value: 'voal 45' },
+                ]}
+                width={153}
+                label="Bahan"
+              />
+            </View>
+
+            <View>
+              <MyPicker
+                value={selectedUkuran}
+                onValueChange={(itemValue) => setSelectedUkuran(itemValue)}
+                data={[
+                  { label: '110 X 110 CM', value: '110 x 110 cm' },
+                  { label: '115 X 115 CM', value: '115 x 115 cm' },
+                  { label: '120 X 120 CM', value: '120 x 120 cm' },
+                ]}
+                width={153}
+                label="Ukuran"
+              />
+            </View>
+          </View>
+
+          {/* Lasser Cut Picker */}
+          <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
+            <View>
+              <MyPicker
+                value={selectedLasserCut}
+                onValueChange={(itemValue) => setSelectedLasserCut(itemValue)}
+                data={[
+                  { label: 'Motif 1', value: 'Motif 1' },
+                ]}
+                width={153}
+                label="Lasser Cut"
+              />
+            </View>
+          </View>
+
+          {/* Submit Button */}
+          <View style={{ marginTop: 50, padding: 10 }}>
+            <MyButton onPress={handleOrderSample} title="Buat Pesanan" warna={colors.primary} colorText={colors.white} />
+          </View>
+        </View>
+      </View>
+    </ScrollView>
+  </View>
 );
+
 
 // Konten Halaman Utama
 const MainPage = () => (

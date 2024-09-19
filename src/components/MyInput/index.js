@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'space-between',  // Adjust space between input and side label
     paddingHorizontal: 10,
+    borderColor: Color.blueGray[300]
   },
   textInput: {
     ...fonts.body3,
@@ -114,6 +115,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     backgroundColor: 'white',
     borderRadius: 8,
+    
   },
   icon: {
     position: 'absolute',

@@ -42,11 +42,16 @@ export default function MyPicker({
         <Picker
           selectedValue={value}
           onValueChange={onValueChange}
-          style={[styles.picker, { width: '80%', height }]}  // Custom width and height
-          itemStyle={styles.pickerItem}  // Style untuk item picker
+          style={[styles.picker, { width: '80%', height }]}
+          dropdownIconColor={colors.primary}
         >
           {data.map((item, index) => (
-            <Picker.Item key={index} label={item.label} value={item.value} />
+            <Picker.Item
+              key={index}
+              label={item.label}
+              value={item.value}
+              style={styles.pickerItem}  // Menggunakan style khusus untuk setiap item
+            />
           ))}
         </Picker>
 
@@ -78,13 +83,14 @@ const styles = StyleSheet.create({
   },
   picker: {
     flex: 1,
-    marginLeft: 40,  // Adjusted to avoid overlap with the icon
+    marginLeft: -14,  // Adjusted to avoid overlap with the icon
+    textAlign: 'left', // Align the text to the left
   },
   pickerItem: {
-    fontSize: 16,
-    ...fonts.body2,
-    color: colors.primary,
-    flexShrink: 1, // Prevent text from being cut off
+    fontSize: 12,  // Pastikan ukuran font disini lebih kecil
+    color: colors.black,
+    
+    
   },
   dropdownIcon: {
     position: 'absolute',

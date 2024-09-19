@@ -74,7 +74,7 @@ const MainApp = () => {
 
 export default function Router() {
   return (
-    <Stack.Navigator initialRouteName='PrintHijab'>
+    <Stack.Navigator initialRouteName='PrintJersey'>
       <Stack.Screen
         name="Splash"
         component={Splash}
