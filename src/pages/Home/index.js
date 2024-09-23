@@ -217,7 +217,7 @@ export default function Home({ navigation, route }) {
                 <View style={{
                   marginTop:70
                 }}>
-                  <TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback  onPress={() => navigation.navigate('PrintHijab')}>
                     <View style={{backgroundColor:colors.secondary,
                     padding:10, 
                     borderRadius:10,
@@ -275,7 +275,7 @@ export default function Home({ navigation, route }) {
                 <View style={{
                   marginTop:70
                 }}>
-                  <TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintJersey')}>
                     <View style={{backgroundColor:colors.secondary,
                     padding:10, 
                     borderRadius:10,

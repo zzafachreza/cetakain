@@ -1,7 +1,10 @@
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, ImageBackground, TouchableWithoutFeedback, Alert, } from 'react-native';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { colors, fonts, Color } from '../../utils';
-import { MyButton, MyGap, MyHeader, MyImageUpload, MyInput, MyPicker, MyRadio } from '../../components';
+import { MyButton, MyCarouser, MyGap, MyHeader, MyImageUpload, MyInput, MyPicker, MyRadio } from '../../components';
+
+import Carousel from 'react-native-snap-carousel';
+
 
 export default function PrintJersey({ navigation }) {
   const [currentPage, setCurrentPage] = useState(1); // State untuk mengelola halaman
@@ -15,7 +18,19 @@ export default function PrintJersey({ navigation }) {
   const [quantityXXL, setQuantityXXL] = useState(''); // Quantity for size XXL
   const [quantityXXXL, setQuantityXXXL] = useState(''); // Quantity for size XXXL
 
-  
+  const [entries, setEntries] = useState([
+    {
+      image: require('../../assets/your_design.png'),
+    },
+
+    {
+      image: require('../../assets/jeysey_img.png'),
+    }
+  ])
+
+
+  const carouselRef = useRef(null);
+
 const navigateTo = (page) => {
   setCurrentPage(page);
 };
@@ -79,14 +94,17 @@ setSelectedKain(kain);
 // Konten Halaman 2 (Print)
 const PagePrint = () => (
   <View style={{ flex: 1, backgroundColor: colors.background }}>
+
    <ScrollView>
   <MyHeader onPress={() => navigateTo(1)} title="Print Jersey"/>
     
     <View style={{
       padding:10
     }}>
-    <View style={{alignItems:'center'}}>
-      <Image style={{width:145, height:145}} source={require('../../assets/jeysey_img.png')}/>
+    <View style={{}}>
+    {/* SLIDER IMAGE */}
+    <MyCarouser/>
+
     </View>
 
 
@@ -262,8 +280,8 @@ const PageSample = () => (
    <View style={{
      padding:10
    }}>
-   <View style={{alignItems:'center'}}>
-     <Image style={{width:145, height:145}} source={require('../../assets/jeysey_img.png')}/>
+   <View style={{}}>
+   <MyCarouser/>
    </View>
 
 

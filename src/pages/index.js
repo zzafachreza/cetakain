@@ -44,7 +44,7 @@ import CetakSampleJersey from './CetakSample/jersey';
 import PrintHijab from './printhijab';
 import Riwayat from './Riwayat';
 import SecondPlash from './Splash/second';
-
+import KatalogHarga from './KatalogHarga';
 
 
 export {
@@ -94,7 +94,7 @@ export {
   PrintHijab,
   Riwayat,
   SecondPlash,
-  
+  KatalogHarga,
 
   
 

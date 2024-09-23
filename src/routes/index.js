@@ -48,6 +48,7 @@ import {
   PrintHijab,
   Riwayat,
   SecondPlash,
+  KatalogHarga,
 
 
 
@@ -67,14 +68,16 @@ const MainApp = () => {
     <Tab.Navigator initialRouteName='Produk' tabBar={props => <BottomNavigator {...props} />}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Riwayat" component={Riwayat} />
+      <Tab.Screen name="KatalogHarga" component={KatalogHarga} />
       <Tab.Screen name="Account" component={Account} />
+      
     </Tab.Navigator>
   );
 };
 
 export default function Router() {
   return (
-    <Stack.Navigator initialRouteName='PrintJersey'>
+    <Stack.Navigator initialRouteName='MainApp'>
       <Stack.Screen
         name="Splash"
         component={Splash}
@@ -201,6 +204,15 @@ export default function Router() {
       <Stack.Screen
         name="Riwayat"
         component={Riwayat}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+<Stack.Screen
+        name="KatalogHarga"
+        component={KatalogHarga}
         options={{
           headerShown: false,
 

@@ -46,7 +46,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
     <View style={{
       backgroundColor: colors.white, flexDirection: 'row',
       borderTopWidth: 1,
-      borderTopColor: Color.blueGray[100],
+      borderTopColor: Color.blueGray[300],
       height: 65,
       
 
@@ -93,9 +93,9 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
         } else if (label === 'Riwayat') {
           iconName = 'time';
           Newlabel = '';
-        } else if (label === 'TanyaJawab') {
-          iconName = 'chatbubbles-outline';
-          Newlabel = 'Tanya Jawab';
+        } else if (label === 'KatalogHarga') {
+          iconName = 'reader';
+          Newlabel = '';
         } else if (label === 'Notifikasi') {
           iconName = 'notifications-outline';
           Newlabel = 'Notifikasi';

@@ -1,73 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   Dimensions,
-  ImageBackground,
-  TouchableNativeFeedback,
   Image,
 } from 'react-native';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { colors } from '../../utils/colors';
-import axios from 'axios';
+import Carousel from 'react-native-snap-carousel';
 import { useNavigation } from '@react-navigation/native';
-import { MyDimensi, fonts } from '../../utils/fonts';
-import { Icon } from 'react-native-elements';
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { apiURL, webURL } from '../../utils/localStorage';
-import moment from 'moment';
+import axios from 'axios';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { apiURL } from '../../utils/localStorage';
 
-
-export default function MyCarouser() {
+export default function MyCarousel() {
   const [activeSlide, setActiveSlide] = useState(0);
   const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
   const navigation = useNavigation();
+  
+  // Array gambar lokal
+  const imageSLIDE = [
+    require('../../assets/your_design.png'),
+    require('../../assets/jeysey_img.png'),
+  ];
+
+  const [data, setData] = useState([]);
 
   useEffect(() => {
+    // Mengambil data dari API
     axios.get(apiURL + 'banner').then(res => {
       console.log('slider', res.data);
       setData(res.data);
     });
   }, []);
 
-  const [data, setData] = useState([]);
-
-  const renderCarouselItem = ({ item }) => (
+  const renderCarouselItem = ({ item, index }) => (
     <TouchableWithoutFeedback onPress={() => navigation.navigate('ArtikelDetail', item)}>
       <View style={{
         width: 300,
-        position: 'relative',
         borderRadius: 10,
-        overflow: 'hidden'
+        overflow: 'hidden',
       }}>
+        {/* Menggunakan gambar lokal berdasarkan index */}
         <Image
-          source={{ uri: webURL + item.file_banner }}
+          source={imageSLIDE[index % imageSLIDE.length]} // Mengambil gambar lokal sesuai index
           style={{
-            // resizeMode: 'contain',
-            height: 150,
+            height: 200,
             width: 300,
+            resizeMode: 'cover',
           }}
         />
-
       </View>
     </TouchableWithoutFeedback>
   );
 
   return (
-    <View style={{
-      marginTop: 10,
-    }}>
+    <View style={{ marginTop: 10 }}>
       <Carousel
-        loop={true}
-        // layout="stack"
-        layoutCardOffset={18}
-        data={data}
-        containerCustomStyle={styles.carousel}
+      
+        data={data} // Pastikan data yang dipakai untuk carousel
         renderItem={renderCarouselItem}
-        sliderWidth={Dimensions.get('window').width}
+        sliderWidth={windowWidth}
         itemWidth={300}
+        itemHeight={800}
         removeClippedSubviews={false}
       />
     </View>
@@ -75,36 +68,7 @@ export default function MyCarouser() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
   carousel: {
-    // position: 'absolute',
-    bottom: 0,
     marginBottom: 10,
-  },
-  cardContainer: {
-    backgroundColor: colors.black,
-    opacity: 1,
-    height: 250,
-    width: 300,
-    borderRadius: 10,
-    // overflow: 'hidden',
-  },
-  cardImage: {
-    height: 250,
-    width: 300,
-    bottom: 0,
-    position: 'absolute',
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-  },
-  cardTitle: {
-    color: 'white',
-    fontSize: 22,
-    alignSelf: 'center',
   },
 });

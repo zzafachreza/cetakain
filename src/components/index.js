@@ -11,9 +11,10 @@ import MyButtonSecond from './MyButtonSecond';
 import MyCalendarSecond from './MyCalendarSecond';
 import MyInputLogin from './MyInputLogin';
 import MyImageUpload from './MyImageUpload';
+import MyCarouser from './MyCarouser';
 
 
 
 
 export { MyGap, MyButton, MyInput, MyHeader, MyPicker, MyCalendar, BottomNavigator, 
-    MyRadio,MyInputSecond,MyButtonSecond ,MyCalendarSecond, MyInputLogin,MyImageUpload   };
+    MyRadio,MyInputSecond,MyButtonSecond ,MyCalendarSecond, MyInputLogin,MyImageUpload,MyCarouser   };
