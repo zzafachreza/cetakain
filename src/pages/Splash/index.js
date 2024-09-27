@@ -68,7 +68,7 @@ export default function Splash({ navigation }) {
       }}>
 
         <Animated.Image
-          source={require('../../assets/logo.png')}
+          source={require('../../assets/logosplash.png')}
           resizeMode="contain"
           style={{
             transform: [{ scale: img }],

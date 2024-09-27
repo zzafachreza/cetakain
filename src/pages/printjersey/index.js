@@ -121,7 +121,7 @@ const PagePrint = () => (
 
         <View style={{alignItems:"center", left:10}}>
           <MyPicker value={selectedBahan} onValueChange={setSelectedBahan} data={[
-            {label:'Jersey', value:'jersey'}
+            {label:'Voal 45', value:'Voal 45'}
           ]} width={180} height={40}/>
         </View>
 
@@ -142,7 +142,10 @@ const PagePrint = () => (
 
         <View style={{alignItems:"center", left:5}}>
           <MyPicker value={selectedPola} onValueChange={setSelectedPola} data={[
-            {label:'O - NECK', value:'O - NECK'}
+            {label:'O - NECK', value:'O - NECK'},
+            {label:'V - NECK', value:'V - NECK'},
+            {label:'Long Sleeve', value:'Long Sleeve'},
+            {label:'Basket', value:'Basket'},
           ]} width={180} height={40}/>
         </View>
         
@@ -275,7 +278,7 @@ const PagePrint = () => (
 const PageSample = () => (
   <View style={{ flex: 1, backgroundColor: colors.background }}>
   <ScrollView>
- <MyHeader onPress={() => navigateTo(1)} title="Print Jersey"/>
+ <MyHeader onPress={() => navigateTo(1)} title="Print Jersey Sample"/>
    
    <View style={{
      padding:10
@@ -298,7 +301,7 @@ const PageSample = () => (
 
        <View style={{alignItems:"center", left:10}}>
          <MyPicker value={selectedBahan} onValueChange={setSelectedBahan} data={[
-           {label:'Jersey', value:'jersey'}
+           {label:'Voal 45', value:'Voal 45'}
          ]} width={180} height={40}/>
        </View>
 
@@ -319,7 +322,10 @@ const PageSample = () => (
 
        <View style={{alignItems:"center", left:5}}>
          <MyPicker value={selectedPola} onValueChange={setSelectedPola} data={[
-           {label:'O - NECK', value:'O - NECK'}
+           {label:'O - NECK', value:'O - NECK'},
+            {label:'V - NECK', value:'V - NECK'},
+            {label:'Long Sleeve', value:'Long Sleeve'},
+            {label:'Basket', value:'Basket'},
          ]} width={180} height={40}/>
        </View>
        
@@ -406,7 +412,7 @@ const MainPage = () => (
       <View style={styles.descriptionContainer}>
         <Text style={styles.mainTitle}>Print Jersey</Text>
         <Text style={styles.descriptionText}>
-          Print kain dengan kualitas tinta terbaik, harga ramah kantong, cepat dan pelayanan terbaik. Ragu? Bisa cetak sample terlebih dahulu
+          Print kain dengan kualitas tinta terbaik, harga ramah kantong, cepat dan pelayanan terbaik. <Text style={{fontStyle:"italic"}}>Ragu?</Text> Bisa cetak sample terlebih dahulu
         </Text>
       </View>
       {/* KAIN PRINT & SAMPLE */}

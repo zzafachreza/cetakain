@@ -28,9 +28,9 @@ export default function MyButton({
 
           marginLeft: kiri ? 5 : 0,
           marginRight: !kiri ? 5 : 0,
-          ...fonts.subheadline3,
           // fontWeight: fontWeight,
-          fontFamily:fonts.primary[600]
+          fontFamily:fonts.primary[700],
+          fontSize:15
         }}>
         {title}
       </Text>

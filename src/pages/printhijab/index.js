@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Alert, Linking, Image, ImageBackground, TouchableWithoutFeedback} from 'react-native';
 import React, { useState } from 'react';
 import { Color, colors, fonts } from '../../utils';
-import { MyButton, MyGap, MyHeader, MyImageUpload, MyInput, MyPicker } from '../../components';
+import { MyButton, MyGap, MyHeader, MyImageUpload, MyInput, MyPicker, MyPickerSecond } from '../../components';
 
 export default function PrintHijab({ navigation }) {
   const [currentPage, setCurrentPage] = useState(1); // State untuk mengelola halaman
@@ -10,6 +10,7 @@ export default function PrintHijab({ navigation }) {
   const [selectedLasserCut, setSelectedLasserCut] = useState('Motif 1'); // Default to 'Motif 1'
   const [selectedQuantity, setSelectedQuantity] = useState(''); // Default empty, user must input
   
+  const source = require('../../assets/slider_1.png')
 
   
 const navigateTo = (page) => {
@@ -83,20 +84,20 @@ const PagePrint = () => (
 
       <View style={{
         
-        flexDirection:"column",
+      
         padding:10,
         marginTop:20
 
       }}>
 
       {/* SELECT ATAS */}
-      <View style={{ flexDirection:"row", justifyContent:"space-around"}}>
+      <View style={{ flexDirection:"row", justifyContent:"space-around",}}>
         <View>
         <MyPicker
                 value={selectedBahan}
                 onValueChange={(itemValue) => setSelectedBahan(itemValue)}
                 data={[
-                  { label: 'Voal 45', value: 'voal 45' },
+                  { label: 'Voal 45', value: 'voal 45',},
                 ]}
                 width={153}
                 label="Bahan"
@@ -120,21 +121,22 @@ const PagePrint = () => (
       {/* END ATAS */}
 
         {/* SELECT BAWAH */}
-        <View style={{ flexDirection:"row", justifyContent:"space-around"}}>
-        <View>
-        <MyPicker
-                value={selectedLasserCut}
-                onValueChange={(itemValue) => setSelectedLasserCut(itemValue)}
-                data={[
-                  { label: 'Motif 1', value: 'Motif 1' },
-                ]}
-                width={153}
-                label="Lasser Cut"
-              />
+        <View style={{ }}>
+        <View style={{alignItems:'center'}}>
+          <MyPickerSecond data={[
+            {label : 'Motif 1', value:'Motif 1', image: require('../../assets/motif_1.png')},
+            {label : 'Motif 2', value:'Motif 2', image: require('../../assets/motif_2.png')},
+            {label : 'Motif 3', value:'Motif 3', image: require('../../assets/motif_3.png')},
+            {label : 'Motif 4', value:'Motif 4', image: require('../../assets/motif_4.png')},
+            {label : 'Motif 5', value:'Motif 5', image: require('../../assets/motif_5.png')},
+            {label : 'Motif 6', value:'Motif 6', image: require('../../assets/motif_6.png')},
+            {label : 'Motif 7', value:'Motif 7', image: require('../../assets/motif_7.png')},
+          ]} label="Lasser Cut" width={222} onValueChange={(value) => console.log(value)}/>
         </View>
 
         <View style={{
-          marginTop:-20
+          marginTop:-20,
+          alignItems:'center'
         }}>
         <MyInput
                 value={selectedQuantity}
@@ -153,11 +155,12 @@ const PagePrint = () => (
       </View>
       {/* END PICKER */}
 
-      <View style={{marginTop:50, padding:10}}>
-        <MyButton onPress={handleOrderPrintHijab} title="Buat Pesanan" warna={colors.primary} colorText={colors.white}/>
-      </View>
+     
     </View>
     </ScrollView>
+    <View style={{marginTop:50, padding:10}}>
+        <MyButton radius={50} onPress={handleOrderPrintHijab} title="Buat Pesanan" warna={colors.primary} colorText={colors.white}/>
+      </View>
   </View>
 );
 
@@ -165,7 +168,7 @@ const PagePrint = () => (
 const PageSample = () => (
   <View style={{ flex: 1, backgroundColor: colors.background }}>
     {/* Header with onPress to navigate back to page 1 */}
-    <MyHeader onPress={() => navigateTo(1)} title="Print Hijab" />
+    <MyHeader onPress={() => navigateTo(1)} title="Print Hijab Sample" />
 
     <ScrollView>
       <View style={{ padding: 10 }}>
@@ -206,25 +209,26 @@ const PageSample = () => (
           {/* Lasser Cut Picker */}
           <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
             <View>
-              <MyPicker
-                value={selectedLasserCut}
-                onValueChange={(itemValue) => setSelectedLasserCut(itemValue)}
-                data={[
-                  { label: 'Motif 1', value: 'Motif 1' },
-                ]}
-                width={153}
-                label="Lasser Cut"
-              />
+            <MyPickerSecond data={[
+            {label : 'Motif 1', value:'Motif 1', image: require('../../assets/motif_1.png')},
+            {label : 'Motif 2', value:'Motif 2', image: require('../../assets/motif_2.png')},
+            {label : 'Motif 3', value:'Motif 3', image: require('../../assets/motif_3.png')},
+            {label : 'Motif 4', value:'Motif 4', image: require('../../assets/motif_4.png')},
+            {label : 'Motif 5', value:'Motif 5', image: require('../../assets/motif_5.png')},
+            {label : 'Motif 6', value:'Motif 6', image: require('../../assets/motif_6.png')},
+            {label : 'Motif 7', value:'Motif 7', image: require('../../assets/motif_7.png')},
+          ]} label="Lasser Cut" width={222} onValueChange={(value) => console.log(value)}/>
             </View>
           </View>
 
-          {/* Submit Button */}
-          <View style={{ marginTop: 50, padding: 10 }}>
-            <MyButton onPress={handleOrderSample} title="Buat Pesanan" warna={colors.primary} colorText={colors.white} />
-          </View>
+        
         </View>
       </View>
     </ScrollView>
+      {/* Submit Button */}
+      <View style={{ marginTop: 50, padding: 10 }}>
+            <MyButton radius={50} onPress={handleOrderSample} title="Buat Pesanan" warna={colors.primary} colorText={colors.white} />
+          </View>
   </View>
 );
 
@@ -232,7 +236,7 @@ const PageSample = () => (
 // Konten Halaman Utama
 const MainPage = () => (
   <View>
-    <MyHeader onPress={() => navigation.goBack()} title="Print Hjiab" />
+    <MyHeader onPress={() => navigation.goBack()} title="Print Hijab" />
     <ScrollView>
       {/* HEADER KAIN ROLL */}
       <View style={styles.headerContainer}>
@@ -245,7 +249,7 @@ const MainPage = () => (
       <View style={styles.descriptionContainer}>
         <Text style={styles.mainTitle}>Print Hijab</Text>
         <Text style={styles.descriptionText}>
-          Print kain dengan kualitas tinta terbaik, harga ramah kantong, cepat dan pelayanan terbaik. Ragu? Bisa cetak sample terlebih dahulu
+          Print kain dengan kualitas tinta terbaik, harga ramah kantong, cepat dan pelayanan terbaik. <Text style={{fontStyle:"italic"}}>Ragu?</Text> Bisa cetak sample terlebih dahulu
         </Text>
       </View>
       {/* KAIN PRINT & SAMPLE */}

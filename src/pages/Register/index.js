@@ -21,12 +21,23 @@ import axios from 'axios';
 import moment from 'moment';
 import { useToast } from 'react-native-toast-notifications';
 import MyLoading from '../../components/MyLoading';
+import { Icon } from 'react-native-elements';
+
+
+
 
 export default function Register({ navigation, route }) {
     const [loading, setLoading] = useState(false)
     const img = new Animated.Value(0.8);
     const card = new Animated.Value(50);
     const toast = useToast();
+
+    const [isChecked, setIsChecked] = useState(false);
+
+    const toggleCheck = () => {
+        setIsChecked(!isChecked);
+    };
+
     Animated.timing(img, {
         toValue: 1,
         duration: 750,
@@ -145,7 +156,8 @@ export default function Register({ navigation, route }) {
             
 
                 <View style={{
-                  padding:20
+                  padding:20,
+                  top: -50
                 
                 }}>
 
@@ -158,7 +170,7 @@ export default function Register({ navigation, route }) {
                         })
                     }} iconname='person-outline' placeholder='Isi nama lengkap' />
                 
-                    <MyGap jarak={20} />
+                    <MyGap jarak={0} />
                     <MyInputLogin label='Nomor Telepon' onChangeText={x => {
                         setKirim({
                             ...kirim,
@@ -166,7 +178,7 @@ export default function Register({ navigation, route }) {
                         })
                     }} iconname='call-outline' keyboardType='phone-pad' placeholder='Isi nomor telepon' />
 
-                    <MyGap jarak={20} />
+                    <MyGap jarak={0} />
                     <MyInputLogin label='Email' onChangeText={x => {
                         setKirim({
                             ...kirim,
@@ -176,7 +188,7 @@ export default function Register({ navigation, route }) {
 
 
 
-                    <MyGap jarak={20} />
+                    <MyGap jarak={0} />
                     <MyInputLogin label='Toko' onChangeText={x => {
                         setKirim({
                             ...kirim,
@@ -185,7 +197,7 @@ export default function Register({ navigation, route }) {
                     }} iconname='call-outline' keyboardType='phone-pad' placeholder='Isi toko' />
 
 
-                    <MyGap jarak={20} />
+                    <MyGap jarak={0} />
                     {/*INPUT KATA SANDI */}
                     <MyInputLogin
                         placeholder="Isi Password"
@@ -203,7 +215,7 @@ export default function Register({ navigation, route }) {
 
 
                     {/* INPUT KATA SANDI ULANG */}
-                    <MyGap jarak={20} />
+                    <MyGap jarak={0} />
                     <MyInputLogin
                         borderColor={sama ? Color.blueGray[300] : colors.danger}
 
@@ -230,12 +242,33 @@ export default function Register({ navigation, route }) {
                     />
                     <MyGap jarak={20} />
 
-                        <View style={{flexDirection:"row"}}>
-                          
+                        <View style={{}}>
+                            {/* BUATKAN TOMBOL SAYA MESETUJUI SYARAT */}
+                            <View style={{flexDirection:"row", alignItems:"center", justifyContent:"center"}}>
+                            <TouchableOpacity style={styles.checkContainer} onPress={toggleCheck}>
+                <View style={[styles.checkBox, isChecked && styles.checkBoxChecked]}>
+                    {isChecked && (
+                        <Icon
+                        type="ionicon"
+                        name='checkmark-circle'
+                        size={18}
+                        color={colors.primary}
+                            
+                        />
+                    )}
+                </View>
+                <Text style={styles.label}>
+                    Saya menyetujui{' '}
+                    <Text style={styles.termsText}>syarat & ketentuan</Text> yang berlaku
+                </Text>
+            </TouchableOpacity>
+                            </View>
                         </View>
 
                     {!loading &&
                         <>
+
+                        <MyGap jarak={20}/>
                             <MyButton
 
                                 warna={colors.tertiary}
@@ -278,4 +311,42 @@ export default function Register({ navigation, route }) {
     );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    checkContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    checkBox: {
+        width: 24,
+        height: 24,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: colors.primary,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10,
+    },
+    checkBoxChecked: {
+        
+    },
+    checkIcon: {
+        width: 16,
+        height: 16,
+        tintColor: colors.white,
+    },
+    label: {
+        color: '#666',
+        fontFamily: fonts.primary[600],
+        fontSize: 10,
+    },
+    termsText: {
+        color: colors.primary,
+        fontFamily: fonts.primary[800],
+        fontSize:10
+    },
+});

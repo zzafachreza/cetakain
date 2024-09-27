@@ -4,54 +4,26 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Linking,
   Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Color, colors } from '../../utils/colors';
-import { useState } from 'react';
-import { getData, urlAPI } from '../../utils/localStorage';
-import { useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { MyDimensi, fonts } from '../../utils';
+
 export default function BottomNavigator({ state, descriptors, navigation }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
-  const [cart, setCart] = useState(0);
+
   const isFocused = useIsFocused();
-  useEffect(() => {
-
-    // if (isFocused) {
-    //   getData('user').then(users => {
-    //     axios.post(urlAPI + '/1_cart.php', {
-    //       fid_user: users.id
-    //     }).then(res => {
-    //       console.log('cart', res.data);
-
-    //       setCart(parseFloat(res.data))
-    //     })
-    //   })
-    // }
-
-  }, [])
-
 
   if (focusedOptions.tabBarVisible === false) {
     return null;
   }
 
   return (
-    <View style={{
-      backgroundColor: colors.white, flexDirection: 'row',
-      borderTopWidth: 1,
-      borderTopColor: Color.blueGray[300],
-      height: 65,
-      
-
-
-    }}>
+    <View style={styles.container}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -84,28 +56,15 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
           });
         };
 
-        let iconName = 'home';
-        let Newlabel = '';
-
+        let iconName = '';
         if (label === 'Home') {
           iconName = 'home';
-          Newlabel = '';
         } else if (label === 'Riwayat') {
-          iconName = 'time';
-          Newlabel = '';
+          iconName = 'refresh-circle';
         } else if (label === 'KatalogHarga') {
           iconName = 'reader';
-          Newlabel = '';
-        } else if (label === 'Notifikasi') {
-          iconName = 'notifications-outline';
-          Newlabel = 'Notifikasi';
-        } else if (label === 'Logout') {
-          iconName = 'log-out-outline';
-          Newlabel = 'Logout';
         } else if (label === 'Account') {
           iconName = 'person';
-          Newlabel = '';
-
         }
 
         return (
@@ -115,44 +74,16 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
             accessibilityStates={isFocused ? ['selected'] : []}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
-            onPress={
-              label === 'Kategori'
-                ? () =>
-                  navigation.navigate('Barang', {
-                    key: 0
-                  })
-                : onPress
-            }
+            onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1 }}>
-            <View
-              style={{
-
-                color: isFocused ? colors.primary : '#919095',
-                paddingTop: 5,
-                paddingBottom: 0,
-                fontSize: 12,
-                justifyContent: 'center',
-                alignItems: 'center',
-                textAlign: 'center',
-              }}>
-
-              <View
-                style={{
-                  height: 65,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-
-                <Icon type='ionicon' name={iconName} size={24} color={isFocused ? colors.primary : Color.blueGray[400]} />
-                <Text style={{
-                  marginTop: 4,
-                  fontFamily: fonts.body2.fontFamily,
-                  textAlign: 'center',
-                  fontSize: 12,
-                  color: isFocused ? colors.primary : Color.blueGray[400]
-                }}>{Newlabel}</Text>
-              </View>
+            style={styles.tab}>
+            <View style={styles.iconContainer(isFocused)}>
+              <Icon
+                type="ionicon"
+                name={iconName}
+                size={24}
+                color={isFocused ? colors.white : colors.primary}
+              />
             </View>
           </TouchableOpacity>
         );
@@ -162,13 +93,24 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  tab: iconName => ({
-    // paddingTop: 5,
-    // paddingBottom: 5,
-    // fontSize: 12,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // textAlign: 'center',
+  container: {
+    flexDirection: 'row',
+    backgroundColor: colors.white,
+    height: 65,
+    borderTopWidth: 1,
+    borderTopColor: Color.blueGray[300],
+    justifyContent: 'space-around',
+  },
+  tab: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconContainer: isFocused => ({
+    backgroundColor: isFocused ? colors.primary : 'transparent',
+    borderRadius: isFocused ? 20 : 0,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   }),
-  box: iconName => ({}),
 });

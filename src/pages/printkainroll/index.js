@@ -84,7 +84,7 @@ export default function PrintKainRoll({navigation}) {
                 }}>Armani Silk</Text>
 
                 <View>
-                  <MyInput  value={quantity} onChangeText={setQuantity} label="QTY" styleLabel={{ color: 'gray' }} styleInput={{ paddingLeft: 10 }} keyboardType='numeric' width={153} label2="Yard" />
+                  <MyInput   value={quantity} onChangeText={setQuantity} label="QTY" styleLabel={{ color: 'gray' }} styleInput={{ paddingLeft: 10, }} keyboardType='numeric' width={153} label2="Yard" />
                 </View>
               </View>
             </View>
@@ -149,7 +149,7 @@ export default function PrintKainRoll({navigation}) {
   const PageSample = () => (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
     {/* Header with onPress to navigate back to page 1 */}
-    <MyHeader onPress={() => navigateTo(1)} title="Print Kain Roll" />
+    <MyHeader onPress={() => navigateTo(1)} title="Print Kain Roll Sample" />
 
     <ScrollView>
       <View style={{ padding: 20 }}>
@@ -240,7 +240,7 @@ export default function PrintKainRoll({navigation}) {
         <View style={styles.descriptionContainer}>
           <Text style={styles.mainTitle}>Print Kain Roll</Text>
           <Text style={styles.descriptionText}>
-            Print kain dengan kualitas tinta terbaik, harga ramah kantong, cepat dan pelayanan terbaik. Ragu? Bisa cetak sample terlebih dahulu
+            Print kain dengan kualitas tinta terbaik, harga ramah kantong, cepat dan pelayanan terbaik. <Text style={{fontStyle:"italic"}}>Ragu?</Text> Bisa cetak sample terlebih dahulu
           </Text>
         </View>
         {/* KAIN PRINT & SAMPLE */}
@@ -307,6 +307,7 @@ const styles = StyleSheet.create({
   headerImage: {
     width: 378,
     height: 282,
+    
   },
   descriptionContainer: {
     paddingHorizontal: 20,

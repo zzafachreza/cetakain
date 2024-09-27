@@ -58,7 +58,7 @@ export default function Riwayat({navigation}) {
                         color:Color.blueGray[400]}}>Status :</Text>
                         </View>
 
-                        <View style={{backgroundColor:colors.primary, padding:10,borderRadius:10, width:45, height:35, }}>
+                        <View style={{backgroundColor:colors.primary, padding:0,borderRadius:10, width:39, height:16, }}>
                                 <Text style={{color:colors.white, fontFamily:fonts.primary[400], fontSize:10, textAlign:"center"}}>Print</Text>
                         </View>
                     </View>
@@ -136,7 +136,7 @@ export default function Riwayat({navigation}) {
                         fontSize:18
                         }}>Print Jersey</Text>
 
-                        <Text style={{fontFamily:fonts.primary[800], color:Color.blueGray[400], fontSize:10}}>#HJB202409070001</Text>
+                        <Text style={{fontFamily:fonts.primary[800], color:Color.blueGray[400], fontSize:10}}>#JRS2024090300012</Text>
                        </View>
                     </View>
                 {/*  END IMG, DARI PRINT APA, RESI */}
@@ -157,8 +157,8 @@ export default function Riwayat({navigation}) {
                         color:Color.blueGray[400]}}>Status :</Text>
                         </View>
 
-                        <View style={{backgroundColor:colors.primary, padding:10,borderRadius:10, width:60, height:35, }}>
-                                <Text style={{color:colors.white, fontFamily:fonts.primary[400], fontSize:10, textAlign:"center"}}>Selesai</Text>
+                        <View style={{backgroundColor:colors.primary, padding:0,borderRadius:10, width:39, height:16, }}>
+                                <Text style={{color:colors.white, fontFamily:fonts.primary[400], fontSize:9, textAlign:"center"}}>Selesai</Text>
                         </View>
                     </View>
                 </View>

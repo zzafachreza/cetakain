@@ -35,7 +35,7 @@ export default function MyInputLogin({
   return (
     <View style={{marginTop:20}}>
       <Text style={{
-        ...fonts.subheadline3,
+        fontFamily:fonts.primary[600],
         color: colors.primary,
         marginBottom: 8,
       }}>{label}</Text>
@@ -78,7 +78,7 @@ export default function MyInputLogin({
             paddingHorizontal: 12,
             color: Color.blueGray[900],
             borderWidth: 1,
-            borderRadius: 8,
+            borderRadius: 50,
             borderColor: borderColor,
             backgroundColor:'white'
           }} />

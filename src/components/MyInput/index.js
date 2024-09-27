@@ -103,18 +103,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 50,
     backgroundColor: 'white',
     justifyContent: 'space-between',  // Adjust space between input and side label
     paddingHorizontal: 10,
     borderColor: Color.blueGray[300]
   },
   textInput: {
-    ...fonts.body3,
+    fontFamily:fonts.primary[400],
     flex: 1,
     paddingHorizontal: 12,
     backgroundColor: 'white',
-    borderRadius: 8,
+    borderRadius: 50,
     
   },
   icon: {
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -12 }],
   },
   topLabel: {
-    ...fonts.subheadline3,
+    fontFamily:fonts.primary[400],
     color: colors.primary,
     marginBottom: 8,
   },

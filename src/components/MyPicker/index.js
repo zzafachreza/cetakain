@@ -57,7 +57,7 @@ export default function MyPicker({
 
         {/* Icon dropdown di kanan */}
         <View style={styles.dropdownIcon}>
-          <Icon type='ionicon' name='caret-down-outline' color={Color.blueGray[300]} size={24} />
+          <Icon type='ionicon' name='caret-down-outline' color={colors.primary} size={24} />
         </View>
       </View>
     </View>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   pickerContainer: {
     backgroundColor: colors.white,
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 50,
     borderColor: Color.blueGray[300],
     flexDirection: 'row',
     alignItems: 'center',

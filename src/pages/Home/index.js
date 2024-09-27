@@ -162,7 +162,8 @@ export default function Home({ navigation, route }) {
                     padding:10, 
                     borderRadius:10,
                     height:40,
-                    width:110
+                    width:80,
+                    top: -30
                     }}>
                       <Text style={{
                         fontFamily:fonts.primary[600],
@@ -222,7 +223,8 @@ export default function Home({ navigation, route }) {
                     padding:10, 
                     borderRadius:10,
                     height:40,
-                    width:110
+                    width:80,
+                    top: -30
                     }}>
                       <Text style={{
                         fontFamily:fonts.primary[600],
@@ -280,7 +282,8 @@ export default function Home({ navigation, route }) {
                     padding:10, 
                     borderRadius:10,
                     height:40,
-                    width:110
+                    width:80,
+                    top: -30
                     }}>
                       <Text style={{
                         fontFamily:fonts.primary[600],

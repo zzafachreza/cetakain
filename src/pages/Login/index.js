@@ -117,8 +117,9 @@ export default function Login({ navigation, route }) {
          }}>
 
          <Image style={{
-          width:263,
-          height:55,
+          width:370,
+          height:'100%',
+          top:-10
        
           
          }} source={require('../../assets/logo.png')}/>
@@ -142,6 +143,8 @@ export default function Login({ navigation, route }) {
           fontFamily:fonts.primary[600],
           fontSize:18,
           padding:12,
+          top: -10,
+          color:'#5B5B5B'
           
 
          }}>
@@ -150,28 +153,29 @@ export default function Login({ navigation, route }) {
 
          <View style={{
           padding:10,
+          top: -40
          }}>
 
          <MyInput styleLabel={{color:'black'}}  label="Email atau Nomor Telepon" placeholder="Isi email atau nomor telepon"/>
 
-         <MyGap jarak={10}/>
+         <MyGap jarak={0}/>
 
          <MyInput styleLabel={{color:'black'}}  label="Password" placeholder="Isi Password" secureTextEntry={true}/>
 
          <View style={{flexDirection:'row', justifyContent:"flex-end"}}>
           <TouchableWithoutFeedback>
             <View>
-            <Text style={{fontFamily:fonts.primary[400], marginTop:10, fontSize:12, }}>Lupa Password?</Text>
+            <Text style={{fontFamily:fonts.primary[400], marginTop:10, fontSize:13, }}>Lupa Password?</Text>
             </View>
           </TouchableWithoutFeedback>
          </View>
 
          <View style={{marginTop:20}}>
-          <MyButton title="Masuk"/>
+          <MyButton borderSize={1} borderColor={Color.blueGray[400]} title="Masuk" />
          </View>
 
 
-         <View style={{alignItems:"center", marginTop:20}}>
+         <View style={{alignItems:"center", marginTop:'60%'}}>
           <TouchableWithoutFeedback onPress={()=> navigation.navigate('Register')}>
             <View style={{flexDirection:"row"}}> 
               <Text style={{fontFamily:fonts.primary[400]}}>Belum memiliki akun? Silakan </Text>
