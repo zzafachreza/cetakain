@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 50,
+    borderRadius: 10,
     backgroundColor: 'white',
     justifyContent: 'space-between',  // Adjust space between input and side label
     paddingHorizontal: 10,

@@ -121,7 +121,7 @@ const PagePrint = () => (
 
         <View style={{alignItems:"center", left:10}}>
           <MyPicker value={selectedBahan} onValueChange={setSelectedBahan} data={[
-            {label:'Voal 45', value:'Voal 45'}
+            {label:'Jersey', value:'Jersey'}
           ]} width={180} height={40}/>
         </View>
 
@@ -301,7 +301,7 @@ const PageSample = () => (
 
        <View style={{alignItems:"center", left:10}}>
          <MyPicker value={selectedBahan} onValueChange={setSelectedBahan} data={[
-           {label:'Voal 45', value:'Voal 45'}
+           {label:'Jersey', value:'Jersey'}
          ]} width={180} height={40}/>
        </View>
 

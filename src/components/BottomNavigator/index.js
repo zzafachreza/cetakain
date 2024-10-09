@@ -1,22 +1,17 @@
 import React from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Image, // Import Image dari react-native
 } from 'react-native';
-import { Icon } from 'react-native-elements';
 import { Color, colors } from '../../utils/colors';
-import { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 
 export default function BottomNavigator({ state, descriptors, navigation }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
-
-  const isFocused = useIsFocused();
 
   if (focusedOptions.tabBarVisible === false) {
     return null;
@@ -44,7 +39,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
 
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name, {
-              key: 0
+              key: 0,
             });
           }
         };
@@ -56,15 +51,20 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
           });
         };
 
-        let iconName = '';
+        // Tentukan path gambar berdasarkan label
+        let iconSource;
+        let iconSize = 24; // Default icon size
+
         if (label === 'Home') {
-          iconName = 'home';
+          iconSource = require('../../assets/icon_home.png'); // Ganti dengan path gambar yang sesuai
         } else if (label === 'Riwayat') {
-          iconName = 'refresh-circle';
+          iconSource = require('../../assets/icon_history.png');
         } else if (label === 'KatalogHarga') {
-          iconName = 'reader';
+          iconSource = require('../../assets/icon_katalogharga.png');
+          iconSize = 30; // Ukuran ikon berbeda untuk KatalogHarga
         } else if (label === 'Account') {
-          iconName = 'person';
+          iconSource = require('../../assets/icon_profile.png');
+          iconSize = 28; // Ukuran ikon berbeda untuk Account
         }
 
         return (
@@ -78,11 +78,14 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
             onLongPress={onLongPress}
             style={styles.tab}>
             <View style={styles.iconContainer(isFocused)}>
-              <Icon
-                type="ionicon"
-                name={iconName}
-                size={24}
-                color={isFocused ? colors.white : colors.primary}
+              <Image
+                source={iconSource}
+                style={{
+                  width: iconSize,
+                  height: iconSize,
+                  tintColor: isFocused ? colors.white : colors.primary,
+                }}
+                resizeMode="contain" // Mengatur mode resize
               />
             </View>
           </TouchableOpacity>
@@ -106,7 +109,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iconContainer: isFocused => ({
+  iconContainer: (isFocused) => ({
     backgroundColor: isFocused ? colors.primary : 'transparent',
     borderRadius: isFocused ? 20 : 0,
     padding: 10,

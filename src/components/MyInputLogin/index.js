@@ -78,7 +78,7 @@ export default function MyInputLogin({
             paddingHorizontal: 12,
             color: Color.blueGray[900],
             borderWidth: 1,
-            borderRadius: 50,
+            borderRadius: 10,
             borderColor: borderColor,
             backgroundColor:'white'
           }} />
