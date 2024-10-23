@@ -14,8 +14,8 @@ export default function MyPickerSecond({
   height = 50,
   colorIcon = colors.primary,
 }) {
-// Instead of saving just the value, save the entire selected item
-const [selectedItem, setSelectedItem] = useState(data.length > 0 ? data[0] : null);
+  // Instead of saving just the value, save the entire selected item
+  const [selectedItem, setSelectedItem] = useState(data.length > 0 ? data[0] : null);
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleSelect = (item) => {
@@ -25,13 +25,12 @@ const [selectedItem, setSelectedItem] = useState(data.length > 0 ? data[0] : nul
   };
 
   return (
-    <View style={{ marginBottom: 20 }}>
+    <View style={{ marginBottom: 10 }}>
       {label && (
         <Text style={{
-          ...fonts.subheadline3,
+          fontFamily: fonts.primary[600],
           color: colors.primary,
           marginBottom: 8,
-          textAlign: 'center',
         }}>
           {label}
         </Text>
@@ -48,16 +47,18 @@ const [selectedItem, setSelectedItem] = useState(data.length > 0 ? data[0] : nul
           </View>
         )}
 
-       <View style={{
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'flex-start'
-       }}>
-         {/* Display Selected Value */}
-         <Text style={styles.selectedValueText}>{selectedItem?.label}</Text>
-         {selectedItem?.image && <Image source={selectedItem.image} style={styles.selectedImage} />}
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'flex-start'
+        }}>
+          {/* Display Selected Value */}
+          <Text style={styles.selectedValueText}>{selectedItem?.label}</Text>
+          {selectedItem?.image && <Image source={{
+            uri: selectedItem.image
+          }} style={styles.selectedImage} />}
 
-       </View>
+        </View>
         <View style={styles.dropdownIcon}>
           <Icon type='ionicon' name='caret-down-outline' color={colors.primary} size={24} />
         </View>
@@ -79,7 +80,9 @@ const [selectedItem, setSelectedItem] = useState(data.length > 0 ? data[0] : nul
                 renderItem={({ item }) => (
                   <TouchableOpacity style={styles.itemContainer} onPress={() => handleSelect(item)}>
                     <Text style={styles.itemText}>{item.label}</Text>
-                    {item.image && <Image source={item.image} style={styles.itemImage} />}
+                    {item.image && <Image source={{
+                      uri: item.image
+                    }} style={styles.itemImage} />}
                   </TouchableOpacity>
                 )}
               />
@@ -95,7 +98,7 @@ const styles = StyleSheet.create({
   pickerContainer: {
     backgroundColor: colors.white,
     borderWidth: 1,
-    borderRadius: 50,
+    borderRadius: 10,
     borderColor: Color.blueGray[300],
     flexDirection: 'row',
     alignItems: 'center',
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -12 }],
   },
   selectedValueText: {
-    flex: 1,
+    flex: 0.8,
     textAlign: 'left',
     marginLeft: 5,
     fontSize: 12,
@@ -151,10 +154,10 @@ const styles = StyleSheet.create({
   },
 
   selectedImage: {
-    height:29,
-    width:120,
-    left:-30,
-    top:5
+    height: 29,
+    width: 120,
+    left: -30,
+    top: 5
   },
 
   itemText: {

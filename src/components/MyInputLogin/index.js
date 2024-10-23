@@ -13,6 +13,7 @@ export default function MyInputLogin({
   borderColor = Color.blueGray[300],
   backgroundColor = colors.white,
   editable,
+  height = 50,
   icon = true,
   maxLength,
   iconname,
@@ -21,6 +22,7 @@ export default function MyInputLogin({
   borderWidth = 1,
   textColor = colors.black,
   keyboardType,
+  onEndEditing,
   secureTextEntry,
   styleInput,
   placeholder,
@@ -33,9 +35,9 @@ export default function MyInputLogin({
 
   const [tutup, setTutup] = useState(true);
   return (
-    <View style={{marginTop:20}}>
+    <View style={{ marginTop: 20 }}>
       <Text style={{
-        fontFamily:fonts.primary[600],
+        fontFamily: fonts.primary[600],
         color: colors.primary,
         marginBottom: 8,
       }}>{label}</Text>
@@ -50,6 +52,7 @@ export default function MyInputLogin({
           <Icon type='ionicon' name={iconname} color={Color.blueGray[300]} size={24} />
         </View>
         <TextInput
+          onEndEditing={onEndEditing}
           maxLength={maxLength}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
@@ -72,15 +75,15 @@ export default function MyInputLogin({
 
           style={{
             ...fonts.body3,
-            flex: 1,
+            // flex: 1,
             paddingLeft: 10,
-            height: 50,
+            height: height,
             paddingHorizontal: 12,
             color: Color.blueGray[900],
             borderWidth: 1,
             borderRadius: 10,
             borderColor: borderColor,
-            backgroundColor:'white'
+            backgroundColor: 'white'
           }} />
         {secureTextEntry &&
           <TouchableOpacity onPress={() => {

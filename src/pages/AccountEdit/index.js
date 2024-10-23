@@ -13,7 +13,7 @@ import {
 import { windowWidth, fonts } from '../../utils/fonts';
 import { apiURL, getData, MYAPP, storeData, urlAPI, urlApp, urlAvatar } from '../../utils/localStorage';
 import { Color, colors } from '../../utils/colors';
-import { MyButton, MyCalendar, MyGap, MyHeader, MyInput, MyPicker } from '../../components';
+import { MyButton, MyCalendar, MyGap, MyHeader, MyInput, MyInputLogin, MyInputSecond, MyPicker, MyPickerSecond } from '../../components';
 import { Icon } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useIsFocused } from '@react-navigation/native';
@@ -85,11 +85,11 @@ export default function AccountEdit({ navigation, route }) {
                             maxWidth: 200,
                             maxHeight: 200
                         }, response => {
-                            // console.log('All Response = ', response);
+                            console.log('All Response = ', response.assets[0]);
 
                             setKirim({
                                 ...kirim,
-                                newfoto_user: `data:${response.type};base64, ${response.base64}`,
+                                newfoto_user: `data:${response.assets[0].type};base64, ${response.assets[0].base64}`,
                             });
                         });
 
@@ -109,44 +109,21 @@ export default function AccountEdit({ navigation, route }) {
                             width: 100,
                             height: 100,
                         }} source={{
-                            uri: kirim.newfoto_user !== null ? kirim.newfoto_user : kirim.foto_user,
+                            uri: kirim.newfoto_user !== null ? kirim.newfoto_user : kirim.file_pengguna,
                         }} />
                     </TouchableOpacity>
                 </View>
 
 
 
-                <MyInput label="Username" iconname="at-outline" value={kirim.username} onChangeText={x => setKirim({ ...kirim, username: x })} />
-                <MyGap jarak={20} />
-                <MyInput label="Nama Lengkap" iconname="person-outline" value={kirim.nama_lengkap} onChangeText={x => setKirim({ ...kirim, nama_lengkap: x })} />
-                <MyGap jarak={20} />
-                <MyInput label="Nomor Telepon" iconname="call-outline" keyboardType='phone-pad' value={kirim.telepon} onChangeText={x => setKirim({ ...kirim, telepon: x })} />
-                <MyGap jarak={20} />
-                <MyPicker value={kirim.jenis_kelamin} label="Jenis Kelamin" iconname="male-female-outline" data={[
-                    { label: 'Laki-laki', value: 'Laki-laki' },
-                    { label: 'Perempuan', value: 'Perempuan' },
-                ]}
-                    onValueChange={x => {
-                        setKirim({
-                            ...kirim,
-                            jenis_kelamin: x
-                        })
-                    }} />
-                <MyGap jarak={20} />
-
-                <MyCalendar label={'Tanggal Lahir ( ' + moment().diff(kirim.tanggal_lahir, 'years') + ' Tahun )'} onDateChange={x => {
-                    setKirim({
-                        ...kirim,
-                        tanggal_lahir: x
-                    })
-                }} value={kirim.tanggal_lahir} />
-
-                <MyGap jarak={20} />
-                <MyInput label="Password" iconname="lock-closed-outline" secureTextEntry={true} onChangeText={x => setKirim({ ...kirim, newpassword: x })} placeholder="Kosongkan jika tidak diubah" />
+                <MyInputLogin label="Email" iconname="at-outline" value={kirim.email} onChangeText={x => setKirim({ ...kirim, username: x })} />
+                <MyInputLogin label="Nama Lengkap" iconname="person-outline" value={kirim.nama_lengkap} onChangeText={x => setKirim({ ...kirim, nama_lengkap: x })} />
+                <MyInputLogin label="Nomor Telepon" iconname="call-outline" keyboardType='phone-pad' value={kirim.telepon} onChangeText={x => setKirim({ ...kirim, telepon: x })} />
+                <MyInputLogin label="Password" iconname="lock-closed-outline" secureTextEntry={true} onChangeText={x => setKirim({ ...kirim, newpassword: x })} placeholder="Kosongkan jika tidak diubah" />
                 <MyGap jarak={20} />
                 {loading && <MyLoading />}
 
-                {!loading && <MyButton warna={colors.secondary} colorText={colors.white} iconColor={colors.white} onPress={sendServer} title="Simpan Perubahan" Icons="download-outline" />}
+                {!loading && <MyButton warna={colors.primary} colorText={colors.white} iconColor={colors.white} onPress={sendServer} title="Simpan Perubahan" Icons="download-outline" />}
                 <MyGap jarak={20} />
             </ScrollView>
         </SafeAreaView >

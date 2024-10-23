@@ -45,6 +45,20 @@ import PrintHijab from './printhijab';
 import Riwayat from './Riwayat';
 import SecondPlash from './Splash/second';
 import KatalogHarga from './KatalogHarga';
+import Alamat from './Pengaturan/Alamat';
+import CustomerCare from './Pengaturan/CustomerCare';
+import Keamanan from './Pengaturan/Keamanan';
+import Pembayaran from './Pengaturan/Pembayaran';
+import PembayaranDetail from './Pengaturan/PembayaranDetail';
+import PrintRoll from './printkainroll/PrintRoll';
+import SampleRoll from './printkainroll/SampleRoll';
+import PrintHijabku from './printhijab/PrintHijabku';
+import SampleHijab from './printhijab/SampleHijab';
+import PrintJerseyku from './printjersey/PrintJerseyku';
+import SampleJersey from './printjersey/SampleJersey';
+
+// MCE
+
 
 
 export {
@@ -96,6 +110,18 @@ export {
   SecondPlash,
   KatalogHarga,
 
-  
+  Alamat,
+  CustomerCare,
+  Keamanan,
+  Pembayaran,
+  PembayaranDetail,
+  PrintRoll,
+  SampleRoll,
+
+  PrintHijabku,
+  SampleHijab,
+  PrintJerseyku,
+  SampleJersey
+
 
 };

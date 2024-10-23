@@ -17,18 +17,20 @@ export default function MyInput({
   secureTextEntry,
   placeholder,
   autoFocus,
+  onEndEditing,
   multiline,
   styleInput,
   styleLabel,   // Custom styling for the right-side label
   textColor = colors.black,
   width = '100%',  // Custom width for the input field (default 100%)
-  height = 50,     // Custom height for the input field (default 50)
+  height = 50,
+  marginTop = 20,    // Custom height for the input field (default 50)
 }) {
 
   const [tutup, setTutup] = useState(true);
 
   return (
-    <View style={{ marginTop: 20 }}>
+    <View style={{ marginTop: marginTop }}>
       {/* Top Label */}
       {label && (
         <Text style={[styles.topLabel, styleLabel]}>
@@ -60,6 +62,7 @@ export default function MyInput({
             },
             styleInput,
           ]}
+          onEndEditing={onEndEditing}
           maxLength={100}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
@@ -110,12 +113,11 @@ const styles = StyleSheet.create({
     borderColor: Color.blueGray[300]
   },
   textInput: {
-    fontFamily:fonts.primary[400],
+    fontFamily: fonts.primary[400],
     flex: 1,
     paddingHorizontal: 12,
-    backgroundColor: 'white',
     borderRadius: 50,
-    
+
   },
   icon: {
     position: 'absolute',
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -12 }],
   },
   topLabel: {
-    fontFamily:fonts.primary[400],
+    fontFamily: fonts.primary[400],
     color: colors.primary,
     marginBottom: 8,
   },

@@ -12,36 +12,32 @@ import axios from 'axios';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { apiURL } from '../../utils/localStorage';
 
-export default function MyCarousel() {
+export default function MyCarousel({ data_gambar = [] }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const windowWidth = Dimensions.get('window').width;
   const navigation = useNavigation();
 
   // Array gambar lokal (hanya ada 2 gambar)
-  const imageSLIDE = [
-    require('../../assets/your_design.png'),
-    require('../../assets/jeysey_img.png'),
-  ];
+  const imageSLIDE = data_gambar;
+  console.log(data_gambar);
 
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    // Mengambil data dari API
-    axios.get(apiURL + 'banner').then(res => {
-      console.log('slider', res.data);
-      setData(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   // Mengambil data dari API
+  //   axios.get(apiURL + 'banner').then(res => {
+  //     console.log('slider', res.data);
+  //     setData(res.data);
+  //   });
+  // }, []);
 
   const renderCarouselItem = ({ item, index }) => (
-    <TouchableWithoutFeedback onPress={() => navigation.navigate('ArtikelDetail', item)}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={imageSLIDE[index % imageSLIDE.length]} // Mengambil gambar lokal sesuai index
-          style={styles.image}
-        />
-      </View>
-    </TouchableWithoutFeedback>
+    <Image
+      source={{
+        uri: item.image
+      }} // Mengambil gambar lokal sesuai index
+      style={styles.image}
+    />
   );
 
   // Fungsi untuk berpindah slide ke kiri (terbatas untuk 2 gambar)
@@ -73,12 +69,13 @@ export default function MyCarousel() {
       </TouchableOpacity>
 
       <Carousel
-        data={data} // Pastikan data yang dipakai untuk carousel
+        loop={true}
+        layout="default"
+        layoutCardOffset={18}
+        itemWidth={300} // Sesuaikan lebar item agar lebih sesuai di layar
+        data={imageSLIDE} // Pastikan data yang dipakai untuk carousel
         renderItem={renderCarouselItem}
         sliderWidth={windowWidth}
-        itemWidth={300}
-        itemHeight={800}
-        removeClippedSubviews={false}
         firstItem={activeSlide} // Mengatur slide aktif
         onSnapToItem={index => setActiveSlide(index)} // Update indeks aktif saat geser manual
       />
@@ -100,30 +97,29 @@ export default function MyCarousel() {
 
 const styles = StyleSheet.create({
   carouselContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginTop: 10,
-    justifyContent:"center",
-    left:-10
+    alignItems: 'center',  // Menjajarkan slider di tengah secara horizontal
+    justifyContent: 'center',  // Menjajarkan secara vertikal
+    height: 200,  // Sesuaikan tinggi container carousel agar sesuai dengan elemen di atas dan bawah
   },
   imageContainer: {
     width: 300,
     borderRadius: 10,
-    overflow: 'hidden',
   },
   image: {
     height: 200,
     width: 300,
-    resizeMode: 'cover',
+    borderRadius: 10,
+    // resizeMode: 'contain',
   },
   arrowLeft: {
     position: 'absolute',
-    left: -20,
+    left: 0,
     zIndex: 1,
   },
   arrowRight: {
     position: 'absolute',
-    right: -42,
+    right: 0,
     zIndex: 1,
   },
   arrowImage: {

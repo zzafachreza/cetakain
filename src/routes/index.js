@@ -49,6 +49,17 @@ import {
   Riwayat,
   SecondPlash,
   KatalogHarga,
+  Alamat,
+  Pembayaran,
+  Keamanan,
+  CustomerCare,
+  PembayaranDetail,
+  PrintRoll,
+  SampleRoll,
+  PrintHijabku,
+  SampleHijab,
+  PrintJerseyku,
+  SampleJersey,
 
 
 
@@ -70,14 +81,14 @@ const MainApp = () => {
       <Tab.Screen name="Riwayat" component={Riwayat} />
       <Tab.Screen name="KatalogHarga" component={KatalogHarga} />
       <Tab.Screen name="Account" component={Account} />
-      
+
     </Tab.Navigator>
   );
 };
 
 export default function Router() {
   return (
-    <Stack.Navigator initialRouteName='MainApp'>
+    <Stack.Navigator initialRouteName='Splash'>
       <Stack.Screen
         name="Splash"
         component={Splash}
@@ -85,8 +96,8 @@ export default function Router() {
           headerShown: false,
         }}
       />
-      
-<Stack.Screen
+
+      <Stack.Screen
         name="SecondSplash"
         component={SecondPlash}
         options={{
@@ -95,7 +106,104 @@ export default function Router() {
       />
 
 
+      {/* NCEW */}
 
+
+
+      <Stack.Screen
+        name="Alamat"
+        component={Alamat}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="Pembayaran"
+        component={Pembayaran}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+
+      <Stack.Screen
+        name="PembayaranDetail"
+        component={PembayaranDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="Keamanan"
+        component={Keamanan}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="CustomerCare"
+        component={CustomerCare}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="PrintRoll"
+        component={PrintRoll}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="SampleRoll"
+        component={SampleRoll}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="PrintHijabku"
+        component={PrintHijabku}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="SampleHijab"
+        component={SampleHijab}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="PrintJerseyku"
+        component={PrintJerseyku}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="SampleJersey"
+        component={SampleJersey}
+        options={{
+          headerShown: false,
+        }}
+      />
 
 
       <Stack.Screen
@@ -145,7 +253,7 @@ export default function Router() {
       />
 
 
-<Stack.Screen
+      <Stack.Screen
         name="PrintHijab"
         component={PrintHijab}
         options={{
@@ -154,7 +262,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="PrintJersey"
         component={PrintJersey}
         options={{
@@ -163,7 +271,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="CetakSample"
         component={CetakSample}
         options={{
@@ -172,7 +280,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="CetakSampleKainRoll"
         component={CetakSampleKainRoll}
         options={{
@@ -181,7 +289,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="CetakSampleHijab"
         component={CetakSampleHijab}
         options={{
@@ -189,7 +297,7 @@ export default function Router() {
 
         }}
       />
-      
+
 
       <Stack.Screen
         name="CetakSampleJersey"
@@ -199,7 +307,7 @@ export default function Router() {
 
         }}
       />
-      
+
 
       <Stack.Screen
         name="Riwayat"
@@ -210,7 +318,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="KatalogHarga"
         component={KatalogHarga}
         options={{
@@ -218,7 +326,7 @@ export default function Router() {
 
         }}
       />
-      
+
       <Stack.Screen
         name="InfoEdukasiPenyakitStunting"
         component={InfoEdukasiPenyakitStunting}
@@ -228,7 +336,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="InteraksiBersamaTim"
         component={InteraksiBersamaTim}
         options={{
@@ -237,7 +345,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="TentangAplikasi"
         component={TentangAplikasi}
         options={{
@@ -246,7 +354,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="TrisemesterII1"
         component={TrisemesterII1}
         options={{
@@ -255,7 +363,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="TrisemesterII2"
         component={TrisemesterII2}
         options={{
@@ -264,7 +372,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="TrisemesterIII1"
         component={TrisemesterIII1}
         options={{
@@ -274,7 +382,7 @@ export default function Router() {
       />
 
 
-<Stack.Screen
+      <Stack.Screen
         name="TrisemesterIII2"
         component={TrisemesterIII2}
         options={{
@@ -284,7 +392,7 @@ export default function Router() {
       />
 
 
-<Stack.Screen
+      <Stack.Screen
         name="TrisemesterIII3"
         component={TrisemesterIII3}
         options={{
@@ -294,7 +402,7 @@ export default function Router() {
       />
 
 
-<Stack.Screen
+      <Stack.Screen
         name="IbuBersalin"
         component={IbuBersalin}
         options={{
@@ -303,7 +411,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="IbuNifas"
         component={IbuNifas}
         options={{
@@ -313,7 +421,7 @@ export default function Router() {
       />
 
 
-<Stack.Screen
+      <Stack.Screen
         name="IbuNifasKF"
         component={IbuNifasKF}
         options={{
@@ -332,7 +440,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="TanyaJawab"
         component={TanyaJawab}
         options={{
@@ -341,7 +449,7 @@ export default function Router() {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="Artikel"
         component={Artikel}
         options={{
@@ -351,7 +459,7 @@ export default function Router() {
       />
 
 
-<Stack.Screen
+      <Stack.Screen
         name="Kuesioner"
         component={Kuesioner}
         options={{

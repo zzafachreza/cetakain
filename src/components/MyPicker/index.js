@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
   pickerItem: {
     fontSize: 12,  // Pastikan ukuran font disini lebih kecil
     color: colors.black,
-    
-    
+
+
   },
   dropdownIcon: {
     position: 'absolute',

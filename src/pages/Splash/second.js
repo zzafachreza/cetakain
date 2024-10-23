@@ -22,32 +22,35 @@ export default function SecondPlash() {
         }} source={require('../../assets/img_secondsplash.png')} />
       </View>
 
-      <View style={{ padding: 20 }}>
-        <Text style={{
-          color: colors.primary,
-          fontFamily: fonts.primary[600],
-          fontSize: 25,
-          textAlign: "center",
-          marginTop: 45,
+      <View style={{ padding: 20, flex: 1, }}>
+        <View style={{
+          flex: 1,
         }}>
-          The Easy Way to Print Your Fashion
-        </Text>
+          <Text style={{
+            color: colors.primary,
+            fontFamily: fonts.primary[600],
+            fontSize: 25,
+            textAlign: "center",
+            marginTop: 45,
+          }}>
+            The Easy Way to Print Your Fashion
+          </Text>
 
-        <Text style={{
-          color: '#959493',
-          fontFamily: fonts.primary[600],
-          fontSize: 12,
-          textAlign: "center",
-          marginTop: 34,
-        }}>
-          Fast, Easy, and Affordable
-        </Text>
+          <Text style={{
+            color: '#959493',
+            fontFamily: fonts.primary[600],
+            fontSize: 12,
+            textAlign: "center",
+            marginTop: 34,
+          }}>
+            Fast, Easy, and Affordable
+          </Text>
+        </View>
 
         {/* CLICK HERE NAVIGATE TO LOGIN PAGE */}
         <TouchableOpacity onPress={handleClick}>
           <View style={{
             alignItems: "center",
-            marginTop: 85
           }}>
             <Image style={{
               width: 70,

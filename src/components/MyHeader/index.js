@@ -21,20 +21,26 @@ export default function MyHeader({ onPress, color = colors.primary, title, icon 
         }}
       >
         {/* Use the onPress prop passed from the parent instead of navigation.goBack() */}
-        <TouchableOpacity onPress={onPress} style={{ marginTop: 0, left:10 }}>
-          <View style={{ backgroundColor: colors.secondary, padding: 10, borderRadius: 100 }}>
-            <Icon type='ionicon' name='arrow-back-outline' size={20} color={color} />
-          </View>
+        <TouchableOpacity onPress={onPress} style={{
+          left: 10,
+          height: 50,
+          backgroundColor: colors.secondary,
+          width: 50,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 25,
+        }}>
+          <Icon type='ionicon' name='arrow-back-outline' size={20} color={color} />
         </TouchableOpacity>
 
         <Text
           style={{
             ...fonts.headline2,
             flex: 1,
+            marginLeft: -20,
             textAlign: 'center',
             color: color,
-            fontSize:20,
-            left:-20
+            fontSize: 20,
           }}
         >
           {title}

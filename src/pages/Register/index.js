@@ -7,12 +7,13 @@ import {
     Image,
     Animated,
     ImageBackground,
+    PermissionsAndroid,
     TouchableWithoutFeedback,
     TouchableOpacity,
     SafeAreaView,
     ScrollView
 } from 'react-native';
-import { MyButton, MyCalendar, MyGap, MyHeader, MyInputLogin, MyPicker, MyRadio } from '../../components';
+import { MyButton, MyCalendar, MyGap, MyHeader, MyInputLogin, MyPicker, MyPickerSecond, MyRadio } from '../../components';
 import { MyDimensi, colors, fonts, windowHeight, windowWidth, Color } from '../../utils';
 import { MYAPP, apiURL, api_token, getData, storeData } from '../../utils/localStorage';
 import { BackgroundImage } from 'react-native-elements/dist/config';
@@ -22,6 +23,7 @@ import moment from 'moment';
 import { useToast } from 'react-native-toast-notifications';
 import MyLoading from '../../components/MyLoading';
 import { Icon } from 'react-native-elements';
+import GetLocation from 'react-native-get-location'
 
 
 
@@ -31,6 +33,7 @@ export default function Register({ navigation, route }) {
     const img = new Animated.Value(0.8);
     const card = new Animated.Value(50);
     const toast = useToast();
+    const [location, setLocation] = useState({})
 
     const [isChecked, setIsChecked] = useState(false);
 
@@ -50,11 +53,12 @@ export default function Register({ navigation, route }) {
     }).start();
     const [kirim, setKirim] = useState({
         api_token: api_token,
-        username: '',
+        email: '',
         nama_lengkap: '',
-        jenis_kelamin: 'Laki-laki',
-        tanggal_lahir: moment().format('YYYY-MM-DD'),
+        fid_toko: '',
         telepon: '',
+        latitude: '',
+        longitude: '',
         password: '',
         repassword: '',
 
@@ -64,9 +68,13 @@ export default function Register({ navigation, route }) {
 
 
 
-        if (
+        if (!isChecked) {
+            toast.show('Silahkan centang syarat dan ketentuan !', {
+                type: 'warning'
+            })
+        } else if (
             kirim.nama_lengkap.length === 0 &&
-            kirim.username.length === 0 &&
+            kirim.email.length === 0 &&
             kirim.password.length === 0
 
         ) {
@@ -79,9 +87,9 @@ export default function Register({ navigation, route }) {
             })
         }
 
-        else if (kirim.username.length === 0) {
+        else if (kirim.email.length === 0) {
             showMessage({
-                message: 'Masukan username',
+                message: 'Masukan email',
             });
         }
         else if (kirim.password.length === 0) {
@@ -98,7 +106,11 @@ export default function Register({ navigation, route }) {
 
             setLoading(true);
             axios
-                .post(apiURL + 'register', kirim)
+                .post(apiURL + 'register', {
+                    ...kirim,
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                })
                 .then(res => {
                     console.warn(res.data);
                     setLoading(false);
@@ -112,7 +124,7 @@ export default function Register({ navigation, route }) {
                             type: 'success'
                         });
                         storeData('user', res.data.data);
-                        navigation.replace('MainApp');
+                        navigation.replace('Login');
 
                     }
 
@@ -121,14 +133,56 @@ export default function Register({ navigation, route }) {
         }
     };
 
+    const [comp, setComp] = useState({});
+    const [toko, setToko] = useState([]);
 
+    const IzinkanLokasi = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                {
+                    title: 'Izinkan Akses Lokasi',
+                    message: 'Izinkan Akses Lokasi',
+                    buttonNeutral: 'Ask Me Later',
+                    buttonNegative: 'Cancel',
+                    buttonPositive: 'OK',
+                },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log('You can use the camera');
 
-
+                GetLocation.getCurrentPosition({
+                    enableHighAccuracy: true,
+                    timeout: 60000,
+                })
+                    .then(location => {
+                        console.log(location);
+                        setLocation(location);
+                    })
+                    .catch(error => {
+                        const { code, message } = error;
+                        console.warn(code, message);
+                    })
+            } else {
+                console.log('Camera permission denied');
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    }
     useEffect(() => {
-
-
+        IzinkanLokasi();
         axios.post(apiURL + 'company').then(res => {
             setComp(res.data.data);
+        })
+
+        axios.post(apiURL + 'toko').then(res => {
+            console.log(res.data);
+            setToko(res.data);
+            setKirim({
+                ...kirim,
+                fid_toko: res.data[0].value
+            })
         })
     }, []);
     const [sama, setSama] = useState(true)
@@ -136,175 +190,172 @@ export default function Register({ navigation, route }) {
     return (
         <SafeAreaView style={{
             flex: 1,
-            width:'100%',
-            height:'100%',
-            backgroundColor:colors.white
+            width: '100%',
+            height: '100%',
+            backgroundColor: colors.white
         }}>
             {/* <MyHeader title="Daftar Akun" /> */}
 
-            <View  style={{
-                flex:1,
-                width:"100%",
-                height:'100%',
+            <View style={{
+                flex: 1,
+                width: "100%",
+                height: '100%',
 
             }}>
 
 
-            <ScrollView showsVerticalScrollIndicator={false}>
-            <MyHeader title="Daftar"/>
-
-            
-
-                <View style={{
-                  padding:20,
-                  top: -50
-                
-                }}>
-
-                    <MyGap jarak={24} />
-                    {/* NAMA LENGKAP */}
-                    <MyInputLogin label='Nama Lengkap' onChangeText={x => {
-                        setKirim({
-                            ...kirim,
-                            nama_lengkap: x
-                        })
-                    }} iconname='person-outline' placeholder='Isi nama lengkap' />
-                
-                    <MyGap jarak={0} />
-                    <MyInputLogin label='Nomor Telepon' onChangeText={x => {
-                        setKirim({
-                            ...kirim,
-                            telepon: x
-                        })
-                    }} iconname='call-outline' keyboardType='phone-pad' placeholder='Isi nomor telepon' />
-
-                    <MyGap jarak={0} />
-                    <MyInputLogin label='Email' onChangeText={x => {
-                        setKirim({
-                            ...kirim,
-                            telepon: x
-                        })
-                    }} iconname='call-outline' keyboardType='phone-pad' placeholder='Isi Email' />
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <MyHeader title="Daftar" />
 
 
 
-                    <MyGap jarak={0} />
-                    <MyInputLogin label='Toko' onChangeText={x => {
-                        setKirim({
-                            ...kirim,
-                            telepon: x
-                        })
-                    }} iconname='call-outline' keyboardType='phone-pad' placeholder='Isi toko' />
+                    <View style={{
+                        padding: 20,
+                        top: -50
 
+                    }}>
 
-                    <MyGap jarak={0} />
-                    {/*INPUT KATA SANDI */}
-                    <MyInputLogin
-                        placeholder="Isi Password"
-                        label="Password"
-                        iconname="lock-closed-outline"
-                        value={kirim.password}
-                        secureTextEntry={true}
-                        onChangeText={value =>
+                        <MyGap jarak={24} />
+                        {/* NAMA LENGKAP */}
+                        <MyInputLogin label='Nama Lengkap' onChangeText={x => {
                             setKirim({
                                 ...kirim,
-                                password: value,
+                                nama_lengkap: x
                             })
-                        }
-                    />
+                        }} iconname='person-outline' placeholder='Isi nama lengkap' />
+
+                        <MyGap jarak={0} />
+                        <MyInputLogin label='Nomor Telepon' onChangeText={x => {
+                            setKirim({
+                                ...kirim,
+                                telepon: x
+                            })
+                        }} iconname='call-outline' keyboardType='phone-pad' placeholder='Isi nomor telepon' />
+
+                        <MyGap jarak={0} />
+                        <MyInputLogin label='Email' onChangeText={x => {
+                            setKirim({
+                                ...kirim,
+                                email: x
+                            })
+                        }} iconname='call-outline' placeholder='Isi Email' />
 
 
-                    {/* INPUT KATA SANDI ULANG */}
-                    <MyGap jarak={0} />
-                    <MyInputLogin
-                        borderColor={sama ? Color.blueGray[300] : colors.danger}
 
-                        placeholder="Isi konfirmasi password"
-                        label="Konfirmasi Password"
-                        iconname="lock-closed-outline"
-                        secureTextEntry
-                        value={kirim.repassword}
-                        onChangeText={value => {
+                        <MyGap jarak={20} />
 
-                            if (value !== kirim.password) {
-                                setSama(false)
-                            } else {
-                                setSama(true)
+                        <MyPickerSecond textAlign='left' value={kirim.fid_toko} onValueChange={x => setKirim({
+                            ...kirim,
+                            fid_toko: x
+                        })} data={toko} label="Toko" />
+                        <MyGap jarak={0} />
+                        {/*INPUT KATA SANDI */}
+                        <MyInputLogin
+                            placeholder="Isi Password"
+                            label="Password"
+                            iconname="lock-closed-outline"
+                            value={kirim.password}
+                            secureTextEntry={true}
+                            onChangeText={value =>
+                                setKirim({
+                                    ...kirim,
+                                    password: value,
+                                })
+                            }
+                        />
+
+
+                        {/* INPUT KATA SANDI ULANG */}
+                        <MyGap jarak={0} />
+                        <MyInputLogin
+                            borderColor={sama ? Color.blueGray[300] : colors.danger}
+
+                            placeholder="Isi konfirmasi password"
+                            label="Konfirmasi Password"
+                            iconname="lock-closed-outline"
+                            secureTextEntry
+                            value={kirim.repassword}
+                            onChangeText={value => {
+
+                                if (value !== kirim.password) {
+                                    setSama(false)
+                                } else {
+                                    setSama(true)
+                                }
+
+                                setKirim({
+                                    ...kirim,
+                                    repassword: value,
+                                })
                             }
 
-                            setKirim({
-                                ...kirim,
-                                repassword: value,
-                            })
-                        }
-
-                        }
-                    />
-                    <MyGap jarak={20} />
+                            }
+                        />
+                        <MyGap jarak={20} />
 
                         <View style={{}}>
                             {/* BUATKAN TOMBOL SAYA MESETUJUI SYARAT */}
-                            <View style={{flexDirection:"row", alignItems:"center", justifyContent:"center"}}>
-                            <TouchableOpacity style={styles.checkContainer} onPress={toggleCheck}>
-                <View style={[styles.checkBox, isChecked && styles.checkBoxChecked]}>
-                    {isChecked && (
-                        <Icon
-                        type="ionicon"
-                        name='checkmark-circle'
-                        size={18}
-                        color={colors.primary}
-                            
-                        />
-                    )}
-                </View>
-                <Text style={styles.label}>
-                    Saya menyetujui{' '}
-                    <Text style={styles.termsText}>syarat & ketentuan</Text> yang berlaku
-                </Text>
-            </TouchableOpacity>
+                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                <TouchableOpacity style={styles.checkContainer} onPress={toggleCheck}>
+                                    <View style={[styles.checkBox, isChecked && styles.checkBoxChecked]}>
+                                        {isChecked && (
+                                            <Icon
+                                                type="ionicon"
+                                                name='checkmark-circle'
+                                                size={18}
+                                                color={colors.primary}
+
+                                            />
+                                        )}
+                                    </View>
+                                    <Text style={styles.label}>
+                                        Saya menyetujui{' '}
+                                        <Text style={styles.termsText}>syarat & ketentuan</Text> yang berlaku
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
 
-                    {!loading &&
-                        <>
+                        {!loading &&
+                            <>
 
-                        <MyGap jarak={20}/>
-                            <MyButton
+                                <MyGap jarak={20} />
+                                <MyButton
 
-                                warna={colors.tertiary}
-                                title="Daftar"
-                                Icons="log-in"
-                                onPress={simpan}
-                            />
+                                    warna={colors.tertiary}
+                                    title="Daftar"
+                                    Icons="log-in"
+                                    onPress={simpan}
+                                />
 
-                            <MyGap jarak={20} />
-                            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                                <Text style={{
-                                    ...fonts.body3,
-                                    color: '#9E9E9E',
-                                    textAlign: 'center',
-                                    fontFamily:fonts.primary[500]
-                                }}>
-                                    Sudah memiliki akun? Silahkan <Text style={{
-                                        ...fonts.headline5,
-                                        color: colors.primary,
+                                <MyGap jarak={20} />
+                                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                    <Text style={{
+                                        ...fonts.body3,
+                                        color: '#9E9E9E',
                                         textAlign: 'center',
-                                        fontFamily:fonts.primary[800]
+                                        fontFamily: fonts.primary[500]
                                     }}>
-                                        Masuk
+                                        Sudah memiliki akun? Silahkan <Text style={{
+                                            ...fonts.headline5,
+                                            color: colors.primary,
+                                            textAlign: 'center',
+                                            fontFamily: fonts.primary[800]
+                                        }}>
+                                            Masuk
+                                        </Text>
                                     </Text>
-                                </Text>
-                            </TouchableOpacity>
+                                </TouchableOpacity>
 
-                        </>
-                    }
+                            </>
+                        }
 
-                    {loading && <MyLoading />}
+                        {loading && <MyLoading />}
 
-                </View>
+                    </View>
 
 
-            </ScrollView>
+                </ScrollView>
             </View>
 
         </SafeAreaView >
@@ -332,7 +383,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     checkBoxChecked: {
-        
+
     },
     checkIcon: {
         width: 16,
@@ -347,6 +398,6 @@ const styles = StyleSheet.create({
     termsText: {
         color: colors.primary,
         fontFamily: fonts.primary[800],
-        fontSize:10
+        fontSize: 10
     },
 });

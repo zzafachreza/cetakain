@@ -37,15 +37,15 @@ export default function Splash({ navigation }) {
       })
     ]).start();
 
-  
+
     setTimeout(() => {
-    getData('user').then(res => {
-    if (!res) {
-    navigation.replace('SecondSplash')
-    } else {
-     navigation.replace('MainApp')
-     }
-     })
+      getData('user').then(res => {
+        if (!res) {
+          navigation.replace('SecondSplash')
+        } else {
+          navigation.replace('MainApp')
+        }
+      })
     }, 1200);
   }, []);
 
@@ -58,7 +58,7 @@ export default function Splash({ navigation }) {
       position: 'relative'
     }}>
 
-      <ImageBackground source={require("../../assets/bgsplash.png")}  style={{
+      <ImageBackground source={require("../../assets/bgsplash.png")} style={{
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -73,14 +73,14 @@ export default function Splash({ navigation }) {
           style={{
             transform: [{ scale: img }],
             width: windowWidth / 1.4,
-            height: windowWidth / 1.4,  
-            marginTop:'30%'
+            height: windowWidth / 1.4,
+            marginTop: '30%'
 
           }}
         />
 
 
-        <ActivityIndicator style={{marginTop:50}} color={colors.primary} size="small" />
+        <ActivityIndicator style={{ marginTop: 50 }} color={colors.primary} size="small" />
 
       </ImageBackground>
 

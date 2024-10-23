@@ -69,54 +69,70 @@ export default function Home({ navigation, route }) {
     })
   }
 
+
+  const [gambar, setGambar] = useState([{ "file_gambar": "datafoto/7c41a959edafcc559e649bf0c179f99d24a61016.png", "id_gambar": "1", "image": "https://zavalabs.com/nogambar.jpg", "menu": "Kain Roll", "posisi": "Home" }, { "file_gambar": "datafoto/5f42f5cab19fc5a22dfe3ad4ce0ca6333820e57b.png", "id_gambar": "5", "image": "https://zavalabs.com/nogambar.jpg", "menu": "Hijab", "posisi": "Home" }, { "file_gambar": "datafoto/d96af713df1f8089899474fe6d34d744f6b94eb0.png", "id_gambar": "9", "image": "https://zavalabs.com/nogambar.jpg", "menu": "Jersey", "posisi": "Home" }])
+  const __getGambar = () => {
+    axios.post(apiURL + 'gambar_home').then(res => {
+      console.log('data_gambar_home', res.data);
+      setGambar(res.data)
+    })
+  }
+
   useEffect(() => {
+    __getGambar();
     __getUser();
   }, [])
   return (
     <SafeAreaView style={{
       flex: 1,
-      backgroundColor:'#F4F4F4',
-    
+      backgroundColor: '#F4F4F4',
+
     }}>
-    
-    <ScrollView>
-    {/* JHEADER */}
+
+      <ScrollView>
+        {/* JHEADER */}
         <View style={{
-          padding:10,
-          backgroundColor:colors.white
-         
+          padding: 10,
+          backgroundColor: colors.white
+
         }}>
 
-{/* KALAU BISA WIDTH NYA LEBARNYA MENGIKUTI NAMA USERNAME USER */}
-        <View style={{
-          flexDirection:"row",
-          padding:10,
-          backgroundColor:colors.secondary,
-          borderRadius:50,
-          justifyContent:"center",
-          width:163,
-          alignItems:"center"
-        }}>
+          {/* KALAU BISA WIDTH NYA LEBARNYA MENGIKUTI NAMA USERNAME USER */}
+          <View style={{
+            flexDirection: "row",
+            padding: 10,
+            backgroundColor: colors.secondary,
+            borderRadius: 50,
+            width: '80%',
+            alignItems: "center"
+          }}>
 
-        <View style={{marginRight:20}}>
-            {/* PROFILE PENGGUNA */}
-            <Image style={{
-            width:43,
-            height:43
-          }} source={require('../../assets/profile.png')}/>
-        </View>
-       
+            <View style={{}}>
+              {/* PROFILE PENGGUNA */}
+              <Image style={{
+                width: 40,
+                height: 40,
+                borderRadius: 20,
+              }} source={{
+                uri: user.file_pengguna
+              }} />
+            </View>
 
-        
-          <View style={{alignItems:'center', left:-10}}>
-          {/* SAMBUTAN DAN NAMA USER */}
 
-          <Text style={{fontFamily:fonts.primary[600], fontSize:15, color:colors.primary,
-          }}>Hai, (User)</Text>
+
+            <View style={{
+              alignItems: 'center',
+              left: 5,
+            }}>
+              {/* SAMBUTAN DAN NAMA USER */}
+
+              <Text style={{
+                fontFamily: fonts.primary[600], fontSize: 12, color: colors.primary,
+              }}>Hai, ({user.nama_lengkap})</Text>
+            </View>
           </View>
-        </View>
 
-       
+
 
         </View>
         {/* END HEADER */}
@@ -127,49 +143,52 @@ export default function Home({ navigation, route }) {
 
         <View>
           <ImageBackground style={{
-            flex:1,
-            width:362,
-            height:224,
-          }} source={require('../../assets/bg_menu_one.png')}>
+            flex: 1,
+            width: windowWidth,
+            height: windowHeight / 3,
+          }} source={{
+            uri: gambar.filter(i => i.menu == 'Kain Roll')[0].image
+          }}>
             <View style={{
-              padding:20,
-             
-              width:'50%',
-              marginTop:10
+              padding: 20,
+
+              width: '50%',
+              marginTop: 10
             }}>
               <View>
                 <Text style={{
-                  fontFamily:fonts.primary[600],
-                  fontSize:20,
+                  fontFamily: fonts.primary[600],
+                  fontSize: 20,
                 }}>
-                Print Kain Roll
+                  Print Kain Roll
                 </Text>
 
                 <Text style={{
-                  fontFamily:fonts.primary[400],
-                  fontSize:15,
+                  fontFamily: fonts.primary[400],
+                  fontSize: 15,
 
                 }}>
-                Print Kain Roll
+                  Print Kain Roll
                 </Text>
 
 
                 <View style={{
-                  marginTop:70
+                  marginTop: 70
                 }}>
                   <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintKainRoll')}>
-                    <View style={{backgroundColor:colors.secondary,
-                    padding:10, 
-                    borderRadius:10,
-                    height:40,
-                    width:80,
-                    top: -30
+                    <View style={{
+                      backgroundColor: colors.secondary,
+                      padding: 10,
+                      borderRadius: 10,
+                      height: 40,
+                      width: 80,
+                      top: -30
                     }}>
                       <Text style={{
-                        fontFamily:fonts.primary[600],
-                        color:colors.primary,
-                        textAlign:'center',
-                        fontSize:15,
+                        fontFamily: fonts.primary[600],
+                        color: colors.primary,
+                        textAlign: 'center',
+                        fontSize: 15,
                       }}>PRINT</Text>
                     </View>
                   </TouchableWithoutFeedback>
@@ -182,55 +201,58 @@ export default function Home({ navigation, route }) {
 
 
 
-          {/* BG MENU KEDUA (PRINT HIJAB)  */}
+        {/* BG MENU KEDUA (PRINT HIJAB)  */}
 
-          <View>
+        <View>
           <ImageBackground style={{
-            flex:1,
-            width:400,
-            height:228,
-            flexDirection:"row",
-            justifyContent:"flex-end"
-          }} source={require('../../assets/bg_menu_two.png')}>
+            flex: 1,
+            width: windowWidth,
+            height: windowHeight / 3,
+            flexDirection: "row",
+            justifyContent: "flex-end"
+          }} source={{
+            uri: gambar.filter(i => i.menu == 'Hijab')[0].image
+          }}>
             <View style={{
-              padding:20,
-              width:'42%',
-              marginTop:0,
+              padding: 20,
+              width: '42%',
+              marginTop: 0,
               left: -20
             }}>
               <View>
                 <Text style={{
-                  fontFamily:fonts.primary[600],
-                  fontSize:20,
+                  fontFamily: fonts.primary[600],
+                  fontSize: 20,
                 }}>
-                Print Hijab
+                  Print Hijab
                 </Text>
 
                 <Text style={{
-                  fontFamily:fonts.primary[400],
-                  fontSize:15,
+                  fontFamily: fonts.primary[400],
+                  fontSize: 15,
 
                 }}>
-               Print Hijab
+                  Print Hijab
                 </Text>
 
 
                 <View style={{
-                  marginTop:70
+                  marginTop: 70
                 }}>
-                  <TouchableWithoutFeedback  onPress={() => navigation.navigate('PrintHijab')}>
-                    <View style={{backgroundColor:colors.secondary,
-                    padding:10, 
-                    borderRadius:10,
-                    height:40,
-                    width:80,
-                    top: -30
+                  <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintHijab')}>
+                    <View style={{
+                      backgroundColor: colors.secondary,
+                      padding: 10,
+                      borderRadius: 10,
+                      height: 40,
+                      width: 80,
+                      top: -30
                     }}>
                       <Text style={{
-                        fontFamily:fonts.primary[600],
-                        color:colors.primary,
-                        textAlign:'center',
-                        fontSize:15,
+                        fontFamily: fonts.primary[600],
+                        color: colors.primary,
+                        textAlign: 'center',
+                        fontSize: 15,
                       }}>PRINT</Text>
                     </View>
                   </TouchableWithoutFeedback>
@@ -242,54 +264,57 @@ export default function Home({ navigation, route }) {
         {/* END MENU PRINT HIJAB */}
 
 
-        
+
         {/* BG MENU PERTAMA (PRINT KAIN ROLL)  */}
 
         <View>
           <ImageBackground style={{
-            flex:1,
-            width:404,
-            height:254,
-          }} source={require('../../assets/bg_menu_three.png')}>
+            flex: 1,
+            width: windowWidth,
+            height: windowHeight / 3,
+          }} source={{
+            uri: gambar.filter(i => i.menu == 'Jersey')[0].image
+          }}>
             <View style={{
-              padding:20,
-             
-              width:'50%',
-              marginTop:10
+              padding: 20,
+
+              width: '50%',
+              marginTop: 10
             }}>
               <View>
                 <Text style={{
-                  fontFamily:fonts.primary[600],
-                  fontSize:20,
+                  fontFamily: fonts.primary[600],
+                  fontSize: 20,
                 }}>
-                Print Jersey
+                  Print Jersey
                 </Text>
 
                 <Text style={{
-                  fontFamily:fonts.primary[400],
-                  fontSize:15,
+                  fontFamily: fonts.primary[400],
+                  fontSize: 15,
 
                 }}>
-                Print Jersey
+                  Print Jersey
                 </Text>
 
 
                 <View style={{
-                  marginTop:70
+                  marginTop: 70
                 }}>
                   <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintJersey')}>
-                    <View style={{backgroundColor:colors.secondary,
-                    padding:10, 
-                    borderRadius:10,
-                    height:40,
-                    width:80,
-                    top: -30
+                    <View style={{
+                      backgroundColor: colors.secondary,
+                      padding: 10,
+                      borderRadius: 10,
+                      height: 40,
+                      width: 80,
+                      top: -30
                     }}>
                       <Text style={{
-                        fontFamily:fonts.primary[600],
-                        color:colors.primary,
-                        textAlign:'center',
-                        fontSize:15,
+                        fontFamily: fonts.primary[600],
+                        color: colors.primary,
+                        textAlign: 'center',
+                        fontSize: 15,
                       }}>PRINT</Text>
                     </View>
                   </TouchableWithoutFeedback>
@@ -302,7 +327,7 @@ export default function Home({ navigation, route }) {
 
 
 
-    </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   )
 }
