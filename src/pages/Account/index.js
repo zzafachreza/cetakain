@@ -188,7 +188,7 @@ export default function ({ navigation, route }) {
 
                         <MylistPengaturan onPress={() => navigation.navigate('Alamat', user)} label="Alamat" />
                         <MylistPengaturan onPress={() => navigation.navigate('Pembayaran', user)} icon='wallet-outline' label="Pembayaran" />
-                        <MylistPengaturan onPress={() => navigation.navigate('Keamanan', user)} icon='lock-closed-outline' label="Keamanan" />
+                        {/* <MylistPengaturan onPress={() => navigation.navigate('Keamanan', user)} icon='lock-closed-outline' label="Keamanan" /> */}
                         <MylistPengaturan onPress={() => Linking.openURL('https://wa.me/' + com.tlp)} icon='logo-whatsapp' label="Customer Service" />
 
 

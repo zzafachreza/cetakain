@@ -43,7 +43,8 @@ export default function PrintRoll({ navigation, route }) {
                         icon: 'success',
                         message: res.data.message
                     });
-                    Linking.openURL('https://wa.me/' + comp.tlp + '?text=' + WATemplate)
+                    Linking.openURL('https://wa.me/' + comp.tlp + '?text=' + WATemplate);
+                    navigation.goBack()
                 }
             })
         } else {

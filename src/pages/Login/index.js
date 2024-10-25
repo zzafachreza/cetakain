@@ -10,7 +10,8 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  Linking
 } from 'react-native';
 import { MyButton, MyGap, MyInput, MyInputLogin } from '../../components';
 import { MyDimensi, colors, fonts, windowHeight, windowWidth, Color } from '../../utils';
@@ -165,7 +166,7 @@ export default function Login({ navigation, route }) {
               })} styleLabel={{ color: 'black' }} label="Password" placeholder="Isi Password" secureTextEntry={true} />
 
               <View style={{ flexDirection: 'row', justifyContent: "flex-end" }}>
-                <TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => Linking.openURL('https://wa.me/' + comp.tlp + '?text=Hallo Admin saya lupa password')}>
                   <View>
                     <Text style={{ fontFamily: fonts.primary[400], marginTop: 10, fontSize: 13, }}>Lupa Password?</Text>
                   </View>

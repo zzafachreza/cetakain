@@ -40,7 +40,7 @@ export default function MyHeader({ onPress, color = colors.primary, title, icon 
             marginLeft: -20,
             textAlign: 'center',
             color: color,
-            fontSize: 20,
+            fontSize: 14,
           }}
         >
           {title}

@@ -111,7 +111,7 @@ export default function PembayaranDetail({ navigation, route }) {
                     }}>
                         Silakan lakukan konfirmasi pembayaran ke Admin Cetakain
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => Linking.openURL('https://wa.me/' + comp.tlp + `?text=Hallo saya sudah melakukan pembayaran melalui *${item.nama_bank}*`)}>
                         <Image source={require('../../assets/wa.png')} style={{
                             marginTop: 10,
                             width: 50,
@@ -119,8 +119,10 @@ export default function PembayaranDetail({ navigation, route }) {
                             alignSelf: 'center'
                         }} />
                     </TouchableOpacity>
+                    <MyGap jarak={50} />
                 </ScrollView>
             }
+
         </SafeAreaView >
     )
 }

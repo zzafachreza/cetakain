@@ -24,6 +24,7 @@ import { useToast } from 'react-native-toast-notifications';
 import MyLoading from '../../components/MyLoading';
 import { Icon } from 'react-native-elements';
 import GetLocation from 'react-native-get-location'
+import { showMessage } from 'react-native-flash-message';
 
 
 
@@ -67,8 +68,12 @@ export default function Register({ navigation, route }) {
     const simpan = () => {
 
 
-
-        if (!isChecked) {
+        if (kirim.telepon.substring(0, 2) !== '62') {
+            console.log(kirim.telepon.substring(0, 2))
+            toast.show('Nomor telepon harus diawali 62 didepan !', {
+                type: 'warning'
+            })
+        } else if (!isChecked) {
             toast.show('Silahkan centang syarat dan ketentuan !', {
                 type: 'warning'
             })
@@ -203,9 +208,9 @@ export default function Register({ navigation, route }) {
 
             }}>
 
-
+                <MyHeader title="Daftar" />
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <MyHeader title="Daftar" />
+
 
 
 
@@ -225,7 +230,7 @@ export default function Register({ navigation, route }) {
                         }} iconname='person-outline' placeholder='Isi nama lengkap' />
 
                         <MyGap jarak={0} />
-                        <MyInputLogin label='Nomor Telepon' onChangeText={x => {
+                        <MyInputLogin label='Nomor Telepon ( cth. 62810 . . . )' onChangeText={x => {
                             setKirim({
                                 ...kirim,
                                 telepon: x

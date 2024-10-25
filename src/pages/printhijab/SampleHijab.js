@@ -56,7 +56,7 @@ export default function SampleHijab({ navigation, route }) {
         WATemplate += `Bahan  : *${bahan.filter(i => i.value == kirim.fid_bahanhijab)[0].nama_bahan}* \n`
         WATemplate += `Ukuran : *${bahan.filter(i => i.value == kirim.fid_bahanhijab)[0].size}* \n`
         WATemplate += `Motif  : *${motif.filter(i => i.value == kirim.fid_motifhijab)[0].nama_motif}* \n`
-        WATemplate += `Jumlah : *${kirim.qty}* \n`
+        WATemplate += `Jumlah : *1* \n`
 
         console.log(WATemplate)
 
@@ -72,6 +72,7 @@ export default function SampleHijab({ navigation, route }) {
                 });
                 console.log(WATemplate);
                 Linking.openURL('https://wa.me/' + comp.tlp + '?text=' + WATemplate)
+                navigation.goBack();
             }
         })
 
@@ -106,7 +107,7 @@ export default function SampleHijab({ navigation, route }) {
             flex: 1,
             backgroundColor: colors.white
         }}>
-            <MyHeader onPress={() => navigation.goBack()} title="Print Hijab" />
+            <MyHeader onPress={() => navigation.goBack()} title="Sample Hijab" />
             <ScrollView>
                 <MyCarousel data_gambar={gambar.filter(i => i.posisi == 'Desain')} />
                 <View style={{ padding: 20 }}>

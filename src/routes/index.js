@@ -60,6 +60,8 @@ import {
   SampleHijab,
   PrintJerseyku,
   SampleJersey,
+  WebKatalog,
+  Detail,
 
 
 
@@ -92,6 +94,14 @@ export default function Router() {
       <Stack.Screen
         name="Splash"
         component={Splash}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="Detail"
+        component={Detail}
         options={{
           headerShown: false,
         }}
@@ -200,6 +210,16 @@ export default function Router() {
       <Stack.Screen
         name="SampleJersey"
         component={SampleJersey}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+
+      <Stack.Screen
+        name="WebKatalog"
+        component={WebKatalog}
         options={{
           headerShown: false,
         }}

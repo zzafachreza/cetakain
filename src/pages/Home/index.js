@@ -103,7 +103,6 @@ export default function Home({ navigation, route }) {
             padding: 10,
             backgroundColor: colors.secondary,
             borderRadius: 50,
-            width: '80%',
             alignItems: "center"
           }}>
 
@@ -128,7 +127,7 @@ export default function Home({ navigation, route }) {
 
               <Text style={{
                 fontFamily: fonts.primary[600], fontSize: 12, color: colors.primary,
-              }}>Hai, ({user.nama_lengkap})</Text>
+              }}>Hai, {user.nama_lengkap}</Text>
             </View>
           </View>
 
@@ -145,7 +144,7 @@ export default function Home({ navigation, route }) {
           <ImageBackground style={{
             flex: 1,
             width: windowWidth,
-            height: windowHeight / 3,
+            height: windowHeight / 4,
           }} source={{
             uri: gambar.filter(i => i.menu == 'Kain Roll')[0].image
           }}>
@@ -207,7 +206,7 @@ export default function Home({ navigation, route }) {
           <ImageBackground style={{
             flex: 1,
             width: windowWidth,
-            height: windowHeight / 3,
+            height: windowHeight / 4,
             flexDirection: "row",
             justifyContent: "flex-end"
           }} source={{
@@ -271,7 +270,7 @@ export default function Home({ navigation, route }) {
           <ImageBackground style={{
             flex: 1,
             width: windowWidth,
-            height: windowHeight / 3,
+            height: windowHeight / 4,
           }} source={{
             uri: gambar.filter(i => i.menu == 'Jersey')[0].image
           }}>

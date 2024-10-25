@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Animated, Image }
 import { colors } from '../../utils';
 import { MyHeader } from '../../components';
 import { fonts } from '../../utils';
+import { Icon } from 'react-native-elements';
 
 export default function KatalogHarga({ navigation }) {
   const [expanded, setExpanded] = useState(null);
@@ -21,21 +22,18 @@ export default function KatalogHarga({ navigation }) {
   const images = [
     {
       title: 'Pricelist Kain Roll',
-      source: require('../../assets/dummcy_pricelist.png'), // Ganti dengan path gambar yang sesuai
-      width: 332, // Sesuaikan ukuran lebar gambar
-      height: 85, // Sesuaikan ukuran tinggi gambar
+      modul: 'bahanroll',
+
     },
     {
       title: 'Pricelist Hijab',
-      source: require('../../assets/pricelist_hijab.png'), // Ganti dengan path gambar yang sesuai
-      width: 332, // Sesuaikan ukuran lebar gambar
-      height: 315, // Sesuaikan ukuran tinggi gambar
+      modul: 'bahanhijab',
+
     },
     {
       title: 'Pricelist Jersey',
-      source: require('../../assets/pricelist_jersey.png'), // Ganti dengan path gambar yang sesuai
-      width: 332, // Sesuaikan ukuran lebar gambar
-      height: 137, // Sesuaikan ukuran tinggi gambar
+      modul: 'bahanjersey',
+
     },
   ];
 
@@ -45,16 +43,30 @@ export default function KatalogHarga({ navigation }) {
       <ScrollView>
         <View style={styles.container}>
           {images.map((item, index) => (
-            <View key={index}>
-              <TouchableOpacity style={styles.menuItem} onPress={() => toggleExpand(index)}>
-                <Text style={styles.menuText}>{item.title}</Text>
-              </TouchableOpacity>
-              {expanded === index && (
-                <Animated.View style={{ opacity: animation }}>
-                  <Image source={item.source} style={{width: item.width, height: item.height}} resizeMode="contain" />
-                </Animated.View>
-              )}
-            </View>
+            <TouchableOpacity onPress={() => navigation.navigate('WebKatalog', item)} style={{
+              borderWidth: 1,
+              padding: 10,
+              marginVertical: 8,
+              borderRadius: 10,
+              borderColor: colors.primary,
+              flexDirection: 'row'
+            }}>
+              <Text style={{
+                flex: 1,
+                ...fonts.headline2,
+                color: colors.primary
+              }}>{item.title}</Text>
+              <View style={{
+                backgroundColor: colors.secondary,
+                width: 40,
+                height: 40,
+                borderRadius: 30,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <Icon type='ionicon' name='search' color={colors.primary} />
+              </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
@@ -74,10 +86,10 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontSize: 16,
-    fontFamily:fonts.primary[600],
-    color:colors.primary,
-    
-  
+    fontFamily: fonts.primary[600],
+    color: colors.primary,
+
+
   },
   image: {
     width: '100%', // Mengatur lebar gambar agar sesuai dengan lebar layar

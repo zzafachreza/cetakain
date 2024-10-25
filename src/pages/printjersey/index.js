@@ -22,11 +22,11 @@ export default function PrintJersey({ navigation }) {
 
   const [entries, setEntries] = useState([
     {
-      image: require('../../assets/your_design.png'),
+      image: require('../../assets/logo.png'),
     },
 
     {
-      image: require('../../assets/jeysey_img.png'),
+      image: require('../../assets/logo.png'),
     }
   ])
 

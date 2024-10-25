@@ -93,7 +93,8 @@ export default function SampleJersey({ navigation, route }) {
                     message: res.data.message
                 });
                 console.log(WATemplate);
-                Linking.openURL('https://wa.me/' + comp.tlp + '?text=' + WATemplate)
+                Linking.openURL('https://wa.me/' + comp.tlp + '?text=' + WATemplate);
+                navigation.goBack();
             }
         })
 

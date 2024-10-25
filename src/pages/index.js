@@ -56,6 +56,8 @@ import PrintHijabku from './printhijab/PrintHijabku';
 import SampleHijab from './printhijab/SampleHijab';
 import PrintJerseyku from './printjersey/PrintJerseyku';
 import SampleJersey from './printjersey/SampleJersey';
+import WebKatalog from './KatalogHarga/WebKatalog';
+import Detail from './Riwayat/Detail';
 
 // MCE
 
@@ -63,6 +65,7 @@ import SampleJersey from './printjersey/SampleJersey';
 
 export {
   Splash,
+  Detail,
   Home,
   Login,
   Register,
@@ -121,7 +124,8 @@ export {
   PrintHijabku,
   SampleHijab,
   PrintJerseyku,
-  SampleJersey
+  SampleJersey,
+  WebKatalog
 
 
 };
