@@ -62,6 +62,7 @@ import {
   SampleJersey,
   WebKatalog,
   Detail,
+  SamplePrint,
 
 
 
@@ -170,6 +171,16 @@ export default function Router() {
           headerShown: false,
         }}
       />
+
+      
+<Stack.Screen
+        name="SamplePrint"
+        component={SamplePrint}
+        options={{
+          headerShown: false,
+        }}
+      />
+
 
 
       <Stack.Screen

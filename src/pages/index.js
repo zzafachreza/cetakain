@@ -58,6 +58,8 @@ import PrintJerseyku from './printjersey/PrintJerseyku';
 import SampleJersey from './printjersey/SampleJersey';
 import WebKatalog from './KatalogHarga/WebKatalog';
 import Detail from './Riwayat/Detail';
+import SamplePrint from './SamplePrint';
+
 
 // MCE
 
@@ -65,6 +67,7 @@ import Detail from './Riwayat/Detail';
 
 export {
   Splash,
+  SamplePrint,
   Detail,
   Home,
   Login,

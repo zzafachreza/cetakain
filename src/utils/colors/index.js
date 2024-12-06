@@ -1,9 +1,9 @@
 export const colors = {
   primary: '#CA1F7B',
-  secondary: '#FFE351',
+  secondary: '#FFB800',
   tertiary: '#FFE351',
   foourty: '#FFF1A8',
-  background: '#f5f5f5',
+  background: '#EEEEEE',
   success: '#078422',
   warning: '#F37120',
   danger: '#FF0000',
@@ -21,7 +21,8 @@ export const colors = {
   kuning: '#D7A43A',
   merah: '#B9454A',
   tekscolor: '#793C5A',
-  card: '#FFFAC3'
+  card: '#FFFAC3',
+  subjududlmenu: '#8F8F8F'
 };
 
 export const Color = {

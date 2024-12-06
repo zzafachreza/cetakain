@@ -10,7 +10,8 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
 import { MyButton, MyCalendar, MyGap, MyHeader, MyInput, MyPicker } from '../../components';
 import { MyDimensi, colors, fonts, windowHeight, windowWidth, Color } from '../../utils';
@@ -60,14 +61,36 @@ const MyMenu = ({ onPress, img, label, backgroundColor, desc }) => {
   )
 }
 
+  // Fungsi untuk mendapatkan nama bulan
+  const getMonthName = (monthNumber) => {
+    const months = [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+    return months[monthNumber];
+  };
+  
+
 export default function Home({ navigation, route }) {
   const [user, setUser] = useState({});
+  const [currentDate, setCurrentDate] = useState('');
+
+  useEffect(() => {
+    // Dapatkan tanggal sekarang
+    const date = new Date();
+    const day = date.getDate();
+    const month = getMonthName(date.getMonth());
+    const today = `Today ${day} ${month}`;
+    setCurrentDate(today);
+  }, []);
 
   const __getUser = () => {
     getData('user').then(u => {
       setUser(u)
     })
   }
+
+
 
 
   const [gambar, setGambar] = useState([{ "file_gambar": "datafoto/7c41a959edafcc559e649bf0c179f99d24a61016.png", "id_gambar": "1", "image": "https://zavalabs.com/nogambar.jpg", "menu": "Kain Roll", "posisi": "Home" }, { "file_gambar": "datafoto/5f42f5cab19fc5a22dfe3ad4ce0ca6333820e57b.png", "id_gambar": "5", "image": "https://zavalabs.com/nogambar.jpg", "menu": "Hijab", "posisi": "Home" }, { "file_gambar": "datafoto/d96af713df1f8089899474fe6d34d744f6b94eb0.png", "id_gambar": "9", "image": "https://zavalabs.com/nogambar.jpg", "menu": "Jersey", "posisi": "Home" }])
@@ -81,29 +104,42 @@ export default function Home({ navigation, route }) {
   useEffect(() => {
     __getGambar();
     __getUser();
-  }, [])
+  }, []);
+
+
+  const slides = [
+    { id: 1, image: require('../../assets/sliderhomesatu.png') },
+    { id: 2, image: require('../../assets/sliderhomedua.png') },
+    { id: 3, image: require('../../assets/sliderhometiga.png') },
+    { id: 4, image: require('../../assets/sliderhomeempat.png') },
+  
+  ];
+
+  
   return (
     <SafeAreaView style={{
       flex: 1,
-      backgroundColor: '#F4F4F4',
+      backgroundColor: '#EEEEEE',
+      padding:0,
+      margin:0
 
     }}>
 
       <ScrollView>
         {/* JHEADER */}
         <View style={{
-          padding: 10,
-          backgroundColor: colors.white
-
+          padding:0,
+          marginTop:10
+        
+          
         }}>
 
           {/* KALAU BISA WIDTH NYA LEBARNYA MENGIKUTI NAMA USERNAME USER */}
           <View style={{
             flexDirection: "row",
             padding: 10,
-            backgroundColor: colors.secondary,
-            borderRadius: 50,
-            alignItems: "center"
+            alignItems: "center",
+            justifyContent:'space-between',
           }}>
 
             <View style={{}}>
@@ -128,6 +164,13 @@ export default function Home({ navigation, route }) {
               <Text style={{
                 fontFamily: fonts.primary[600], fontSize: 12, color: colors.primary,
               }}>Hai, {user.nama_lengkap}</Text>
+              <Text style={{
+                fontFamily: fonts.primary[600],fontSize:12,
+              }}>{currentDate}</Text>
+            </View>
+
+            <View>
+              <Icon name='notifications-outline' type='ionicon'/>
             </View>
           </View>
 
@@ -137,195 +180,175 @@ export default function Home({ navigation, route }) {
         {/* END HEADER */}
 
 
+<View style={{
+  margin:10,
+  flexDirection:"row",
+  justifyContent:'center',
+  alignItems:"center",
+  textAlign:"center",
+}}>
 
-        {/* BG MENU PERTAMA (PRINT KAIN ROLL)  */}
+{/* SLIDER */}
+<ScrollView 
+horizontal
+pagingEnabled
+showsVerticalScrollIndicator={false}
+style={{
+  flex:1,
+}}
+>
+{slides.map((slide) => {
+  console.log(slide)
+  return (
+    <View key={slide.id} style={{width: 301, height: 200, justifyContent:"center", alignItems:'center'}}>
+    <Image source={slide.image} style={{
+     width:'97%',
+     height:'100%',
+     resizeMode: 'contain'
+    }}/>
+  </View>
+  )
+  
+})}
 
-        <View>
-          <ImageBackground style={{
-            flex: 1,
-            width: windowWidth,
-            height: windowHeight / 4,
-          }} source={{
-            uri: gambar.filter(i => i.menu == 'Kain Roll')[0].image
-          }}>
-            <View style={{
-              padding: 20,
+</ScrollView>
+</View>
 
-              width: '50%',
-              marginTop: 10
-            }}>
-              <View>
-                <Text style={{
-                  fontFamily: fonts.primary[600],
-                  fontSize: 20,
-                }}>
-                  Print Kain Roll
-                </Text>
-
-                <Text style={{
-                  fontFamily: fonts.primary[400],
-                  fontSize: 15,
-
-                }}>
-                  Print Kain Roll
-                </Text>
+{/* end slider */}
 
 
-                <View style={{
-                  marginTop: 70
-                }}>
-                  <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintKainRoll')}>
-                    <View style={{
-                      backgroundColor: colors.secondary,
-                      padding: 10,
-                      borderRadius: 10,
-                      height: 40,
-                      width: 80,
-                      top: -30
-                    }}>
-                      <Text style={{
-                        fontFamily: fonts.primary[600],
-                        color: colors.primary,
-                        textAlign: 'center',
-                        fontSize: 15,
-                      }}>PRINT</Text>
-                    </View>
-                  </TouchableWithoutFeedback>
-                </View>
-              </View>
-            </View>
-          </ImageBackground>
-        </View>
-        {/* END MENU KAIN ROLL */}
+{/* category */}
 
 
 
-        {/* BG MENU KEDUA (PRINT HIJAB)  */}
+<View>
+<Text style={{
+  padding:10,
+  fontFamily:fonts.primary[600],
+  color:colors.subjududlmenu,
+}}>Category</Text>
+  <View style={{
+    padding:5,
+    justifyContent:"space-around",
+    alignItems:"center",
+    flexDirection:"row"
+  }}>
 
-        <View>
-          <ImageBackground style={{
-            flex: 1,
-            width: windowWidth,
-            height: windowHeight / 4,
-            flexDirection: "row",
-            justifyContent: "flex-end"
-          }} source={{
-            uri: gambar.filter(i => i.menu == 'Hijab')[0].image
-          }}>
-            <View style={{
-              padding: 20,
-              width: '42%',
-              marginTop: 0,
-              left: -20
-            }}>
-              <View>
-                <Text style={{
-                  fontFamily: fonts.primary[600],
-                  fontSize: 20,
-                }}>
-                  Print Hijab
-                </Text>
+  <View>
+    <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintKainRoll')}>
+      <View style={{
+     
+      }}>
+        <Image style={{
+          width:160,
+          height:160,
+          borderWidth:2,
+          borderColor:'white'
+        }} source={require('../../assets/printkainroll_menu.png')}/>
+        <Text style={{
+          fontFamily:fonts.primary[600],
+          fontSize:15,
 
-                <Text style={{
-                  fontFamily: fonts.primary[400],
-                  fontSize: 15,
+          }}>PRINT KAIN ROLL</Text>
 
-                }}>
-                  Print Hijab
-                </Text>
+        <Text style={{
+          fontFamily:fonts.primary[500],
+          fontSize:10,
+          
+          }}>Harga mulai dari 10.000/y</Text>
+      </View>
+    </TouchableWithoutFeedback>
+  </View>
 
+  <View>
+    <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintHijab')}>
+      <View>
+        <Image style={{
+          width:160,
+          height:160,
+          borderWidth:2,
+          borderColor:'white'
+        }} source={require('../../assets/printhijab_menu.png')}/>
 
-                <View style={{
-                  marginTop: 70
-                }}>
-                  <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintHijab')}>
-                    <View style={{
-                      backgroundColor: colors.secondary,
-                      padding: 10,
-                      borderRadius: 10,
-                      height: 40,
-                      width: 80,
-                      top: -30
-                    }}>
-                      <Text style={{
-                        fontFamily: fonts.primary[600],
-                        color: colors.primary,
-                        textAlign: 'center',
-                        fontSize: 15,
-                      }}>PRINT</Text>
-                    </View>
-                  </TouchableWithoutFeedback>
-                </View>
-              </View>
-            </View>
-          </ImageBackground>
-        </View>
-        {/* END MENU PRINT HIJAB */}
+        <Text style={{
+          fontFamily:fonts.primary[600],
+          fontSize:15,
 
+          }}>PRINT HIJAB</Text>
 
+        <Text style={{
+          fontFamily:fonts.primary[500],
+          fontSize:10,
+          
+          }}>Harga mulai dari 33.000/Pcs</Text>
+      </View>
+    </TouchableWithoutFeedback>
+  </View>
 
-        {/* BG MENU PERTAMA (PRINT KAIN ROLL)  */}
-
-        <View>
-          <ImageBackground style={{
-            flex: 1,
-            width: windowWidth,
-            height: windowHeight / 4,
-          }} source={{
-            uri: gambar.filter(i => i.menu == 'Jersey')[0].image
-          }}>
-            <View style={{
-              padding: 20,
-
-              width: '50%',
-              marginTop: 10
-            }}>
-              <View>
-                <Text style={{
-                  fontFamily: fonts.primary[600],
-                  fontSize: 20,
-                }}>
-                  Print Jersey
-                </Text>
-
-                <Text style={{
-                  fontFamily: fonts.primary[400],
-                  fontSize: 15,
-
-                }}>
-                  Print Jersey
-                </Text>
-
-
-                <View style={{
-                  marginTop: 70
-                }}>
-                  <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintJersey')}>
-                    <View style={{
-                      backgroundColor: colors.secondary,
-                      padding: 10,
-                      borderRadius: 10,
-                      height: 40,
-                      width: 80,
-                      top: -30
-                    }}>
-                      <Text style={{
-                        fontFamily: fonts.primary[600],
-                        color: colors.primary,
-                        textAlign: 'center',
-                        fontSize: 15,
-                      }}>PRINT</Text>
-                    </View>
-                  </TouchableWithoutFeedback>
-                </View>
-              </View>
-            </View>
-          </ImageBackground>
-        </View>
-        {/* END MENU KAIN ROLL */}
+  </View>
 
 
 
+  <View style={{
+    padding:5,
+    justifyContent:"space-around",
+    alignItems:"center",
+    flexDirection:"row"
+  }}>
+
+  <View>
+    <TouchableWithoutFeedback onPress={() => navigation.navigate('PrintJersey')}>
+      <View style={{
+     
+      }}>
+        <Image style={{
+          width:160,
+          height:160,
+          borderWidth:2,
+          borderColor:'white'
+        }} source={require('../../assets/printjersey_menu.png')}/>
+        <Text style={{
+          fontFamily:fonts.primary[600],
+          fontSize:15,
+
+          }}>PRINT JERSEY</Text>
+
+        <Text style={{
+          fontFamily:fonts.primary[500],
+          fontSize:10,
+          
+          }}>Harga mulai dari 45.000/Pcs</Text>
+      </View>
+    </TouchableWithoutFeedback>
+  </View>
+
+  <View>
+    <TouchableWithoutFeedback onPress={() => navigation.navigate('SamplePrint')}>
+      <View>
+        <Image style={{
+          width:160,
+          height:160,
+          borderWidth:2,
+          borderColor:'white'
+        }} source={require('../../assets/samplepirnt_menu.png')}/>
+
+        <Text style={{
+          fontFamily:fonts.primary[600],
+          fontSize:15,
+
+          }}>SAMPLE PRINT</Text>
+
+        <Text style={{
+          fontFamily:fonts.primary[500],
+          fontSize:10,
+          
+          }}>Free ( S&K Berlaku )</Text>
+      </View>
+    </TouchableWithoutFeedback>
+  </View>
+
+  </View>
+</View>
       </ScrollView>
     </SafeAreaView>
   )

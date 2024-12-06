@@ -19,6 +19,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
 
   return (
     <View style={styles.container}>
+    
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -98,11 +99,13 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: colors.white,
+    backgroundColor: colors.secondary,
     height: 65,
-    borderTopWidth: 1,
+ 
     borderTopColor: Color.blueGray[300],
     justifyContent: 'space-around',
+    margin:10,
+    borderRadius:50
   },
   tab: {
     flex: 1,
