@@ -37,8 +37,8 @@ export default function MyInputLogin({
   return (
     <View style={{ marginTop: 20 }}>
       <Text style={{
-        fontFamily: fonts.primary[600],
-        color: colors.primary,
+        fontFamily: fonts.primary[500],
+        color: colors.black,
         marginBottom: 8,
       }}>{label}</Text>
       <View style={{

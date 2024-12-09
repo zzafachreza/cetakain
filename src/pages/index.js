@@ -59,6 +59,7 @@ import SampleJersey from './printjersey/SampleJersey';
 import WebKatalog from './KatalogHarga/WebKatalog';
 import Detail from './Riwayat/Detail';
 import SamplePrint from './SamplePrint';
+import Pricelsit from './Pricelist';
 
 
 // MCE
@@ -69,6 +70,7 @@ export {
   Splash,
   SamplePrint,
   Detail,
+  Pricelsit,
   Home,
   Login,
   Register,

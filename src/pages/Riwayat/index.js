@@ -37,9 +37,13 @@ export default function Pembayaran({ navigation }) {
     return (
         <SafeAreaView style={{
             flex: 1,
-            backgroundColor: colors.white
+            backgroundColor: colors.background
         }}>
+            <View style={{
+                padding:10
+            }}>
             <MyHeader onPress={() => navigation.goBack()} title="Riwayat Pemesanan" />
+            </View>
             {loading && <View style={{
                 flex: 1,
                 justifyContent: 'center',

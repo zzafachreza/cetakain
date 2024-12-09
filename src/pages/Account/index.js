@@ -8,6 +8,7 @@ import {
     Linking,
     Alert,
     ActivityIndicator,
+    TouchableNativeFeedback,
 } from 'react-native';
 import { windowWidth, fonts, MyDimensi } from '../../utils/fonts';
 import { apiURL, getData, MYAPP, storeData, urlAPI, urlApp, urlAvatar } from '../../utils/localStorage';
@@ -58,13 +59,13 @@ export default function ({ navigation, route }) {
                 alignItems: 'center',
                 paddingVertical: 10,
             }}>
-                <Icon type='ionicon' name={icon} color={colors.primary} size={20} />
+                <Icon type='ionicon' name={icon} color={'#7A7A7A'} size={20} />
                 <Text style={{
                     flex: 1,
                     left: 8,
                     ...fonts.headline5
                 }}>{label}</Text>
-                <Icon type='ionicon' name='chevron-forward-outline' color={colors.primary} size={20} />
+                <Icon type='ionicon' name='chevron-forward-outline' color={'#7A7A7A'} size={20} />
             </TouchableOpacity>
         )
     }
@@ -120,11 +121,11 @@ export default function ({ navigation, route }) {
     return (
         <SafeAreaView style={{
             flex: 1,
-            backgroundColor: colors.white
+            backgroundColor: colors.background
         }}>
 
 
-            <MyHeader title="Akun Saya" onPress={() => navigation.goBack()} />
+          
             {!open && <View style={{
                 flex: 1,
                 justifyContent: 'center',
@@ -136,55 +137,89 @@ export default function ({ navigation, route }) {
             {open &&
 
                 <View style={{
-                    margin: 5,
+                    margin:0,
                     flex: 1,
                 }}>
                     <View style={{
-                        paddingBottom: 10,
+                        paddingBottom: 50,
                         borderBottomWidth: 1,
                         borderBottomColor: Color.blueGray[300],
-                        flexDirection: 'row',
                         alignItems: 'center',
+                        justifyContent:"center",
+                        backgroundColor:colors.secondary,
+                        padding:10,
+
+                        
+                        
+                        
                     }}>
                         <View style={{
-                            width: 60,
-                            height: 60,
-                            borderWidth: 1,
+                            width: 118,
+                            height: 118,
+                            borderWidth: 3,
                             borderColor: Color.blueGray[100],
                             overflow: 'hidden',
-                            borderRadius: 30,
+                            borderRadius: 100,
                             justifyContent: 'center',
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            marginTop:20
                         }}>
 
                             <Image source={{
                                 uri: user.file_pengguna
                             }} style={{
-                                width: 60,
-                                height: 60,
+                                width: 118,
+                                height: 118,
 
                             }} />
 
+                          
+
                         </View>
+                        
+                        <TouchableNativeFeedback onPress={() => navigation.navigate('AccountEdit', user)}>
                         <View style={{
-                            flex: 1,
+                            padding:10,
+                            backgroundColor:Color.blueGray[300],
+                            borderRadius:50,
+                            position:'relative',
+                            width:30,
+                            height:30,
+                            left:35,
+                            bottom:29
+                            
+
+                        }}>
+                              <Image style={{
+                                width:18,
+                                height:18,
+                                tintColor:'white',
+                                position:'absolute',
+                                top:5,
+                                left:6
+
+                              }} source={require('../../assets/edit_profile.png')}/>
+                            </View>
+                        </TouchableNativeFeedback>
+                      
+                        <View style={{
+                            marginTop:-30,
                             paddingLeft: 10,
+                            
                         }}>
                             <Text style={{
-                                ...fonts.headline5,
-                                color: colors.primary,
-                            }}>Hai, {user.nama_lengkap}</Text>
-                            <Text style={{
-                                ...fonts.body3
-                            }}>{user.telepon}</Text>
+                                fontFamily:fonts.primary[600],
+                                color: colors.white,
+                                fontSize:20,
+                                marginTop:20
+                            }}>{user.nama_lengkap}</Text>
                         </View>
 
                     </View>
-                    <View style={{ padding: 10, flex: 1, }}>
-                        <Text style={{
-                            ...fonts.headline5,
-                            color: colors.black,
-                        }}>Pengaturan</Text>
+                    <View style={{ padding: 10, flex: 1, backgroundColor:'white', margin:20,
+                    borderRadius:20, marginTop:-30
+                    }}>
+                        
 
                         <MylistPengaturan onPress={() => navigation.navigate('Alamat', user)} label="Alamat" />
                         <MylistPengaturan onPress={() => navigation.navigate('Pembayaran', user)} icon='wallet-outline' label="Pembayaran" />
@@ -192,19 +227,20 @@ export default function ({ navigation, route }) {
                         <MylistPengaturan onPress={() => Linking.openURL('https://wa.me/' + com.tlp)} icon='logo-whatsapp' label="Customer Service" />
 
 
-
+                        <View style={{
+                padding: 10,
+                marginTop:'75%'
+            }}>
+                {/* <MyButton colorText={colors.white} iconColor={colors.white} warna={colors.primary} title="Edit Profile" Icons="create-outline" onPress={() => navigation.navigate('AccountEdit', user)} /> */}
+                <MyGap jarak={10} />
+                <MyButton onPress={btnKeluar} title="Log Out" Icons="log-out-outline" iconColor={colors.primary} colorText={colors.primary} />
+            </View>
                     </View>
                     {/* data detail */}
                 </View>
 
             }
-            <View style={{
-                padding: 10,
-            }}>
-                <MyButton colorText={colors.white} iconColor={colors.white} warna={colors.primary} title="Edit Profile" Icons="create-outline" onPress={() => navigation.navigate('AccountEdit', user)} />
-                <MyGap jarak={10} />
-                <MyButton onPress={btnKeluar} warna={colors.secondary} title="Log Out" Icons="log-out-outline" iconColor={colors.primary} colorText={colors.primary} />
-            </View>
+  
         </SafeAreaView >
     );
 }

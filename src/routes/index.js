@@ -63,6 +63,7 @@ import {
   WebKatalog,
   Detail,
   SamplePrint,
+  Pricelsit,
 
 
 
@@ -81,8 +82,8 @@ const MainApp = () => {
   return (
     <Tab.Navigator initialRouteName='Produk' tabBar={props => <BottomNavigator {...props} />}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Riwayat" component={Riwayat} />
-      <Tab.Screen name="KatalogHarga" component={KatalogHarga} />
+      <Tab.Screen name="Pricelist" component={Pricelsit} />
+      <Tab.Screen name="History" component={Riwayat} />
       <Tab.Screen name="Account" component={Account} />
 
     </Tab.Navigator>
@@ -103,6 +104,15 @@ export default function Router() {
       <Stack.Screen
         name="Detail"
         component={Detail}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      
+<Stack.Screen
+        name="Pricelist"
+        component={MainApp}
         options={{
           headerShown: false,
         }}

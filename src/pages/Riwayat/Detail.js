@@ -21,9 +21,13 @@ export default function Detail({ navigation, route }) {
     return (
         <SafeAreaView style={{
             flex: 1,
-            backgroundColor: colors.white
+            backgroundColor: colors.background
         }}>
-            <MyHeader onPress={() => navigation.goBack()} title={item.jenis + ' - ' + item.nomor_pesanan} />
+         <View style={{
+            padding:10
+         }}>
+         <MyHeader onPress={() => navigation.goBack()} title={item.jenis + ' - ' + item.nomor_pesanan} />
+         </View>
             <View style={{
                 flex: 1, padding: 20
             }}>

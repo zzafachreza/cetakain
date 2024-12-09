@@ -11,7 +11,8 @@ import {
     TouchableWithoutFeedback,
     TouchableOpacity,
     SafeAreaView,
-    ScrollView
+    ScrollView,
+    Dimensions
 } from 'react-native';
 import { MyButton, MyCalendar, MyGap, MyHeader, MyInputLogin, MyPicker, MyPickerSecond, MyRadio } from '../../components';
 import { MyDimensi, colors, fonts, windowHeight, windowWidth, Color } from '../../utils';
@@ -27,7 +28,7 @@ import GetLocation from 'react-native-get-location'
 import { showMessage } from 'react-native-flash-message';
 
 
-
+const { width, height } = Dimensions.get('window'); // Mendapatkan ukuran layar
 
 export default function Register({ navigation, route }) {
     const [loading, setLoading] = useState(false)
@@ -193,30 +194,54 @@ export default function Register({ navigation, route }) {
     const [sama, setSama] = useState(true)
 
     return (
-        <SafeAreaView style={{
+        <View style={{
             flex: 1,
-            width: '100%',
-            height: '100%',
-            backgroundColor: colors.white
+
+            backgroundColor: '#EEEEEE'
         }}>
             {/* <MyHeader title="Daftar Akun" /> */}
 
-            <View style={{
-                flex: 1,
-                width: "100%",
-                height: '100%',
 
-            }}>
+              
+                <ScrollView contentContainerStyle={{
+                    flexGrow:1,
+                    padding:0
+                }} showsVerticalScrollIndicator={false}>
+                <ImageBackground source={require('../../assets/bglogin.png')} style={{
+                    flex:1,
+                    height:'63%',
+                    width:'100%'
+                }}>
+                <View style={{
+            marginTop:-0,
+            flexDirection:"row",
+            justifyContent:'flex-start',
+            padding:20
+          }}>
+            <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+              <View>
+                <Icon name='arrow-back-outline' type='ionicon' size={30} color={colors.white}/>
+              </View>
 
-                <MyHeader title="Daftar" />
-                <ScrollView showsVerticalScrollIndicator={false}>
+            </TouchableWithoutFeedback>
+          </View>
 
-
-
-
+          <View style={{
+            padding:20,
+            marginLeft:0,
+            marginTop:40
+          }}>
+            <Text style={{
+              fontFamily:fonts.primary[600],
+              fontSize:20,
+              color:colors.white,
+              top: -30
+            }}>Membuat Akun</Text>
+          </View>
+       
                     <View style={{
                         padding: 20,
-                        top: -50
+                        
 
                     }}>
 
@@ -359,11 +384,12 @@ export default function Register({ navigation, route }) {
 
                     </View>
 
+                </ImageBackground>
+               
 
                 </ScrollView>
-            </View>
 
-        </SafeAreaView >
+        </View >
     );
 }
 

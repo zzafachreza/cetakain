@@ -13,7 +13,7 @@ import {
   ScrollView,
   Linking
 } from 'react-native';
-import { MyButton, MyGap, MyInput, MyInputLogin } from '../../components';
+import { MyButton, MyGap, MyHeader, MyInput, MyInputLogin } from '../../components';
 import { MyDimensi, colors, fonts, windowHeight, windowWidth, Color } from '../../utils';
 import { MYAPP, apiURL, api_token, getData, storeData } from '../../utils/localStorage';
 import { BackgroundImage } from 'react-native-elements/dist/config';
@@ -21,6 +21,7 @@ import { color } from 'react-native-reanimated';
 import axios from 'axios';
 import MyLoading from '../../components/MyLoading';
 import { useToast } from 'react-native-toast-notifications';
+import { Icon } from 'react-native-elements';
 
 export default function Login({ navigation, route }) {
   const [loading, setLoading] = useState(false)
@@ -87,102 +88,87 @@ export default function Login({ navigation, route }) {
 
     }}
     >
-      <ImageBackground source={require("../../assets/bglogin.png")} style={{
-        flex: 1,
-        width: '100%',
-        height: "100%",
-        margin: 0,
-        padding: 0
-      }}>
+      
 
 
         <ScrollView style={{ position: "relative" }} showsVerticalScrollIndicator={false}>
 
-          <View style={{
-            padding: 10,
-            backgroundColor: colors.secondary,
-            borderBottomRightRadius: 20,
-            borderBottomLeftRadius: 20,
-            height: 142,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            borderBottomWidth: 2,
-            borderRightWidth: 2,
-            borderLeftWidth: 2,
-            borderColor: '#D6D6D6'
 
-
-
-
-          }}>
-
-            <Image style={{
-              width: 370,
-              height: '100%',
-
-
-            }} source={require('../../assets/logo.png')} />
-
-          </View>
-
-
-          <View style={{
+        <ImageBackground source={require('../../assets/bglogin.png')} style={{
+          flex:1,
+          width:'100%',
+          height:'100%'
+        }}>
+        <View style={{
             padding: 20,
           }}>
+          
+          <View style={{
+            marginTop:-0,
+           
+            flexDirection:"row",
+            justifyContent:'flex-start'
+          }}>
+            <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+              <View>
+                <Icon name='arrow-back-outline' type='ionicon' size={30} color={colors.white}/>
+              </View>
 
+            </TouchableWithoutFeedback>
+          </View>
+
+          <View style={{
+            padding:10,
+            marginLeft:0,
+            marginTop:85
+          }}>
             <Text style={{
-              fontFamily: fonts.primary[600],
-              fontSize: 25,
-              textAlign: "center",
-              color: colors.primary,
-            }}>Sign In to Your Account</Text>
-
-            <Text style={{
-              fontFamily: fonts.primary[600],
-              fontSize: 18,
-              padding: 12,
-              color: '#5B5B5B'
-
-
-            }}>
-              Welcome
-            </Text>
+              fontFamily:fonts.primary[600],
+              fontSize:20,
+              color:colors.white,
+              top:-30
+            }}>Masuk</Text>
+          </View>
+       
 
             <View style={{
               padding: 10,
+              marginTop:'40%'
             }}>
 
               <MyInput onChangeText={x => setKirim({
                 ...kirim,
-                username: x
-              })} styleLabel={{ color: 'black' }} label="Email atau Nomor Telepon" placeholder="Isi email atau nomor telepon" />
+                username: x,
+
+              })} styleLabel={{ color: 'black' }} label="Email / Nomor Telepon" placeholder="Isi email atau nomor telepon" />
 
               <MyGap jarak={0} />
 
               <MyInput onChangeText={x => setKirim({
                 ...kirim,
                 password: x
-              })} styleLabel={{ color: 'black' }} label="Password" placeholder="Isi Password" secureTextEntry={true} />
-
-              <View style={{ flexDirection: 'row', justifyContent: "flex-end" }}>
-                <TouchableWithoutFeedback onPress={() => Linking.openURL('https://wa.me/' + comp.tlp + '?text=Hallo Admin saya lupa password')}>
-                  <View>
-                    <Text style={{ fontFamily: fonts.primary[400], marginTop: 10, fontSize: 13, }}>Lupa Password?</Text>
-                  </View>
-                </TouchableWithoutFeedback>
-              </View>
+              })} styleLabel={{ color: 'black' }} label="Password" placeholder="Isi Password" secureTextEntry={true}/>
 
               {!loading &&
 
                 <View style={{ marginTop: 20 }}>
-                  <MyButton onPress={masuk} borderSize={1} borderColor={Color.blueGray[400]} title="Masuk" />
+                  <MyButton onPress={masuk}  colorText='white' title="Masuk" />
                 </View>
               }
 
               {loading && <MyLoading />}
 
+              
+              <View style={{ flexDirection: 'row', justifyContent: "flex-end" }}>
+                <TouchableWithoutFeedback onPress={() => Linking.openURL('https://wa.me/' + comp.tlp + '?text=Hallo Admin saya lupa password')}>
+                  <View>
+                    <Text style={{ fontFamily: fonts.primary[500], marginTop: 10, fontSize: 13, color:colors.primary}}>Lupa Password ?</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
 
+
+{/* 
               <View style={{ alignItems: "center", marginTop: '25%' }}>
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('Register')}>
                   <View style={{ flexDirection: "row" }}>
@@ -190,7 +176,7 @@ export default function Login({ navigation, route }) {
                     <Text style={{ fontFamily: fonts.primary[600], color: colors.primary }}>Daftar</Text>
                   </View>
                 </TouchableWithoutFeedback>
-              </View>
+              </View> */}
 
 
 
@@ -200,10 +186,12 @@ export default function Login({ navigation, route }) {
 
           </View>
 
+        </ImageBackground>
+         
 
 
         </ScrollView>
-      </ImageBackground>
+  
 
 
     </ SafeAreaView>

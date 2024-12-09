@@ -4,10 +4,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  Image, // Import Image dari react-native
+  Image,
+  Text,
 } from 'react-native';
 import { Color, colors } from '../../utils/colors';
-import { useIsFocused } from '@react-navigation/native';
 
 export default function BottomNavigator({ state, descriptors, navigation }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -19,15 +19,14 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
 
   return (
     <View style={styles.container}>
-    
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-              ? options.title
-              : route.name;
+            ? options.title
+            : route.name;
 
         const isFocused = state.index === index;
 
@@ -54,18 +53,18 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
 
         // Tentukan path gambar berdasarkan label
         let iconSource;
-        let iconSize = 24; // Default icon size
+        let iconSize = 20; // Default icon size
 
         if (label === 'Home') {
-          iconSource = require('../../assets/icon_home.png'); // Ganti dengan path gambar yang sesuai
-        } else if (label === 'Riwayat') {
+          iconSource = require('../../assets/icon_home.png');
+        } else if (label === 'Pricelist') {
+          iconSource = require('../../assets/icon_pricelist.png');
+        } else if (label === 'History') {
           iconSource = require('../../assets/icon_history.png');
-        } else if (label === 'KatalogHarga') {
-          iconSource = require('../../assets/icon_katalogharga.png');
-          iconSize = 30; // Ukuran ikon berbeda untuk KatalogHarga
+          iconSize = 20;
         } else if (label === 'Account') {
           iconSource = require('../../assets/icon_profile.png');
-          iconSize = 28; // Ukuran ikon berbeda untuk Account
+          iconSize = 20;
         }
 
         return (
@@ -78,17 +77,16 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
             onPress={onPress}
             onLongPress={onLongPress}
             style={styles.tab}>
-            <View style={styles.iconContainer(isFocused)}>
-              <Image
-                source={iconSource}
-                style={{
-                  width: iconSize,
-                  height: iconSize,
-                  tintColor: isFocused ? colors.white : colors.primary,
-                }}
-                resizeMode="contain" // Mengatur mode resize
-              />
-            </View>
+            <Image
+              source={iconSource}
+              style={{
+                width: iconSize,
+                height: iconSize,
+                tintColor: isFocused ? colors.primary : colors.white,
+              }}
+              resizeMode="contain"
+            />
+            <Text style={styles.label(isFocused)}>{label}</Text>
           </TouchableOpacity>
         );
       })}
@@ -101,22 +99,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: colors.secondary,
     height: 65,
- 
-    borderTopColor: Color.blueGray[300],
+    borderTopColor: colors.white,
     justifyContent: 'space-around',
-    margin:10,
-    borderRadius:50
+    margin: 10,
+    borderRadius: 50,
   },
   tab: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iconContainer: (isFocused) => ({
-    backgroundColor: isFocused ? colors.primary : 'transparent',
-    borderRadius: isFocused ? 20 : 0,
-    padding: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+  label: (isFocused) => ({
+    fontSize: 12,
+    color: isFocused ? colors.primary : colors.white,
+    marginTop: 4,
   }),
 });
