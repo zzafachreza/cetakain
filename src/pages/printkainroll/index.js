@@ -27,7 +27,7 @@ const dataCorosel = [
   {
     image: require('../../assets/cerutyboroddy.png'), // Ganti dengan lokasi gambar Anda
     title: 'CERUTY BABYDOLL',
-    description: `Kain Ceruty Babydoll terbuat dari campuran Polyester, sifon, dan crepe, memiliki tekstur seperti kulit jeruk sedikit kasar namun lembut. Cocok untuk kebutuhan printing tekstil.`,
+    description: `Kain Ceruty Babydoll terbuat dari campuran Polyester,sifon dan crepe,dan memiliki texture seperti kulit jeruk sedikit kasar namun lembut,kain ini sangat unik dan mempunyai daya serap tinta yang bagus untuk kebutuhan printing textile`,
     width: 'Lebar Kain : 148 cm',
     weight: 'Gramasi Kain : 100 Gsm',
   },
@@ -64,7 +64,7 @@ export default function PrintKainRoll({ navigation }) {
     },
     {
       name: 'Kain Sendiri',
-      price: 'Rp.60.000/yard',
+      price: 'Rp.16.000/yard',
       image: require('../../assets/kainsendiri.png'), // Ganti dengan path gambar sifon
     },
   ];
@@ -321,7 +321,7 @@ export default function PrintKainRoll({ navigation }) {
             fontSize:20,
             textAlign:'center',
 
-          }}>PRINT</Text>
+          }}>ORDER NOW</Text>
 
           </View>
         </TouchableWithoutFeedback>

@@ -233,7 +233,12 @@ export default function ({ navigation, route }) {
             }}>
                 {/* <MyButton colorText={colors.white} iconColor={colors.white} warna={colors.primary} title="Edit Profile" Icons="create-outline" onPress={() => navigation.navigate('AccountEdit', user)} /> */}
                 <MyGap jarak={10} />
-                <MyButton onPress={btnKeluar} title="Log Out" Icons="log-out-outline" iconColor={colors.primary} colorText={colors.primary} />
+                <TouchableNativeFeedback onPress={btnKeluar}>
+                    <View style={{padding:10, flexDirection:"row", justifyContent:"center", alignItems:'center'}}>
+                    <Icon style={{marginRight:10,marginTop:-5}} type='ionicon' name='log-out-outline' size={24} color={colors.danger}/>
+                    <Text style={{fontFamily:fonts.primary[600], color:colors.danger, fontSize:20}}>Log Out</Text>
+                    </View>
+                </TouchableNativeFeedback>
             </View>
                     </View>
                     {/* data detail */}

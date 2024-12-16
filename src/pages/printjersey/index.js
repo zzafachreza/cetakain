@@ -322,7 +322,7 @@ export default function PrintJersey({ navigation }) {
             fontSize:20,
             textAlign:'center',
 
-          }}>PRINT</Text>
+          }}>ORDER NOW</Text>
 
           </View>
         </TouchableWithoutFeedback>
