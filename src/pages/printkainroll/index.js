@@ -1,99 +1,41 @@
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableWithoutFeedback, ImageBackground, StyleSheet, Alert, Linking, FlatList, Dimensions, Animated, TouchableOpacity} from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image, TouchableWithoutFeedback, ImageBackground, StyleSheet, Alert, Linking, FlatList, Dimensions, Animated, TouchableOpacity } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { Color, colors, fonts, getDataByTable } from '../../utils';
+import { Color, colors, fonts, getDataByTable, getDataCompany, windowHeight, windowWidth } from '../../utils';
 import { MyButton, MyGap, MyHeader, MyInput, MyRadio } from '../../components';
 import MyMenu from '../../components/MyMenu';
 import MyCarousel from '../../components/MyCarouser';
 import axios from 'axios';
-import { apiURL } from '../../utils/localStorage';
+import { apiURL, getData, webURL } from '../../utils/localStorage';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { Modal } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
-
-
-const { width } = Dimensions.get('window');
-const { height } = Dimensions.get('window');
-const dataCorosel = [
-  {
-    image: require('../../assets/armaniksilik.png'),
-    title: 'ARMANI SILK',
-    description: `Kain Armani Silk memiliki ciri khas yang halus, lembut, dan dingin. Kain ini juga terlihat mewah dan berkarakteristik mengkilap. Kain ini biasa digunakan untuk gamis, dress, mukena, scarf, dll.`,
-  width: 'Lebar Kain : 145 cm',
-  weight: 'Gramasi Kain : 90 Gsm',
-
-  },
-
-  {
-    image: require('../../assets/cerutyboroddy.png'), // Ganti dengan lokasi gambar Anda
-    title: 'CERUTY BABYDOLL',
-    description: `Kain Ceruty Babydoll terbuat dari campuran Polyester,sifon dan crepe,dan memiliki texture seperti kulit jeruk sedikit kasar namun lembut,kain ini sangat unik dan mempunyai daya serap tinta yang bagus untuk kebutuhan printing textile`,
-    width: 'Lebar Kain : 148 cm',
-    weight: 'Gramasi Kain : 100 Gsm',
-  },
-
-  {
-    image: require('../../assets/kainsendiri.png'), // Ganti dengan lokasi gambar Anda
-    title: 'KAIN SENDIRI',
-    description: `Kamu juga bisa pakai kain sendiri ,cara Nya drop kain kamu ke store kita.dan sebelumnya pastikan jenis kain yang kalian drop itu bisa di sublim ya.`,
-   
-  }
-]
+import { showMessage } from 'react-native-flash-message';
+import moment from 'moment';
 
 
 
 export default function PrintKainRoll({ navigation }) {
 
-  const [selectedFabric, setSelectedFabric] = useState({
-    name: 'Armani Silk', // Default kain
-    price: 'Rp.55.000/yard',
-    image: require('../../assets/armaniksilik.png'), // Default image
-  });
-  
 
-  const fabrics = [
-    {
-      name: 'Armani Silk',
-      price: 'Rp.55.000/yard',
-      image: require('../../assets/armaniksilik.png'),
-    },
-    {
-      name: 'Ceruty Babydoll',
-      price: 'Rp.45.000/yard',
-      image: require('../../assets/cerutyboroddy.png'), // Ganti dengan path gambar ceruty
-    },
-    {
-      name: 'Kain Sendiri',
-      price: 'Rp.16.000/yard',
-      image: require('../../assets/kainsendiri.png'), // Ganti dengan path gambar sifon
-    },
-  ];
 
-    // State untuk menampilkan atau menyembunyikan detail harga
-    const [showDetails, setShowDetails] = useState(false);
+  const [comp, setComp] = useState({});
+  const [user, setUser] = useState({});
 
   const [modalVisible, setModalVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(Dimensions.get('window').height)).current;
   const [currentPage, setCurrentPage] = useState(1); // State untuk mengelola halaman
   const [selectedKain, setSelectedKain] = useState(''); // State to track the selected fabric
   const [quantity, setQuantity] = useState('10'); // Track user input for quantity
-  const [activeSlide, setActiveSlide] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0); // State untuk slide aktif
-  const [activeIndex2, setActiveIndex2] = useState(0); // State untuk slide aktif kedua
-  const [activeIndex3, setActiveIndex4] = useState(0); // State untuk slide aktif ketiga
   const carouselRef = useRef(null); // Ref untuk mengakses metode carousel
   const navigateTo = (page) => {
     setCurrentPage(page);
   };
   // Function to handle radio selection
-  const handleRadioSelect = (kain) => {
-    setSelectedKain(kain);
-  };
 
-  const [gambar, setGambar] = useState([{ "file_gambar": "datafoto/77aa75f161f68d878234f06023f722cc1f2801d8.png", "id_gambar": "2", "image": "https://zavalabs.com/nogambar.jpg", "menu": "Kain Roll", "posisi": "Banner" }, { "file_gambar": "datafoto/dc5e27da22554899592c344074266072a2f2b2bc.png", "id_gambar": "3", "image": "https://zavalabs.com/nogambar.jpg", "menu": "Kain Roll", "posisi": "Print" }, {
-    "file_gambar": "datafoto/b1cc5dba39d74acfb780c3772e7a9e1a6774fc72.png", "id_gambar": "4",
-    "image": "https://zavalabs.com/nogambar.jpg", "menu": "Kain Roll", "posisi": "Sample"
-  }])
+
+
   const __getGambar = () => {
     axios.post(apiURL + 'gambar_detail', {
       menu: 'Kain Roll'
@@ -102,12 +44,21 @@ export default function PrintKainRoll({ navigation }) {
     })
   }
 
+
   useEffect(() => {
     __getData();
+    getData('user').then(u => setUser(u));
+    getDataCompany().then(res => setComp(res.data.data));
     __getGambar();
   }, [])
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    {
+      nama_bahan: '',
+      keterangan: '',
+      image: 'https://zavalabs.com/nogambar.jpg'
+    }
+  ]);
   const __getData = () => {
     getDataByTable('bahanroll').then(res => {
       console.log('bahan', res.data);
@@ -115,46 +66,78 @@ export default function PrintKainRoll({ navigation }) {
     })
   }
 
-  // Fungsi untuk memproses pesanan di Halaman 2 (Quantity)
-  const handleOrderQuantity = () => {
-    // Cek apakah jumlah kualitas valid
-    if (!quantity || quantity === '0') {
-      Alert.alert("Error", "Mohon masukkan jumlah yang valid.");
-      return;
+
+  const sendServer = () => {
+    closeModal();
+    let sendData = {
+      fid_pengguna: user.id_pengguna,
+      jenis: 'PRINT',
+      nomor_pesanan: 'RP' + moment().format('YYYYMMDDHHmmss'),
+      fid_bahanroll: data[activeIndex].id_bahanroll,
+      qty: quantity,
+      order: [
+        {
+          id_bahanroll: data[activeIndex].id_bahanroll,
+          nama_bahan: data[activeIndex].nama_bahan,
+          qty: quantity
+        }
+      ],
+    };
+
+    if (sendData.order.length > 0) {
+      let WATemplate = `*PESANAN ${sendData.jenis} KAIN ROLL*\n\nNomor Pesanan : *${sendData.nomor_pesanan}*\nTanggal : *${moment().format('dddd, DD MM YYYY')}*\nPengguna : *${user.nama_lengkap} / ${user.telepon}*\n----------------------------------\n`;
+      sendData.order.map(i => {
+        if (i.qty > 0) {
+          WATemplate += `${i.nama_bahan} *${i.qty} Yard* \n`
+        }
+
+      })
+
+
+      axios.post(apiURL + 'add_print_roll', sendData).then(res => {
+        console.log(res.data);
+        if (res.data.status == 200) {
+          showMessage({
+            type: 'success',
+            icon: 'success',
+            message: res.data.message
+          });
+          Linking.openURL('https://wa.me/' + comp.tlp + '?text=' + WATemplate);
+          navigation.goBack()
+        }
+      })
+    } else {
+      showMessage({
+        type: 'danger',
+        icon: 'danger',
+        message: 'Silahkan pilih minimal 1 bahan !'
+      });
     }
 
-    // Membuka WhatsApp dengan jumlah yang dipilih
-    const message = `Halo, saya ingin memesan dengan jumlah kualitas: ${quantity} yard.`;
-    const phoneNumber = '6282281121299'; // Ganti dengan nomor WhatsApp yang diinginkan
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
-    Linking.openURL(url).catch(() => {
-      Alert.alert("Error", "Gagal membuka WhatsApp.");
-    });
-  };
+  }
+
   const renderItem = ({ item }) => (
     <View style={{
-      alignItems:"center",
-      justifyContent:'center',
-
+      alignItems: "center",
+      justifyContent: 'center',
+      // marginHorizontal: 10,
     }}>
-      <Image source={item.image} style={{
-        width:320,
-        height:320,
+      <Image source={{
+        uri: item.image
+      }} style={{
+        borderRadius: 10,
+        width: 300,
+        height: 300,
 
       }} />
-      
+
     </View>
   );
 
-  // Fungsi untuk menavigasi ke gambar berdasarkan indeks
-  const navigateToSlide = (index) => {
-    if (carouselRef.current) {
-      carouselRef.current.snapToItem(index); // Menavigasi ke item berdasarkan indeks
-    }
-  };
 
   const openModal = () => {
+    console.log(activeIndex)
     setModalVisible(true);
     Animated.timing(slideAnim, {
       toValue: 0, // Posisi akhir modal saat muncul
@@ -164,6 +147,7 @@ export default function PrintKainRoll({ navigation }) {
   };
 
   const closeModal = () => {
+
     Animated.timing(slideAnim, {
       toValue: Dimensions.get('window').height, // Geser modal keluar layar
       duration: 300,
@@ -173,398 +157,304 @@ export default function PrintKainRoll({ navigation }) {
     });
   };
 
-  const handleFabricSelection = (fabric) => {
-    setSelectedFabric(fabric); // Update kain yang dipilih
+
+
+  // Fungsi untuk menangani perubahan input quantity
+  const handleQuantityChange = (text) => {
+    // Validating input to only allow numeric values
+    const validQuantity = text.replace(/[^0-9]/g, '');
+    setQuantity(validQuantity);
   };
-  
- // Menghitung subtotal berdasarkan quantity
-// Function to calculate subtotal based on price per yard and quantity
-  // Function to calculate subtotal based on price per yard and quantity
-  const calculateSubtotal = (pricePerMeter, quantity) => {
-    const price = parseInt(pricePerMeter.replace('Rp.', '').replace('.', '').trim()); // Remove currency formatting
-    if (isNaN(price) || quantity <= 0) return 0; // Return 0 if quantity is invalid
-    return price * quantity;
-  };
- // Fungsi untuk menangani perubahan input quantity
- const handleQuantityChange = (text) => {
-  // Validating input to only allow numeric values
-  const validQuantity = text.replace(/[^0-9]/g, '');
-  setQuantity(validQuantity);
-};
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        
-
-      {/* Header */}
-
-      <View style={{
-        padding:10,
 
 
-      }}>
+        {/* Header */}
+        <MyHeader onPress={() => navigation.goBack()} title="Back" />
 
-      <MyHeader onPress={() => navigation.goBack()} title="Back"/>
+        <ScrollView>
 
-      </View>
-
-
-      <View style={{
-        marginLeft:0
-      }}>
-      <Carousel
-      ref={carouselRef}
-        data={dataCorosel}
-        renderItem={renderItem}
-        sliderWidth={width}
-        itemWidth={width * 0.8} // Slide lebih kecil dari layar
-        inactiveSlideScale={0.9} // Skala item yang tidak aktif (lebih kecil)
-        inactiveSlideOpacity={0.6} // Opasitas item yang tidak aktif
-        inactiveSlideShift={20} // Memberikan jarak antar item
-        loop={false}
-        onSnapToItem={(index) => setActiveIndex(index)}
-        enableSnap={true}
-      />
-       <Pagination
-        dotsLength={dataCorosel.length}
-        activeDotIndex={activeIndex}
-        dotStyle={{
-          width:10,
-         
-          borderRadius:5,
-          backgroundColor:'#555',
-
-        }}
-        inactiveDotStyle={{
-          width:10,
-          borderRadius:5,
-          backgroundColor:'#ccc'
-        }}
-        inactiveDotOpacity={0.4}
-        inactiveDotScale={0.6}
-      />
-
-      <View style={{
-        padding:10,
-        marginLeft:20,
-        marginTop: -25
-
-      }}>
-
-     
-      <Text style={{
-        fontFamily:fonts.primary[600],
-        fontSize:24,
-        color:colors.secondary,
-
-      }}>{dataCorosel[activeIndex].title}</Text>
-
-      <Text style={{
-        fontFamily:fonts.primary[500],
-        fontSize:12,
-        color: Color.blueGray[400],
-
-      }}>Description</Text>
-
-      <Text style={{
-        fontFamily:fonts.primary[500],
-        fontSize:11,
-        textAlign:'justify',
-   
-        padding:10,
-        marginLeft:-10
+          <Carousel
+            layout="slide"
+            ref={carouselRef}
+            layoutCardOffset={20}
+            data={data}
+            renderItem={renderItem}
+            sliderWidth={windowWidth}
+            itemWidth={300} // Slide lebih kecil dari layar
+            inactiveSlideScale={0.9} // Skala item yang tidak aktif (lebih kecil)
+            inactiveSlideOpacity={0.5} // Opasitas item yang tidak aktif
+            inactiveSlideShift={20} // Memberikan jarak antar item
+            loop={true}
+            onSnapToItem={(index) => setActiveIndex(index)}
+            enableSnap={true}
+          />
 
 
-      }}>{dataCorosel[activeIndex].description}</Text>
+          <Pagination
+            dotsLength={data.length}
+            activeDotIndex={activeIndex}
+            dotContainerStyle={{
+              padding: 0,
+              marginHorizontal: 4,
+            }}
+            dotStyle={{
+              width: 20,
+              height: 8,
+              borderRadius: 5,
+              backgroundColor: '#555',
 
+            }}
+            inactiveDotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 10,
+              backgroundColor: '#ccc'
+            }}
+            inactiveDotOpacity={1}
+            inactiveDotScale={0.5}
+          />
 
-        <Text style={{
-        fontFamily:fonts.primary[500],
-        fontSize:11,
-        textAlign:'justify',
-        padding:10,
-        marginLeft:-10
-
-
-      }}>{dataCorosel[activeIndex].width}</Text>
-
-      <Text style={{
-        fontFamily:fonts.primary[500],
-        fontSize:11,
-        textAlign:'justify',
-        padding:10,
-        marginLeft:-10,
-        marginTop: -15
-
-
-      }}>{dataCorosel[activeIndex].weight}</Text>
-      
-
-      <View style={{
-        flexDirection:'row',
-        justifyContent:"center",
-        alignItems:"center",
-        marginTop:50
-        
-      }}>
-        <TouchableWithoutFeedback onPress={openModal}>
           <View style={{
-            padding:10,
-            backgroundColor:colors.secondary,
-            width:200,
-
+            paddingHorizontal: 10,
           }}>
 
-          <Text style={{
-            fontFamily:fonts.primary[600],
-            color:colors.white,
-            fontSize:20,
-            textAlign:'center',
 
-          }}>ORDER NOW</Text>
+            <Text style={{
+              fontFamily: fonts.primary[600],
+              fontSize: 24,
+              color: colors.secondary,
+
+            }}>{data[activeIndex].nama_bahan}</Text>
+
+            <Text style={{
+              fontFamily: fonts.primary[500],
+              fontSize: 12,
+              color: Color.blueGray[400],
+
+            }}>Description</Text>
+
+            <Text style={{
+              fontFamily: fonts.primary[500],
+              fontSize: 11,
+              textAlign: 'justify',
+
+              padding: 10,
+              marginLeft: -10
+
+
+            }}>{data[activeIndex].keterangan}</Text>
+
+
+
+
+
+
+            <View>
+              {/* Modal */}
+              {modalVisible && (
+                <Modal
+
+                  transparent
+                  animationType="none"
+                  visible={modalVisible}
+                  onRequestClose={closeModal}
+                >
+                  <View style={styles.modalOverlay}>
+                    <TouchableOpacity style={styles.overlayTouchable} onPress={closeModal} />
+                    <Animated.View
+                      style={[
+                        styles.modalContent,
+                        { transform: [{ translateY: slideAnim }] },
+                      ]}
+                    >
+
+                      <View>
+
+                        {/* IMAGE, Judul dan Harga per yard INI NANTI BISA BERUBAH KETIKA USER MEMILIH JENIS KAIN */}
+
+                        <View style={{
+                          padding: 10,
+                          flexDirection: "row",
+
+                        }}>
+                          {/* VIEW IMAGE */}
+                          <View>
+                            <Image style={{
+                              width: 100,
+                              height: 100,
+                            }} source={{
+                              uri: data[activeIndex].image
+                            }} />
+                          </View>
+
+
+                          {/* VIEW JUDUL DAN HARGA */}
+                          <View style={{
+                            flex: 1,
+                            marginLeft: 10
+                          }}>
+
+                            {/* JUDUL KAIN */}
+                            <Text style={{
+                              fontFamily: fonts.primary[600],
+                              fontSize: 20,
+                              color: colors.secondary,
+
+                            }}>{data[activeIndex].nama_bahan}</Text>
+
+                            {/* HARGA */}
+                            {/* <Text style={{
+
+                              fontFamily: fonts.primary[300],
+                              color: colors.danger,
+                              fontSize: 10,
+                              maxWidth: '100%',
+
+                            }}>{data[activeIndex].keterangan}</Text> */}
+
+                          </View>
+                        </View>
+
+                        {/* VIEW PILIH JENIS KAIN */}
+                        <View style={{
+                          padding: 0,
+
+                        }}>
+                          <Text style={{
+                            fontFamily: fonts.primary[300],
+                            fontSize: 12,
+                            marginBottom: 10,
+                          }}>Pilih jenis kain</Text>
+                        </View>
+
+                        {/* PILIHAN JENIS KAIN (DEFUALT ARMANI SLIK) */}
+                        <View style={{
+                          flexDirection: "row",
+                          justifyContent: 'space-between',
+                          padding: 0,
+
+                        }}>
+
+                          {data.map((fabric, index) => (
+                            <TouchableWithoutFeedback key={fabric.nama_bahan} onPress={() => {
+                              setActiveIndex(index);
+                              carouselRef.current.snapToItem(index);
+                            }
+                            }>
+                              <View style={{
+                                borderRadius: 4,
+                                padding: 10,
+                                backgroundColor: Color.blueGray[200],
+                                width: windowWidth / 3.5,
+                                borderWidth: 2,
+                                borderColor: index == activeIndex ? colors.primary : Color.blueGray[200]
+
+                              }}>
+                                <Text style={{ fontFamily: fonts.primary[300], fontSize: 8, textAlign: 'center' }}>
+                                  {fabric.nama_bahan}
+                                </Text>
+                              </View>
+                            </TouchableWithoutFeedback>
+                          ))}
+
+                        </View>
+
+                        {/* VIEW QUANTITY */}
+                        <View style={{
+                          marginTop: 20,
+                          padding: 0,
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}>
+
+                          <View>
+                            <Text style={{
+                              fontFamily: fonts.primary[400],
+                              fontSize: 12
+                            }}>Quantity</Text>
+                          </View>
+
+                          <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: "center"
+                          }}>
+
+                            <TextInput keyboardType='number-pad' style={{
+                              backgroundColor: Color.blueGray[200],
+                              padding: 0,
+                              paddingLeft: 5,
+                              paddingRight: 5,
+                              fontFamily: fonts.primary[400],
+                              fontSize: 12,
+                              width: 60,
+                              height: 30,
+                              marginRight: 5,
+                              textAlign: 'center'
+
+
+                            }} value={quantity}
+                              onChangeText={handleQuantityChange}
+                            />
+
+                            <Text style={{
+                              fontFamily: fonts.primary[300],
+                              color: Color.blueGray[500]
+                            }}>/Yard</Text>
+
+                          </View>
+
+                        </View>
+
+
+                        {/* Subtutol View */}
+                        <View>
+
+
+
+                        </View>
+                      </View>
+
+
+
+                      <TouchableOpacity style={styles.closeButton} onPress={sendServer}>
+                        <Text style={styles.closeButtonText}>Print</Text>
+                      </TouchableOpacity>
+                    </Animated.View>
+                  </View>
+                </Modal>
+              )}
+            </View>
+
+
+
+          </View>
+
+
+
+        </ScrollView>
+        <TouchableWithoutFeedback onPress={openModal}>
+          <View style={{
+            padding: 10,
+            backgroundColor: colors.secondary,
+            width: 200,
+            alignSelf: 'center',
+            marginBottom: 10,
+          }}>
+
+            <Text style={{
+              fontFamily: fonts.primary[600],
+              color: colors.white,
+              fontSize: 20,
+              textAlign: 'center',
+
+            }}>ORDER NOW</Text>
 
           </View>
         </TouchableWithoutFeedback>
-
-       
-
-      </View>
-
-      <View>
-        {/* Modal */}
-      {modalVisible && (
-        <Modal
-          
-          transparent
-          animationType="none"
-          visible={modalVisible}
-          onRequestClose={closeModal}
-        >
-          <View style={styles.modalOverlay}>
-            <TouchableOpacity style={styles.overlayTouchable} onPress={closeModal} />
-            <Animated.View
-              style={[
-                styles.modalContent,
-                { transform: [{ translateY: slideAnim }] },
-              ]}
-            >
-
-            <View>
-
-              {/* IMAGE, Judul dan Harga per yard INI NANTI BISA BERUBAH KETIKA USER MEMILIH JENIS KAIN */}
-
-              <View style={{
-                padding:10,
-                flexDirection:"row",
-                
-              }}>
-              {/* VIEW IMAGE */}
-                  <View>
-                    <Image style={{
-                      width:100,
-                      height:100,
-                    }} source={selectedFabric.image}/>
-                  </View>
-
-                  
-                  {/* VIEW JUDUL DAN HARGA */}
-                  <View style={{
-                  marginLeft:30
-                  }}>
-
-                  {/* JUDUL KAIN */}
-                    <Text style={{
-                      fontFamily:fonts.primary[600],
-                      fontSize:20,
-                      color:colors.secondary,
-
-                    }}>{selectedFabric.name}</Text>
-
-                    {/* HARGA */}
-                    <Text style={{
-                      fontFamily:fonts.primary[300],
-                      color:colors.danger,
-                      fontSize:12,
-
-                    }}>{selectedFabric.price}</Text>
-
-                  </View>
-              </View>
-
-                {/* VIEW PILIH JENIS KAIN */}
-                <View  style={{
-                  padding:10,
-
-                }}>
-                    <Text style={{
-                      fontFamily:fonts.primary[300],
-                      fontSize:12,
-                    }}>Pilih jenis kain</Text>
-                  </View>
-
-                  {/* PILIHAN JENIS KAIN (DEFUALT ARMANI SLIK) */}
-                  <View style={{
-                    flexDirection:"row",
-                    justifyContent:'space-between',
-                    padding:10,
-                    marginTop: -10
-
-                  }}>
-
-{fabrics.map((fabric) => (
-    <TouchableWithoutFeedback key={fabric.name} onPress={() => handleFabricSelection(fabric)}>
-      <View style={{ 
-        padding: 10, 
-        backgroundColor:
-         Color.blueGray[200],
-         borderWidth: selectedFabric?.name === fabric.name ? 1 : 0, // Border aktif saat dipilih
-         borderColor: selectedFabric?.name === fabric.name ? colors.danger : 'transparent', // Warna border saat dipilih
-          width: 98,
-           }}>
-        <Text style={{ fontFamily: fonts.primary[300], fontSize: 9, textAlign: 'center' }}>
-          {fabric.name}
-        </Text>
-      </View>
-    </TouchableWithoutFeedback>
-  ))}
-               
-                  </View>
-
-                  {/* VIEW QUANTITY */}
-                  <View style={{
-                    padding:10,
-                    flexDirection:'row',
-                    justifyContent:'space-between',
-                    alignItems:'center'
-                  }}>
-
-                    <View>
-                      <Text style={{
-                        fontFamily:fonts.primary[400],
-                        fontSize:12
-                      }}>Quantity</Text>
-                    </View>
-
-                    <View style={{
-                      flexDirection:'row',
-                      justifyContent:'center',
-                      alignItems:"center"
-                    }}>
-
-                    <TextInput style={{
-                      backgroundColor:Color.blueGray[200],
-                      padding:10,
-                      paddingLeft:5,
-                      paddingRight:5,
-                      fontFamily:fonts.primary[400],
-                      fontSize:12,
-                      width:60,
-                      height:40,
-                      marginRight:5,
-                      textAlign:'center'
-                      
-
-                    }} value={quantity} 
-                      onChangeText={handleQuantityChange}
-                    />
-
-                    <Text style={{
-                      fontFamily:fonts.primary[300],
-                      color:Color.blueGray[500 ]
-                    }}>/Yard</Text>
-
-                    </View>
-
-                  </View>
-
-
-                  {/* Subtutol View */}
-                  <View>
-
-                  
-
-           {/* Detail Harga (hanya muncul jika showDetails true) */}
-          {selectedFabric && (
-  <View style={{ padding: 10 }}>
-    
-    {/* Price Details (only visible if showDetails is true) */}
-    {showDetails && (
-      <View style={{ paddingLeft: 0, backgroundColor:'red'}}>
-        {selectedFabric?.name === 'Ceruty Babydoll' && (
-          <>
-           <View style={{
-            flexDirection:'row',
-            justifyContent: "space-between"
-           }}>
-            <View>
-             <Text style={{ fontSize: 12, fontFamily:fonts.primary[400] }}>Kain Armanisilk 10 Meter</Text>
-            <Text style={{ fontSize: 12, fontFamily:fonts.primary[400] }}>Print 10 Meter</Text>
-            </View>
-
-            <View style={{marginRight:50}}>
-             <Text style={{ fontSize: 12, fontFamily:fonts.primary[400] }}>Rp.450.000</Text>
-            <Text style={{ fontSize: 12, fontFamily:fonts.primary[400] }}>Rp.250.000</Text>
-            </View>
-           </View>
-          </>
-        )}
-        {selectedFabric?.name === 'Kain Sendiri' && (
-          <>
-            <Text style={{ fontSize: 14 }}>Kain Sendiri 10 Meter: Rp.450.000</Text>
-            <Text style={{ fontSize: 14 }}>Print 10 Meter: Rp.250.000</Text>
-          </>
-        )}
-      </View>
-    )}
-
-    {/* Subtotal and Toggle Button */}
-
-    <View style={{
-      flexDirection:'row',
-      justifyContent:'space-between',
-      alignItems:"center"
-    }}>
-    <Text style={{ fontSize: 15, fontFamily:fonts.primary[400], }}>
-      Subtotal
-    </Text>
-
-    <View style={{
-      flexDirection:'row',
-      justifyContent:'space-between',
-      alignItems:"center",
-   
-      width:105,
-    }}>
-    <Text style={{fontFamily:fonts.primary[400], fontSize:15,}}>Rp.{calculateSubtotal(selectedFabric.price, parseInt(quantity)).toLocaleString()}</Text>
- <TouchableOpacity style={{marginTop:-3}} onPress={() => setShowDetails(!showDetails)}>
-      <Icon type='ionicon' name={showDetails ? 'caret-up-outline' : 'caret-down-outline'} size={20} color={Color.blueGray[400]}/>
-    </TouchableOpacity>
-    </View>
-
-    
-    </View>
-  </View>
-)}
-  </View>
-            </View>
-
-              
-            
-              <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                <Text style={styles.closeButtonText}>Print</Text>
-              </TouchableOpacity>
-            </Animated.View>
-          </View>
-        </Modal>
-      )}
-      </View>
-
-
-
-      </View>
-
-    
-      </View>
       </View>
     </SafeAreaView>
   );
@@ -656,15 +546,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalContent: {
-  backgroundColor: '#fff',
-  padding: 20,
-  borderTopLeftRadius: 15,
-  borderTopRightRadius: 15,
-  elevation: 5, // Memberikan bayangan pada Android
-  shadowColor: '#000', // Bayangan pada iOS
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
+    backgroundColor: '#fff',
+    padding: 20,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    elevation: 5, // Memberikan bayangan pada Android
+    shadowColor: '#000', // Bayangan pada iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   modalTitle: {
     fontSize: 18,

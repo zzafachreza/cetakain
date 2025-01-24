@@ -9,3 +9,8 @@ export const getDataCompany = async () => {
 export const getDataByTable = async (endpoint) => {
     return await axios.get(apiURL + endpoint);
 };
+
+
+export const POSDataByTable = async (endpoint, data) => {
+    return await axios.post(apiURL + endpoint, data);
+};

@@ -88,52 +88,52 @@ export default function Login({ navigation, route }) {
 
     }}
     >
-      
 
 
-        <ScrollView style={{ position: "relative" }} showsVerticalScrollIndicator={false}>
+
+      <ScrollView style={{ position: "relative" }} showsVerticalScrollIndicator={false}>
 
 
         <ImageBackground source={require('../../assets/bglogin.png')} style={{
-          flex:1,
-          width:'100%',
-          height:'100%'
+          flex: 1,
+          width: '100%',
+          height: '100%'
         }}>
-        <View style={{
+          <View style={{
             padding: 20,
           }}>
-          
-          <View style={{
-            marginTop:-0,
-           
-            flexDirection:"row",
-            justifyContent:'flex-start'
-          }}>
-            <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-              <View>
-                <Icon name='arrow-back-outline' type='ionicon' size={30} color={colors.white}/>
-              </View>
 
-            </TouchableWithoutFeedback>
-          </View>
+            <View style={{
+              marginTop: -0,
 
-          <View style={{
-            padding:10,
-            marginLeft:0,
-            marginTop:85
-          }}>
-            <Text style={{
-              fontFamily:fonts.primary[600],
-              fontSize:20,
-              color:colors.white,
-              top:-30
-            }}>Masuk</Text>
-          </View>
-       
+              flexDirection: "row",
+              justifyContent: 'flex-start'
+            }}>
+              <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+                <View>
+                  <Icon name='arrow-back-outline' type='ionicon' size={30} color={colors.white} />
+                </View>
+
+              </TouchableWithoutFeedback>
+            </View>
 
             <View style={{
               padding: 10,
-              marginTop:'40%'
+              marginLeft: 0,
+              marginTop: 85
+            }}>
+              <Text style={{
+                fontFamily: fonts.primary[600],
+                fontSize: 20,
+                color: colors.white,
+                top: -30
+              }}>Masuk</Text>
+            </View>
+
+
+            <View style={{
+              padding: 10,
+              marginTop: '40%'
             }}>
 
               <MyInput onChangeText={x => setKirim({
@@ -147,28 +147,28 @@ export default function Login({ navigation, route }) {
               <MyInput onChangeText={x => setKirim({
                 ...kirim,
                 password: x
-              })} styleLabel={{ color: 'black' }} label="Password" placeholder="Isi Password" secureTextEntry={true}/>
+              })} styleLabel={{ color: 'black' }} label="Password" placeholder="Isi Password" secureTextEntry={true} />
 
               {!loading &&
 
                 <View style={{ marginTop: 20 }}>
-                  <MyButton onPress={masuk}  colorText='white' title="Masuk" />
+                  <MyButton onPress={masuk} colorText='white' title="Masuk" />
                 </View>
               }
 
               {loading && <MyLoading />}
 
-              
+
               <View style={{ flexDirection: 'row', justifyContent: "flex-end" }}>
                 <TouchableWithoutFeedback onPress={() => Linking.openURL('https://wa.me/' + comp.tlp + '?text=Hallo Admin saya lupa password')}>
                   <View>
-                    <Text style={{ fontFamily: fonts.primary[500], marginTop: 10, fontSize: 13, color:colors.primary}}>Lupa Password ?</Text>
+                    <Text style={{ fontFamily: fonts.primary[500], marginTop: 10, fontSize: 13, color: colors.primary }}>Lupa Password ?</Text>
                   </View>
                 </TouchableWithoutFeedback>
               </View>
 
 
-{/* 
+              {/* 
               <View style={{ alignItems: "center", marginTop: '25%' }}>
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('Register')}>
                   <View style={{ flexDirection: "row" }}>
@@ -187,11 +187,11 @@ export default function Login({ navigation, route }) {
           </View>
 
         </ImageBackground>
-         
 
 
-        </ScrollView>
-  
+
+      </ScrollView>
+
 
 
     </ SafeAreaView>

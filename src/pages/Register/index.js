@@ -202,46 +202,46 @@ export default function Register({ navigation, route }) {
             {/* <MyHeader title="Daftar Akun" /> */}
 
 
-              
-                <ScrollView contentContainerStyle={{
-                    flexGrow:1,
-                    padding:0
-                }} showsVerticalScrollIndicator={false}>
+
+            <ScrollView contentContainerStyle={{
+                flexGrow: 1,
+                padding: 0
+            }} showsVerticalScrollIndicator={false}>
                 <ImageBackground source={require('../../assets/bglogin.png')} style={{
-                    flex:1,
-                    height:'63%',
-                    width:'100%'
+                    flex: 1,
+                    height: '63%',
+                    width: '100%'
                 }}>
-                <View style={{
-            marginTop:-0,
-            flexDirection:"row",
-            justifyContent:'flex-start',
-            padding:20
-          }}>
-            <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-              <View>
-                <Icon name='arrow-back-outline' type='ionicon' size={30} color={colors.white}/>
-              </View>
+                    <View style={{
+                        marginTop: -0,
+                        flexDirection: "row",
+                        justifyContent: 'flex-start',
+                        padding: 20
+                    }}>
+                        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+                            <View>
+                                <Icon name='arrow-back-outline' type='ionicon' size={30} color={colors.white} />
+                            </View>
 
-            </TouchableWithoutFeedback>
-          </View>
+                        </TouchableWithoutFeedback>
+                    </View>
 
-          <View style={{
-            padding:20,
-            marginLeft:0,
-            marginTop:40
-          }}>
-            <Text style={{
-              fontFamily:fonts.primary[600],
-              fontSize:20,
-              color:colors.white,
-              top: -30
-            }}>Membuat Akun</Text>
-          </View>
-       
                     <View style={{
                         padding: 20,
-                        
+                        marginLeft: 0,
+                        marginTop: 40
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.primary[600],
+                            fontSize: 20,
+                            color: colors.white,
+                            top: -30
+                        }}>Membuat Akun</Text>
+                    </View>
+
+                    <View style={{
+                        padding: 20,
+
 
                     }}>
 
@@ -325,7 +325,7 @@ export default function Register({ navigation, route }) {
 
                         <View style={{}}>
                             {/* BUATKAN TOMBOL SAYA MESETUJUI SYARAT */}
-                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", }}>
                                 <TouchableOpacity style={styles.checkContainer} onPress={toggleCheck}>
                                     <View style={[styles.checkBox, isChecked && styles.checkBoxChecked]}>
                                         {isChecked && (
@@ -339,8 +339,7 @@ export default function Register({ navigation, route }) {
                                         )}
                                     </View>
                                     <Text style={styles.label}>
-                                        Saya menyetujui{' '}
-                                        <Text style={styles.termsText}>syarat & ketentuan</Text> yang berlaku
+                                        Anda sudah setuju dengan kebijakan kami.
                                     </Text>
                                 </TouchableOpacity>
                             </View>
@@ -385,9 +384,9 @@ export default function Register({ navigation, route }) {
                     </View>
 
                 </ImageBackground>
-               
 
-                </ScrollView>
+
+            </ScrollView>
 
         </View >
     );
@@ -407,7 +406,8 @@ const styles = StyleSheet.create({
         width: 24,
         height: 24,
         borderRadius: 5,
-        borderWidth: 1,
+        // borderWidth: 1,
+        backgroundColor: '#D9D9D9',
         borderColor: colors.primary,
         justifyContent: 'center',
         alignItems: 'center',
@@ -422,9 +422,9 @@ const styles = StyleSheet.create({
         tintColor: colors.white,
     },
     label: {
-        color: '#666',
-        fontFamily: fonts.primary[600],
-        fontSize: 10,
+        color: colors.black,
+        fontFamily: fonts.primary[400],
+        fontSize: 12,
     },
     termsText: {
         color: colors.primary,

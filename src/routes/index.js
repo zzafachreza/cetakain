@@ -64,6 +64,10 @@ import {
   Detail,
   SamplePrint,
   Pricelsit,
+  DetailRoll,
+  DetailHijab,
+  DetailJersey,
+  DetailSample,
 
 
 
@@ -109,8 +113,8 @@ export default function Router() {
         }}
       />
 
-      
-<Stack.Screen
+
+      <Stack.Screen
         name="Pricelist"
         component={MainApp}
         options={{
@@ -134,6 +138,39 @@ export default function Router() {
       <Stack.Screen
         name="Alamat"
         component={Alamat}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="DetailRoll"
+        component={DetailRoll}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="DetailHijab"
+        component={DetailHijab}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="DetailSample"
+        component={DetailSample}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="DetailJersey"
+        component={DetailJersey}
         options={{
           headerShown: false,
         }}
@@ -182,8 +219,8 @@ export default function Router() {
         }}
       />
 
-      
-<Stack.Screen
+
+      <Stack.Screen
         name="SamplePrint"
         component={SamplePrint}
         options={{

@@ -125,7 +125,7 @@ export default function ({ navigation, route }) {
         }}>
 
 
-          
+
             {!open && <View style={{
                 flex: 1,
                 justifyContent: 'center',
@@ -136,116 +136,119 @@ export default function ({ navigation, route }) {
 
             {open &&
 
-                <View style={{
-                    margin:0,
-                    flex: 1,
-                }}>
+                <ScrollView>
                     <View style={{
-                        paddingBottom: 50,
-                        borderBottomWidth: 1,
-                        borderBottomColor: Color.blueGray[300],
-                        alignItems: 'center',
-                        justifyContent:"center",
-                        backgroundColor:colors.secondary,
-                        padding:10,
-
-                        
-                        
-                        
+                        margin: 0,
+                        flex: 1,
                     }}>
                         <View style={{
-                            width: 118,
-                            height: 118,
-                            borderWidth: 3,
-                            borderColor: Color.blueGray[100],
-                            overflow: 'hidden',
-                            borderRadius: 100,
-                            justifyContent: 'center',
+                            paddingBottom: 50,
+                            borderBottomWidth: 1,
+                            borderBottomColor: Color.blueGray[300],
                             alignItems: 'center',
-                            marginTop:20
-                        }}>
+                            justifyContent: "center",
+                            backgroundColor: colors.secondary,
+                            padding: 10,
 
-                            <Image source={{
-                                uri: user.file_pengguna
-                            }} style={{
+
+
+
+                        }}>
+                            <View style={{
                                 width: 118,
                                 height: 118,
+                                borderWidth: 3,
+                                borderColor: Color.blueGray[100],
+                                overflow: 'hidden',
+                                borderRadius: 100,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                marginTop: 20
+                            }}>
 
-                            }} />
+                                <Image source={{
+                                    uri: user.file_pengguna
+                                }} style={{
+                                    width: 118,
+                                    height: 118,
 
-                          
+                                }} />
 
-                        </View>
-                        
-                        <TouchableNativeFeedback onPress={() => navigation.navigate('AccountEdit', user)}>
-                        <View style={{
-                            padding:10,
-                            backgroundColor:Color.blueGray[300],
-                            borderRadius:50,
-                            position:'relative',
-                            width:30,
-                            height:30,
-                            left:35,
-                            bottom:29
-                            
 
-                        }}>
-                              <Image style={{
-                                width:18,
-                                height:18,
-                                tintColor:'white',
-                                position:'absolute',
-                                top:5,
-                                left:6
 
-                              }} source={require('../../assets/edit_profile.png')}/>
                             </View>
-                        </TouchableNativeFeedback>
-                      
-                        <View style={{
-                            marginTop:-30,
-                            paddingLeft: 10,
-                            
-                        }}>
-                            <Text style={{
-                                fontFamily:fonts.primary[600],
-                                color: colors.white,
-                                fontSize:20,
-                                marginTop:20
-                            }}>{user.nama_lengkap}</Text>
+
+                            <TouchableNativeFeedback onPress={() => navigation.navigate('AccountEdit', user)}>
+                                <View style={{
+                                    padding: 10,
+                                    backgroundColor: Color.blueGray[300],
+                                    borderRadius: 50,
+                                    position: 'relative',
+                                    width: 30,
+                                    height: 30,
+                                    left: 35,
+                                    bottom: 29
+
+
+                                }}>
+                                    <Image style={{
+                                        width: 18,
+                                        height: 18,
+                                        tintColor: 'white',
+                                        position: 'absolute',
+                                        top: 5,
+                                        left: 6
+
+                                    }} source={require('../../assets/edit_profile.png')} />
+                                </View>
+                            </TouchableNativeFeedback>
+
+                            <View style={{
+                                marginTop: -30,
+                                paddingLeft: 10,
+
+                            }}>
+                                <Text style={{
+                                    fontFamily: fonts.primary[600],
+                                    color: colors.white,
+                                    fontSize: 20,
+                                    marginTop: 20
+                                }}>{user.nama_lengkap}</Text>
+                            </View>
+
                         </View>
-
-                    </View>
-                    <View style={{ padding: 10, flex: 1, backgroundColor:'white', margin:20,
-                    borderRadius:20, marginTop:-30
-                    }}>
-                        
-
-                        <MylistPengaturan onPress={() => navigation.navigate('Alamat', user)} label="Alamat" />
-                        <MylistPengaturan onPress={() => navigation.navigate('Pembayaran', user)} icon='wallet-outline' label="Pembayaran" />
-                        {/* <MylistPengaturan onPress={() => navigation.navigate('Keamanan', user)} icon='lock-closed-outline' label="Keamanan" /> */}
-                        <MylistPengaturan onPress={() => Linking.openURL('https://wa.me/' + com.tlp)} icon='logo-whatsapp' label="Customer Service" />
-
-
                         <View style={{
-                padding: 10,
-                marginTop:'75%'
-            }}>
-                {/* <MyButton colorText={colors.white} iconColor={colors.white} warna={colors.primary} title="Edit Profile" Icons="create-outline" onPress={() => navigation.navigate('AccountEdit', user)} /> */}
-                <MyGap jarak={10} />
-                <TouchableNativeFeedback onPress={btnKeluar}>
-                    <View style={{padding:10, flexDirection:"row", justifyContent:"center", alignItems:'center'}}>
-                    <Icon style={{marginRight:10,marginTop:-5}} type='ionicon' name='log-out-outline' size={24} color={colors.danger}/>
-                    <Text style={{fontFamily:fonts.primary[600], color:colors.danger, fontSize:20}}>Log Out</Text>
+                            padding: 10, flex: 1, backgroundColor: 'white', margin: 20,
+                            borderRadius: 20, marginTop: -30
+                        }}>
+
+
+                            <MylistPengaturan onPress={() => navigation.navigate('Alamat', user)} label="Alamat" />
+                            <MylistPengaturan onPress={() => navigation.navigate('Pembayaran', user)} icon='wallet-outline' label="Pembayaran" />
+                            {/* <MylistPengaturan onPress={() => navigation.navigate('Keamanan', user)} icon='lock-closed-outline' label="Keamanan" /> */}
+                            <MylistPengaturan onPress={() => Linking.openURL('https://wa.me/' + com.tlp + '?text=Hallo Customer Service Cetakain')} icon='logo-whatsapp' label="Customer Service" />
+
+
+                            <View style={{
+                                padding: 10,
+                                marginTop: '75%'
+                            }}>
+                                {/* <MyButton colorText={colors.white} iconColor={colors.white} warna={colors.primary} title="Edit Profile" Icons="create-outline" onPress={() => navigation.navigate('AccountEdit', user)} /> */}
+                                <MyGap jarak={10} />
+                                <TouchableNativeFeedback onPress={btnKeluar}>
+                                    <View style={{ padding: 10, flexDirection: "row", justifyContent: "center", alignItems: 'center' }}>
+                                        <Icon style={{ marginRight: 10, marginTop: -5 }} type='ionicon' name='log-out-outline' size={24} color={colors.danger} />
+                                        <Text style={{ fontFamily: fonts.primary[600], color: colors.danger, fontSize: 15 }}>Log Out</Text>
+                                    </View>
+                                </TouchableNativeFeedback>
+                            </View>
+                        </View>
+                        {/* data detail */}
                     </View>
-                </TouchableNativeFeedback>
-            </View>
-                    </View>
-                    {/* data detail */}
-                </View>
+                </ScrollView>
 
             }
-  
+
         </SafeAreaView >
     );
 }

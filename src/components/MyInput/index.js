@@ -56,7 +56,7 @@ export default function MyInput({
           style={[
             styles.textInput,
             {
-              paddingLeft: iconname ? 40 : 15, // Adjust padding if there's an icon
+              paddingLeft: 0, // Adjust padding if there's an icon
               borderColor: borderColor,
               color: textColor,
             },
@@ -105,9 +105,9 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#7E7E7E',
     justifyContent: 'space-between',  // Adjust space between input and side label
     paddingHorizontal: 10,
     borderColor: Color.blueGray[300]

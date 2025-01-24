@@ -5,7 +5,7 @@ import { StatusBar } from 'react-native'
 import moment from 'moment';
 import { MyGap, MyHeader, MyHeaderPoint, MyIcon, MyLoading } from '../../components';
 import axios from 'axios';
-import { apiURL, getData } from '../../utils/localStorage';
+import { apiURL, getData, webURL } from '../../utils/localStorage';
 import RenderHtml from 'react-native-render-html';
 import Share from 'react-native-share';
 import { useIsFocused } from '@react-navigation/native';
@@ -16,11 +16,13 @@ export default function Pembayaran({ navigation }) {
     const systemFonts = [fonts.body3.fontFamily, fonts.headline4.fontFamily];
 
     const [data, setData] = useState([]);
+    const [user, setUser] = useState({})
     const [loading, setLoading] = useState(true);
     const isFocused = useIsFocused();
     useEffect(() => {
         if (isFocused) {
             getData('user').then(u => {
+                setUser(u)
                 axios.post(apiURL + 'transaksi', {
                     fid_pengguna: u.id_pengguna
                 }).then(res => {
@@ -40,9 +42,9 @@ export default function Pembayaran({ navigation }) {
             backgroundColor: colors.background
         }}>
             <View style={{
-                padding:10
+                padding: 10
             }}>
-            <MyHeader onPress={() => navigation.goBack()} title="Riwayat Pemesanan" />
+                <MyHeader onPress={() => navigation.goBack()} title="Riwayat Pemesanan" />
             </View>
             {loading && <View style={{
                 flex: 1,
@@ -61,12 +63,22 @@ export default function Pembayaran({ navigation }) {
 
                         <FlatList data={data} renderItem={({ item, index }) => {
                             return (
-                                <TouchableOpacity onPress={() => navigation.navigate('Detail', item)} style={{
-                                    padding: 20,
+                                <TouchableOpacity onPress={() => {
+                                    if (item.modul == 'transaksiroll') {
+                                        navigation.navigate('DetailRoll', item)
+                                    } else if (item.modul == 'transaksihijab') {
+                                        navigation.navigate('DetailHijab', item)
+                                    } else if (item.modul == 'transaksijersey') {
+                                        navigation.navigate('DetailJersey', item)
+                                    } else if (item.modul == 'transaksisample') {
+                                        navigation.navigate('DetailSample', item)
+                                    }
+                                }} style={{
+                                    padding: 10,
                                     borderWidth: 1,
-                                    borderColor: colors.primary,
+                                    borderColor: Color.blueGray[200],
                                     backgroundColor: colors.white,
-                                    marginVertical: 8,
+                                    marginVertical: 4,
                                     borderRadius: 10,
                                 }}>
                                     <View style={{
@@ -75,26 +87,61 @@ export default function Pembayaran({ navigation }) {
                                     }}>
                                         <Text style={{
                                             flex: 1,
-                                            ...fonts.headline4,
-                                            color: colors.primary
-                                        }}>{item.jenis} {item.kategori}</Text>
-
+                                            fontFamily: fonts.secondary[400],
+                                            fontSize: 11,
+                                        }}>{moment(item.tanggal + ' ' + item.jam).format('DD MMMM YYYY, HH:mm')} WIB</Text>
                                         <Text style={{
-                                            ...fonts.subheadline3,
-                                            backgroundColor: colors.secondary,
-                                            paddingHorizontal: 10,
-                                            borderRadius: 10,
-                                        }}>{item.status}</Text>
+                                            // flex: 1,
+                                            fontFamily: fonts.secondary[400],
+                                            fontSize: 11,
+                                        }}>Status : <Text style={{ color: colors.success }}>{item.status}</Text></Text>
                                     </View>
-                                    <Text style={{
-                                        ...fonts.headline4,
-                                        color: colors.black
-                                    }}>{item.nomor_pesanan}</Text>
-                                    <Text style={{
-                                        ...fonts.subheadline3,
-                                        color: colors.black
-                                    }}>{moment(item.tanggal).format('DD MMMM YYYY')}</Text>
-
+                                    <View style={{
+                                        marginTop: 5,
+                                        flexDirection: 'row',
+                                        // alignItems: 'center'
+                                    }}>
+                                        <View>
+                                            <Image source={{
+                                                uri: webURL + item.image
+                                            }} style={{
+                                                borderRadius: 4,
+                                                width: 60,
+                                                height: 60,
+                                            }} />
+                                        </View>
+                                        <View style={{
+                                            flex: 1,
+                                            paddingHorizontal: 10,
+                                            flexDirection: 'column',
+                                        }}>
+                                            <Text style={{
+                                                flex: 1,
+                                                fontFamily: fonts.secondary[600],
+                                                fontSize: 14,
+                                                color: colors.secondary,
+                                                // marginBottom: 10,
+                                            }}>PRINT {item.kategori}</Text>
+                                            <Text style={{
+                                                // flex: 1,
+                                                fontFamily: fonts.secondary[400],
+                                                fontSize: 10,
+                                                color: Color.blueGray[400]
+                                            }}>Cust : {user.nama_lengkap}</Text>
+                                            <Text style={{
+                                                // flex: 1,
+                                                fontFamily: fonts.secondary[400],
+                                                fontSize: 10,
+                                                color: Color.blueGray[400]
+                                            }}>Code produksi : #{item.nomor_pesanan}</Text>
+                                            <Text style={{
+                                                // flex: 1,
+                                                fontFamily: fonts.secondary[400],
+                                                fontSize: 10,
+                                                color: Color.blueGray[400]
+                                            }}>Nama Barang : {item.barang}</Text>
+                                        </View>
+                                    </View>
                                 </TouchableOpacity>
                             )
                         }} />

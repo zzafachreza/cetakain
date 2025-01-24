@@ -16,6 +16,7 @@ export default function PrintJerseyku({ navigation, route }) {
 
     const [kirim, setKirim] = useState({
         bahan: '',
+        jenis: 'Drifit Milano',
         pola: 'O - Neck',
         s: '',
         m: '',
@@ -25,12 +26,19 @@ export default function PrintJerseyku({ navigation, route }) {
         xxxl: ''
     });
 
+
+    const jenis = ['Drifit Milano', 'Drifit Serena'];
     const pola = [
         { label: 'O - NECK', value: 'O - NECK' },
         { label: 'V - NECK', value: 'V - NECK' },
         { label: 'Long Sleeve', value: 'Long Sleeve' },
         { label: 'Basket', value: 'Basket' },
     ]
+
+    
+    
+    
+    
 
     const [bahan, setBahan] = useState([]);
     const [motif, setMotif] = useState([]);

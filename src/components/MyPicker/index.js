@@ -66,8 +66,8 @@ export default function MyPicker({
 
 const styles = StyleSheet.create({
   pickerContainer: {
-    backgroundColor: colors.white,
-    borderWidth: 1,
+    // backgroundColor: colors.white,
+    // borderWidth: 1,
     borderRadius: 50,
     borderColor: Color.blueGray[300],
     flexDirection: 'row',

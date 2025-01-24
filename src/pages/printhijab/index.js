@@ -1,99 +1,72 @@
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableWithoutFeedback, ImageBackground, StyleSheet, Alert, Linking, FlatList, Dimensions, Animated, TouchableOpacity} from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image, TouchableWithoutFeedback, ImageBackground, StyleSheet, Alert, Linking, FlatList, Dimensions, Animated, TouchableOpacity } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { Color, colors, fonts, getDataByTable } from '../../utils';
+import { Color, colors, fonts, getDataByTable, getDataCompany, windowHeight, windowWidth } from '../../utils';
 import { MyButton, MyGap, MyHeader, MyInput, MyRadio } from '../../components';
 import MyMenu from '../../components/MyMenu';
 import MyCarousel from '../../components/MyCarouser';
 import axios from 'axios';
-import { apiURL } from '../../utils/localStorage';
+import { apiURL, getData, webURL } from '../../utils/localStorage';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { Modal } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
+import { showMessage } from 'react-native-flash-message';
+import moment from 'moment';
 
 
-const { width } = Dimensions.get('window');
-const { height } = Dimensions.get('window');
-const dataCorosel = [
-  {
-    image: require('../../assets/voal45.png'),
-    title: 'VOAL 45',
-    description: `Kain Voal 45 memiliki ciri khas yang halus,lembut dan dingin. kain ini juga terlihat mewah dan berkarakteristik mengkilap, kain ini biasa di gunakan untuk pembuatan gamis,dress,mukena, scarf dll.`,
-
-  },
-
-  {
-    image: require('../../assets/hijab_kain_sendiri.png'), // Ganti dengan lokasi gambar Anda
-    title: 'KAIN SENDIRI',
-    description: `Kamu juga bisa pakai kain sendiri, cara Nya drop kain kamu ke store kita.dan sebelumnya pastikan jenis kain yang kalian drop itu bisa di sublim ya.`,
-  },
-
-]
 
 export default function PrintHijab({ navigation }) {
-  const [selectedFabric, setSelectedFabric] = useState({
-    name: 'Voal 45', // Default kain
-    price: 'Rp.55.000/yard',
-    image: require('../../assets/voal45.png'), // Default image
-    hijabsize: ['110 x 110 Cm', '115 x 115 Cm'], // Ukuran hijab default
-    laserCut: [
-      require('../../assets/lasercut1.png'),
-      require('../../assets/lasercut2.png'),
-    ],
-  });
-  
 
-  const fabrics = [
-    {
-      name: 'Voal 45',
-      price: 'Rp.45.000/Pcs',
-      image: require('../../assets/voal45.png'),
-      hijabsize : ['110 x 110 Cm', '115 x 115 Cm'],
-      laserCut: [
-        require('../../assets/lasercut1.png'),
-        require('../../assets/lasercut2.png'),
-      ],
-    },
-  
-    {
-      name: 'Kain Sendiri',
-      price: 'Rp/-',
-      image: require('../../assets/hijab_kain_sendiri.png'), // Ganti dengan path gambar sifon
-      hijabsize : ['110 x 110 Cm', '115 x 115 Cm'],
-      laserCut: [
-        require('../../assets/lasercut1.png'),
-        require('../../assets/lasercut2.png'),
-      ],
-    },
-  ];
 
-    // State untuk menampilkan atau menyembunyikan detail hargaconst [selectedLaserCut, setSelectedLaserCut] = useState(null);
-    const [selectedLaserCut, setSelectedLaserCut] = useState(null);
-    const [selectedSize, setSelectedSize] = useState(null); // Tidak ada ukuran default yang aktif
-    const [showDetails, setShowDetails] = useState(false);
-    const [selectedHijabSize, setSelectedHijabSize] = useState(null); // Untuk memilih ukuran hijab
+
+  const [comp, setComp] = useState({});
+  const [user, setUser] = useState({});
+  const SIZE = [
+    '110 x 110 cm', '115 x 115 cm'
+  ]
+
+
+
   const [modalVisible, setModalVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(Dimensions.get('window').height)).current;
   const [currentPage, setCurrentPage] = useState(1); // State untuk mengelola halaman
-  const [selectedKain, setSelectedKain] = useState(''); // State to track the selected fabric
-  const [quantity, setQuantity] = useState('10'); // Track user input for quantity
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [size, setSize] = useState('110 x 110 cm')
+  const [quantity, setQuantity] = useState('12'); // Track user input for quantity
   const [activeIndex, setActiveIndex] = useState(0); // State untuk slide aktif
-  const [activeIndex2, setActiveIndex2] = useState(0); // State untuk slide aktif kedua
-  const [activeIndex3, setActiveIndex4] = useState(0); // State untuk slide aktif ketiga
   const carouselRef = useRef(null); // Ref untuk mengakses metode carousel
   const navigateTo = (page) => {
     setCurrentPage(page);
   };
   // Function to handle radio selection
-  const handleRadioSelect = (kain) => {
-    setSelectedKain(kain);
-  };
 
-  const [gambar, setGambar] = useState([{ "file_gambar": "datafoto/77aa75f161f68d878234f06023f722cc1f2801d8.png", "id_gambar": "2", "image": "https://zavalabs.com/nogambar.jpg", "menu": "Kain Roll", "posisi": "Banner" }, { "file_gambar": "datafoto/dc5e27da22554899592c344074266072a2f2b2bc.png", "id_gambar": "3", "image": "https://zavalabs.com/nogambar.jpg", "menu": "Kain Roll", "posisi": "Print" }, {
-    "file_gambar": "datafoto/b1cc5dba39d74acfb780c3772e7a9e1a6774fc72.png", "id_gambar": "4",
-    "image": "https://zavalabs.com/nogambar.jpg", "menu": "Kain Roll", "posisi": "Sample"
-  }])
+
+  const [bahan, setBahan] = useState([]);
+  const [motif, setMotif] = useState([]);
+  const [kirim, setKirim] = useState({
+    fid_bahanhijab: '',
+    fid_motifhijab: '',
+    qty: quantity
+  });
+  const __getDataBahan = () => {
+
+    getDataByTable('bahanhijab').then(res => {
+
+      setBahan(res.data);
+
+      getDataByTable('motifhijab').then(res2 => {
+        console.log(res2.data);
+        setMotif(res2.data);
+        setKirim({
+          ...kirim,
+          fid_bahanhijab: res.data[0].value,
+          fid_motifhijab: res2.data[0].value,
+        })
+      })
+    })
+
+
+  }
+
   const __getGambar = () => {
     axios.post(apiURL + 'gambar_detail', {
       menu: 'Kain Roll'
@@ -102,67 +75,91 @@ export default function PrintHijab({ navigation }) {
     })
   }
 
+
   useEffect(() => {
     __getData();
+    __getDataBahan();
+    getData('user').then(u => setUser(u));
+    getDataCompany().then(res => setComp(res.data.data));
     __getGambar();
   }, [])
 
-  useEffect(() => {
-    if (modalVisible && fabrics.length > 0 && !selectedFabric) {
-      // Jika modal terbuka dan belum ada kain yang dipilih, pilih kain pertama
-      setSelectedFabric(fabrics[0]);
+  const [data, setData] = useState([
+    {
+      nama_bahan: '',
+      keterangan: '',
+      image: 'https://zavalabs.com/nogambar.jpg'
     }
-  }, [modalVisible]); // Setiap kali modalVisible berubah
-  
-
-  const [data, setData] = useState([]);
+  ]);
   const __getData = () => {
-    getDataByTable('bahanroll').then(res => {
+    getDataByTable('bahanhijab').then(res => {
       console.log('bahan', res.data);
       setData(res.data);
     })
   }
 
-  // Fungsi untuk memproses pesanan di Halaman 2 (Quantity)
-  const handleOrderQuantity = () => {
-    // Cek apakah jumlah kualitas valid
-    if (!quantity || quantity === '0') {
-      Alert.alert("Error", "Mohon masukkan jumlah yang valid.");
-      return;
-    }
 
-    // Membuka WhatsApp dengan jumlah yang dipilih
-    const message = `Halo, saya ingin memesan dengan jumlah kualitas: ${quantity} yard.`;
-    const phoneNumber = '6282281121299'; // Ganti dengan nomor WhatsApp yang diinginkan
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const sendServer = () => {
+    closeModal();
+    let sendData = {
+      fid_pengguna: user.id_pengguna,
+      jenis: 'PRINT',
+      size: size,
+      nomor_pesanan: 'HP' + moment().format('YYYYMMDDHHmmss'),
+      fid_bahanhijab: kirim.fid_bahanhijab,
+      fid_motifhijab: kirim.fid_motifhijab,
+      qty: kirim.qty
+    };
 
-    Linking.openURL(url).catch(() => {
-      Alert.alert("Error", "Gagal membuka WhatsApp.");
-    });
-  };
+
+    let WATemplate = `*PESANAN ${sendData.jenis} HIJAB*\n\nNomor Pesanan : *${sendData.nomor_pesanan}*\nTanggal : *${moment().format('dddd, DD MM YYYY')}*\nPengguna : *${user.nama_lengkap} / ${user.telepon}*\n----------------------------------\n`;
+    WATemplate += `Bahan  : *${bahan.filter(i => i.value == kirim.fid_bahanhijab)[0].nama_bahan}* \n`
+    WATemplate += `Ukuran : *${size}* \n`
+    WATemplate += `Motif  : *${motif.filter(i => i.value == kirim.fid_motifhijab)[0].nama_motif}* \n`
+    WATemplate += `Jumlah : *${kirim.qty}* Pcs \n`
+
+    console.log(WATemplate)
+
+
+
+    axios.post(apiURL + 'add_print_hijab', sendData).then(res => {
+      console.log(res.data);
+      if (res.data.status == 200) {
+        showMessage({
+          type: 'success',
+          icon: 'success',
+          message: res.data.message
+        });
+        console.log(WATemplate);
+        Linking.openURL('https://wa.me/' + comp.tlp + '?text=' + WATemplate);
+        navigation.goBack();
+      }
+    })
+
+
+  }
+
   const renderItem = ({ item }) => (
     <View style={{
-      alignItems:"center",
-      justifyContent:'center',
-
+      alignItems: "center",
+      justifyContent: 'center',
+      // marginHorizontal: 10,
     }}>
-      <Image source={item.image} style={{
-        width:320,
-        height:320,
+      <Image source={{
+        uri: item.image
+      }} style={{
+        borderRadius: 10,
+        width: 300,
+        height: 300,
 
       }} />
-      
+
     </View>
   );
 
-  // Fungsi untuk menavigasi ke gambar berdasarkan indeks
-  const navigateToSlide = (index) => {
-    if (carouselRef.current) {
-      carouselRef.current.snapToItem(index); // Menavigasi ke item berdasarkan indeks
-    }
-  };
 
   const openModal = () => {
+    console.log(activeIndex)
     setModalVisible(true);
     Animated.timing(slideAnim, {
       toValue: 0, // Posisi akhir modal saat muncul
@@ -181,479 +178,410 @@ export default function PrintHijab({ navigation }) {
     });
   };
 
- // Menghitung subtotal berdasarkan quantity
-// Function to calculate subtotal based on price per yard and quantity
-  // Function to calculate subtotal based on price per yard and quantity
-  const calculateSubtotal = (pricePerMeter, quantity) => {
-    const price = parseInt(pricePerMeter.replace('Rp.', '').replace('.', '').trim()); // Remove currency formatting
-    if (isNaN(price) || quantity <= 0) return 0; // Return 0 if quantity is invalid
-    return price * quantity;
+
+
+  // Fungsi untuk menangani perubahan input quantity
+  const handleQuantityChange = (text) => {
+    // Validating input to only allow numeric values
+    const validQuantity = text.replace(/[^0-9]/g, '');
+    setQuantity(validQuantity);
+    setKirim({
+      ...kirim,
+      qty: validQuantity
+    })
   };
- // Fungsi untuk menangani perubahan input quantity
- const handleQuantityChange = (text) => {
-  // Validating input to only allow numeric values
-  const validQuantity = text.replace(/[^0-9]/g, '');
-  setQuantity(validQuantity);
-};
-
-useEffect(() => {
-  if (modalVisible && fabrics.length > 0 && !selectedFabric) {
-    // Jika modal terbuka dan belum ada kain yang dipilih, pilih kain pertama
-    setSelectedFabric(fabrics[0]);
-    setSelectedHijabSize(fabrics[0].hijabsize[0]); // Pilih ukuran pertama
-  }
-}, [modalVisible]);
-
-const handleFabricSelection = (fabric) => {
-  setSelectedFabric(fabric);
-  setSelectedSize(fabric.hijabsize ? fabric.hijabsize[0] : null); // Pilih ukuran pertama secara otomatis
-  setSelectedLaserCut(null); // Reset pilihan pola laser cut
-};
-
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-      <View style={{
-        padding:10,
 
 
-      }}>
+        {/* Header */}
+        <MyHeader onPress={() => navigation.goBack()} title="Back" />
 
-      <MyHeader onPress={() => navigation.goBack()} title="Back"/>
+        <ScrollView>
 
-      </View>
-
-
-
-
-      <View style={{
-        marginLeft:0
-      }}>
-      <Carousel
-      ref={carouselRef}
-        data={dataCorosel}
-        renderItem={renderItem}
-        sliderWidth={width}
-        itemWidth={width * 0.8} // Slide lebih kecil dari layar
-        inactiveSlideScale={0.9} // Skala item yang tidak aktif (lebih kecil)
-        inactiveSlideOpacity={0.6} // Opasitas item yang tidak aktif
-        inactiveSlideShift={20} // Memberikan jarak antar item
-        loop={false}
-        onSnapToItem={(index) => setActiveIndex(index)}
-        enableSnap={true}
-      />
-       <Pagination
-        dotsLength={dataCorosel.length}
-        activeDotIndex={activeIndex}
-        dotStyle={{
-          width:10,
-         
-          borderRadius:5,
-          backgroundColor:'#555',
-
-        }}
-        inactiveDotStyle={{
-          width:10,
-          borderRadius:5,
-          backgroundColor:'#ccc'
-        }}
-        inactiveDotOpacity={0.4}
-        inactiveDotScale={0.6}
-      />
-
-      <View style={{
-        padding:10,
-        marginLeft:20,
-        marginTop: -25
-
-      }}>
-
-     
-      <Text style={{
-        fontFamily:fonts.primary[600],
-        fontSize:24,
-        color:colors.secondary,
-
-      }}>{dataCorosel[activeIndex].title}</Text>
-
-      <Text style={{
-        fontFamily:fonts.primary[500],
-        fontSize:12,
-        color: Color.blueGray[400],
-
-      }}>Description</Text>
-
-      <Text style={{
-        fontFamily:fonts.primary[500],
-        fontSize:11,
-        textAlign:'justify',
-   
-        padding:10,
-        marginLeft:-10
+          <Carousel
+            layout="slide"
+            ref={carouselRef}
+            layoutCardOffset={20}
+            data={data}
+            renderItem={renderItem}
+            sliderWidth={windowWidth}
+            itemWidth={300} // Slide lebih kecil dari layar
+            inactiveSlideScale={0.9} // Skala item yang tidak aktif (lebih kecil)
+            inactiveSlideOpacity={0.5} // Opasitas item yang tidak aktif
+            inactiveSlideShift={20} // Memberikan jarak antar item
+            loop={true}
+            onSnapToItem={(index) => setActiveIndex(index)}
+            enableSnap={true}
+          />
 
 
-      }}>{dataCorosel[activeIndex].description}</Text>
+          <Pagination
+            dotsLength={data.length}
+            activeDotIndex={activeIndex}
+            dotContainerStyle={{
+              padding: 0,
+              marginHorizontal: 4,
+            }}
+            dotStyle={{
+              width: 20,
+              height: 8,
+              borderRadius: 5,
+              backgroundColor: '#555',
+
+            }}
+            inactiveDotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 10,
+              backgroundColor: '#ccc'
+            }}
+            inactiveDotOpacity={1}
+            inactiveDotScale={0.5}
+          />
+
+          <View style={{
+            paddingHorizontal: 10,
+          }}>
 
 
-    
-      <View style={{
-        flexDirection:'row',
-        justifyContent:"center",
-        alignItems:"center",
-        marginTop:100
-        
-      }}>
+            <Text style={{
+              fontFamily: fonts.primary[600],
+              fontSize: 24,
+              color: colors.secondary,
+
+            }}>{data[activeIndex].nama_bahan}</Text>
+
+            <Text style={{
+              fontFamily: fonts.primary[500],
+              fontSize: 12,
+              color: Color.blueGray[400],
+
+            }}>Description</Text>
+
+            <Text style={{
+              fontFamily: fonts.primary[500],
+              fontSize: 11,
+              textAlign: 'justify',
+
+              padding: 10,
+              marginLeft: -10
+
+
+            }}>{data[activeIndex].keterangan}</Text>
+
+
+
+
+
+
+            <View>
+              {/* Modal */}
+              {modalVisible && (
+                <Modal
+
+                  transparent
+                  animationType="none"
+                  visible={modalVisible}
+                  onRequestClose={closeModal}
+                >
+                  <View style={styles.modalOverlay}>
+                    <TouchableOpacity style={styles.overlayTouchable} onPress={closeModal} />
+                    <Animated.View
+                      style={[
+                        styles.modalContent,
+                        { transform: [{ translateY: slideAnim }] },
+                      ]}
+                    >
+
+                      <View>
+
+                        {/* IMAGE, Judul dan Harga per yard INI NANTI BISA BERUBAH KETIKA USER MEMILIH JENIS KAIN */}
+
+                        <View style={{
+                          padding: 10,
+                          flexDirection: "row",
+
+                        }}>
+                          {/* VIEW IMAGE */}
+                          <View>
+                            <Image style={{
+                              width: 100,
+                              height: 100,
+                            }} source={{
+                              uri: data[activeIndex].image
+                            }} />
+                          </View>
+
+
+                          {/* VIEW JUDUL DAN HARGA */}
+                          <View style={{
+                            flex: 1,
+                            marginLeft: 10
+                          }}>
+
+                            {/* JUDUL KAIN */}
+                            <Text style={{
+                              fontFamily: fonts.primary[600],
+                              fontSize: 20,
+                              color: colors.secondary,
+
+                            }}>{data[activeIndex].nama_bahan}</Text>
+
+                            {/* HARGA */}
+                            {/* <Text style={{
+
+                              fontFamily: fonts.primary[300],
+                              color: colors.danger,
+                              fontSize: 10,
+                              maxWidth: '100%',
+
+                            }}>{data[activeIndex].keterangan}</Text> */}
+
+                          </View>
+                        </View>
+
+                        {/* VIEW PILIH JENIS KAIN */}
+                        <View style={{
+                          padding: 0,
+
+                        }}>
+                          <Text style={{
+                            fontFamily: fonts.primary[300],
+                            fontSize: 12,
+                            marginBottom: 10,
+                          }}>Pilih jenis kain</Text>
+                        </View>
+
+                        {/* PILIHAN JENIS KAIN (DEFUALT ARMANI SLIK) */}
+                        <View style={{
+                          flexDirection: "row",
+                          justifyContent: 'flex-start',
+                          padding: 0,
+
+                        }}>
+
+                          {data.map((fabric, index) => (
+                            <TouchableWithoutFeedback key={fabric.nama_bahan} onPress={() => {
+                              setActiveIndex(index);
+                              carouselRef.current.snapToItem(index);
+                              setKirim({
+                                ...kirim,
+                                fid_bahanhijab: fabric.id_bahanhijab
+                              })
+                            }
+                            }>
+                              <View style={{
+                                marginRight: 10,
+                                borderRadius: 4,
+                                padding: 10,
+                                backgroundColor: Color.blueGray[200],
+                                width: windowWidth / 3.5,
+                                borderWidth: 2,
+                                borderColor: index == activeIndex ? colors.primary : Color.blueGray[200]
+
+                              }}>
+                                <Text style={{ fontFamily: fonts.primary[300], fontSize: 8, textAlign: 'center' }}>
+                                  {fabric.nama_bahan}
+                                </Text>
+                              </View>
+                            </TouchableWithoutFeedback>
+                          ))}
+
+                        </View>
+
+                        {/* VIEW PILIH JENIS KAIN */}
+                        <View style={{
+                          marginTop: 10,
+                          padding: 0,
+
+                        }}>
+                          <Text style={{
+                            fontFamily: fonts.primary[300],
+                            fontSize: 12,
+                            marginBottom: 10,
+                          }}>Ukuran Hijab</Text>
+                        </View>
+
+                        {/* PILIHAN JENIS KAIN (DEFUALT ARMANI SLIK) */}
+                        <View style={{
+                          flexDirection: "row",
+                          justifyContent: 'flex-start',
+                          padding: 0,
+
+                        }}>
+
+                          {SIZE.map((fabric, index) => (
+                            <TouchableWithoutFeedback key={fabric} onPress={() => {
+                              setSize(fabric)
+                            }
+                            }>
+                              <View style={{
+                                marginRight: 10,
+                                borderRadius: 4,
+                                padding: 10,
+                                backgroundColor: Color.blueGray[200],
+                                width: windowWidth / 3.5,
+                                borderWidth: 2,
+                                borderColor: fabric == size ? colors.primary : Color.blueGray[200]
+
+                              }}>
+                                <Text style={{ fontFamily: fonts.primary[300], fontSize: 8, textAlign: 'center' }}>
+                                  {fabric}
+                                </Text>
+                              </View>
+                            </TouchableWithoutFeedback>
+                          ))}
+
+                        </View>
+
+                        <View style={{
+                          marginTop: 10,
+                          padding: 0,
+
+                        }}>
+                          <Text style={{
+                            fontFamily: fonts.primary[300],
+                            fontSize: 12,
+                            marginBottom: 10,
+                          }}>Lasercut</Text>
+                        </View>
+
+                        {/* PILIHAN JENIS KAIN (DEFUALT ARMANI SLIK) */}
+                        <FlatList horizontal data={motif} renderItem={({ item, index }) => {
+                          return (
+                            <TouchableWithoutFeedback key={item.id_motifhijab} onPress={() => {
+                              // setSize(fabric)
+                              setKirim({
+                                ...kirim,
+                                fid_motifhijab: item.id_motifhijab
+                              })
+                            }
+                            }>
+                              <View style={{
+                                marginRight: 10,
+                                borderRadius: 4,
+                                padding: 10,
+                                backgroundColor: Color.blueGray[200],
+                                width: windowWidth / 2,
+                                borderWidth: 2,
+                                borderColor: item.id_motifhijab == kirim.fid_motifhijab ? colors.primary : Color.blueGray[200]
+
+                              }}>
+                                <Image source={{
+                                  uri: item.image
+                                }} style={{
+                                  width: '100%',
+                                  height: 50,
+                                  resizeMode: 'contain'
+                                }} />
+                                <Text style={{ fontFamily: fonts.primary[300], fontSize: 8, textAlign: 'center' }}>
+                                  {item.nama_motif}
+                                </Text>
+                              </View>
+                            </TouchableWithoutFeedback>
+                          )
+                        }} />
+
+
+
+                        {/* VIEW QUANTITY */}
+                        <View style={{
+                          marginTop: 20,
+                          padding: 0,
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}>
+
+                          <View>
+                            <Text style={{
+                              fontFamily: fonts.primary[400],
+                              fontSize: 12
+                            }}>Quantity</Text>
+                          </View>
+
+                          <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: "center"
+                          }}>
+
+                            <TextInput keyboardType='number-pad' style={{
+                              backgroundColor: Color.blueGray[200],
+                              padding: 0,
+                              paddingLeft: 5,
+                              paddingRight: 5,
+                              fontFamily: fonts.primary[400],
+                              fontSize: 12,
+                              width: 60,
+                              height: 30,
+                              marginRight: 5,
+                              textAlign: 'center'
+
+
+                            }} value={quantity}
+                              onChangeText={handleQuantityChange}
+                            />
+
+                            <Text style={{
+                              fontFamily: fonts.primary[300],
+                              color: Color.blueGray[500]
+                            }}>/Pcs</Text>
+
+                          </View>
+
+                        </View>
+
+
+                        {/* Subtutol View */}
+                        <View>
+
+
+
+                        </View>
+                      </View>
+
+
+
+                      <TouchableOpacity style={styles.closeButton} onPress={sendServer}>
+                        <Text style={styles.closeButtonText}>Print</Text>
+                      </TouchableOpacity>
+                    </Animated.View>
+                  </View>
+                </Modal>
+              )}
+            </View>
+
+
+
+          </View>
+
+
+
+        </ScrollView >
         <TouchableWithoutFeedback onPress={openModal}>
           <View style={{
-            padding:10,
-            backgroundColor:colors.secondary,
-            width:200,
-
-          }}>
-
-          <Text style={{
-            fontFamily:fonts.primary[600],
-            color:colors.white,
-            fontSize:20,
-            textAlign:'center',
-
-          }}>Order Now</Text>
-
-          </View>
-        </TouchableWithoutFeedback>
-
-       
-
-      </View>
-
-      <View>
-        {/* Modal */}
-      {modalVisible && (
-        <Modal
-          
-          transparent
-          animationType="none"
-          visible={modalVisible}
-          onRequestClose={closeModal}
-        >
-          <View style={styles.modalOverlay}>
-            <TouchableOpacity style={styles.overlayTouchable} onPress={closeModal} />
-            <Animated.View
-              style={[
-                styles.modalContent,
-                { transform: [{ translateY: slideAnim }] },
-              ]}
-            >
-
-            <View>
-
-              {/* IMAGE, Judul dan Harga per yard INI NANTI BISA BERUBAH KETIKA USER MEMILIH JENIS KAIN */}
-
-              <View style={{
-                padding:10,
-                flexDirection:"row",
-                
-              }}>
-              {/* VIEW IMAGE */}
-                  <View>
-                    <Image style={{
-                      width:100,
-                      height:100,
-                    }} source={selectedFabric.image}/>
-                  </View>
-
-                  
-                  {/* VIEW JUDUL DAN HARGA */}
-                  <View style={{
-                  marginLeft:30
-                  }}>
-
-                  {/* JUDUL KAIN */}
-                    <Text style={{
-                      fontFamily:fonts.primary[600],
-                      fontSize:20,
-                      color:colors.secondary,
-
-                    }}>{selectedFabric.name}</Text>
-
-                    {/* HARGA */}
-                    <Text style={{
-                      fontFamily:fonts.primary[300],
-                      color:colors.danger,
-                      fontSize:12,
-
-                    }}>{selectedFabric.price}</Text>
-
-                  </View>
-              </View>
-
-                {/* VIEW PILIH JENIS KAIN */}
-                <View  style={{
-                  padding:10,
-
-                }}>
-                    <Text style={{
-                      fontFamily:fonts.primary[300],
-                      fontSize:12,
-                    }}>Pilih jenis kain</Text>
-                  </View>
-
-                  {/* PILIHAN JENIS KAIN (DEFUALT ARMANI SLIK) */}
-                  <View style={{
-                    flexDirection:"row",
-                    justifyContent:'flex-start',
-                    padding:10,
-                    marginTop: -10,
-                    alignItems:'center',
-                
-                  }}>
-
-{fabrics.map((fabric) => (
-    <TouchableWithoutFeedback key={fabric.name} onPress={() => handleFabricSelection(fabric)}>
-      <View style={{ 
-        padding: 10, 
-        backgroundColor:
-         Color.blueGray[200],
-         borderWidth: selectedFabric?.name === fabric.name ? 1 : 0, // Border aktif saat dipilih
-         borderColor: selectedFabric?.name === fabric.name ? colors.danger : 'transparent', // Warna border saat dipilih
-          width: 98,
-          marginRight:10
-           }}>
-        <Text style={{ fontFamily: fonts.primary[300], fontSize: 9, textAlign: 'center' }}>
-          {fabric.name}
-        </Text>
-      </View>
-    </TouchableWithoutFeedback>
-  ))}
-               
-                  </View>
-               
-               {/* Ukuran Hijab */}
-
-
-               {selectedFabric.hijabsize && selectedFabric.hijabsize.length > 0 && (
-  <View style={{ padding: 10, marginTop: -10 }}>
-    <Text style={{
-      fontFamily: fonts.primary[300],
-      fontSize: 10,
-    }}>Ukuran Hijab</Text>
-
-    <View style={{
-      flexDirection: 'row',
-      flexWrap: 'wrap', // Agar elemen bisa wrap jika penuh
-      justifyContent: "flex-start"
-    }}>
-      {selectedFabric.hijabsize.map((size, index) => (
-        <TouchableWithoutFeedback 
-          key={index} 
-          onPress={() => setSelectedSize(size)} // Set ukuran yang dipilih
-        >
-          <View style={{
             padding: 10,
-            backgroundColor: Color.blueGray[200],
-            borderWidth: selectedSize === size ? 1 : 0, // Border aktif jika ukuran ini dipilih
-            borderColor: selectedSize === size ? colors.danger : 'transparent', // Warna border jika aktif
-            width: 98,
-            marginRight: 10,
+            backgroundColor: colors.secondary,
+            width: 200,
+            alignSelf: 'center',
             marginBottom: 10,
           }}>
+
             <Text style={{
-              fontFamily: fonts.primary[300],
-              fontSize: 9,
-              textAlign: 'center'
-            }}>
-              {size}
-            </Text>
+              fontFamily: fonts.primary[600],
+              color: colors.white,
+              fontSize: 20,
+              textAlign: 'center',
+
+            }}>ORDER NOW</Text>
+
           </View>
         </TouchableWithoutFeedback>
-      ))}
-    </View>
-  </View>
-)}
-
-{/* LASER CUT */}
-
-
-{selectedFabric.laserCut && selectedFabric.laserCut.length > 0 && (
-  <View style={{ padding: 10, marginTop:-10 }}>
-    <Text style={{
-      fontFamily: fonts.primary[300],
-      fontSize: 10,
-      marginBottom: 5,
-    }}>
-      Pilih Pola Laser Cut
-    </Text>
-
-    <View style={{
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'flex-start',
-    }}>
-      {selectedFabric.laserCut.map((laser, index) => (
-        <TouchableWithoutFeedback key={index} onPress={() => setSelectedLaserCut(laser)}>
-       
-        <Image 
-            source={laser} 
-            style={{
-              width: 100, 
-              height: 25, 
-              marginRight: 10, 
-              marginBottom: 10,
-              resizeMode: 'contain',  
-              borderWidth: selectedLaserCut === laser ? 1 : 0,
-              borderColor: selectedLaserCut === laser ? colors.danger : Color.blueGray[300],
-              borderRadius: 0,
-              backgroundColor:Color.blueGray[200]
-            }} 
-          />
-  
-        </TouchableWithoutFeedback>
-      ))}
-    </View>
-  </View>
-)}
-
-
-
-
-
-         {/* VIEW QUANTITY */}
-                  <View style={{
-                    padding:10,
-                    flexDirection:'row',
-                    justifyContent:'space-between',
-                    alignItems:'center'
-                  }}>
-
-                    <View>
-                      <Text style={{
-                        fontFamily:fonts.primary[400],
-                        fontSize:12
-                      }}>Quantity</Text>
-                    </View>
-
-                    <View style={{
-                      flexDirection:'row',
-                      justifyContent:'center',
-                      alignItems:"center"
-                    }}>
-
-                    <TextInput style={{
-                      backgroundColor:Color.blueGray[200],
-                      padding:10,
-                      paddingLeft:5,
-                      paddingRight:5,
-                      fontFamily:fonts.primary[400],
-                      fontSize:12,
-                      width:60,
-                      height:40,
-                      marginRight:5,
-                      textAlign:'center'
-                      
-
-                    }} value={quantity} 
-                      onChangeText={handleQuantityChange}
-                    />
-
-                    <Text style={{
-                      fontFamily:fonts.primary[300],
-                      color:Color.blueGray[500 ]
-                    }}>/Pcs</Text>
-
-                    </View>
-
-                  </View>
-
-
-                  {/* Subtutol View */}
-                  <View>
-
-                  
-
-           {/* Detail Harga (hanya muncul jika showDetails true) */}
-          {selectedFabric && (
-  <View style={{ padding: 10 }}>
-    
-    {/* Price Details (only visible if showDetails is true) */}
-    {showDetails && (
-      <View style={{ paddingLeft: 0, backgroundColor:'red'}}>
-        {selectedFabric?.name === 'Ceruty Babydoll' && (
-          <>
-           <View style={{
-            flexDirection:'row',
-            justifyContent: "space-between"
-           }}>
-            <View>
-             <Text style={{ fontSize: 12, fontFamily:fonts.primary[400] }}>Kain Armanisilk 10 Meter</Text>
-            <Text style={{ fontSize: 12, fontFamily:fonts.primary[400] }}>Print 10 Meter</Text>
-            </View>
-
-            <View style={{marginRight:50}}>
-             <Text style={{ fontSize: 12, fontFamily:fonts.primary[400] }}>Rp.450.000</Text>
-            <Text style={{ fontSize: 12, fontFamily:fonts.primary[400] }}>Rp.250.000</Text>
-            </View>
-           </View>
-          </>
-        )}
-        {selectedFabric?.name === 'Kain Sendiri' && (
-          <>
-            <Text style={{ fontSize: 14 }}>Kain Sendiri 10 Meter: Rp.450.000</Text>
-            <Text style={{ fontSize: 14 }}>Print 10 Meter: Rp.250.000</Text>
-          </>
-        )}
-      </View>
-    )}
-
-    {/* Subtotal and Toggle Button */}
-
-    <View style={{
-      flexDirection:'row',
-      justifyContent:'space-between',
-      alignItems:"center"
-    }}>
-    <Text style={{ fontSize: 15, fontFamily:fonts.primary[400], }}>
-      Subtotal
-    </Text>
-
-    <View style={{
-      flexDirection:'row',
-      justifyContent:'space-between',
-      alignItems:"center",
-   
-      width:105,
-    }}>
-    <Text style={{fontFamily:fonts.primary[400], fontSize:15,}}>Rp.{calculateSubtotal(selectedFabric.price, parseInt(quantity)).toLocaleString()}</Text>
- <TouchableOpacity style={{marginTop:-3}} onPress={() => setShowDetails(!showDetails)}>
-      <Icon type='ionicon' name={showDetails ? 'caret-up-outline' : 'caret-down-outline'} size={20} color={Color.blueGray[400]}/>
-    </TouchableOpacity>
-    </View>
-
-    
-    </View>
-  </View>
-)}
-  </View>
-            </View>
-
-              
-            
-              <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                <Text style={styles.closeButtonText}>Print</Text>
-              </TouchableOpacity>
-            </Animated.View>
-          </View>
-        </Modal>
-      )}
-      </View>
-
-
-
-      </View>
-
-    
-      </View>
-      </View>
-    </SafeAreaView>
+      </View >
+    </SafeAreaView >
   );
 }
 
@@ -743,15 +671,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalContent: {
-  backgroundColor: '#fff',
-  padding: 20,
-  borderTopLeftRadius: 15,
-  borderTopRightRadius: 15,
-  elevation: 5, // Memberikan bayangan pada Android
-  shadowColor: '#000', // Bayangan pada iOS
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
+    backgroundColor: '#fff',
+    padding: 20,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    elevation: 5, // Memberikan bayangan pada Android
+    shadowColor: '#000', // Bayangan pada iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   modalTitle: {
     fontSize: 18,

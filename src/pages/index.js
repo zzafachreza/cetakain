@@ -60,6 +60,11 @@ import WebKatalog from './KatalogHarga/WebKatalog';
 import Detail from './Riwayat/Detail';
 import SamplePrint from './SamplePrint';
 import Pricelsit from './Pricelist';
+import PrintSample from './PrintSample';
+import DetailRoll from './Riwayat/DetailRoll';
+import DetailHijab from './Riwayat/DetailHijab';
+import DetailJersey from './Riwayat/DetailJersey';
+import DetailSample from './Riwayat/DetailSample';
 
 
 // MCE
@@ -117,6 +122,7 @@ export {
   Riwayat,
   SecondPlash,
   KatalogHarga,
+  PrintSample,
 
   Alamat,
   CustomerCare,
@@ -130,7 +136,11 @@ export {
   SampleHijab,
   PrintJerseyku,
   SampleJersey,
-  WebKatalog
+  WebKatalog,
+  DetailRoll,
+  DetailHijab,
+  DetailJersey,
+  DetailSample
 
 
 };

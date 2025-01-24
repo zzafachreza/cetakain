@@ -28,8 +28,8 @@ export default function MyPickerSecond({
     <View style={{ marginBottom: 10 }}>
       {label && (
         <Text style={{
-          fontFamily: fonts.primary[600],
-          color: colors.primary,
+          fontFamily: fonts.secondary[600],
+          color: colors.black,
           marginBottom: 8,
         }}>
           {label}
@@ -96,14 +96,16 @@ export default function MyPickerSecond({
 
 const styles = StyleSheet.create({
   pickerContainer: {
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderRadius: 10,
+    // backgroundColor: colors.white,
+    // borderWidth: 1,
+    // borderRadius: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#7E7E7E',
     borderColor: Color.blueGray[300],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingLeft: 10,
+    // paddingLeft: 10,
     paddingRight: 10,
   },
   iconContainer: {

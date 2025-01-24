@@ -61,9 +61,10 @@ export default function PrintRoll({ navigation, route }) {
     const [user, setUser] = useState({});
     useEffect(() => {
         getData('user').then(u => setUser(u));
+        getDataCompany().then(res => setComp(res.data.data));
         __getData();
         __getGambar();
-        getDataCompany().then(res => setComp(res.data.data));
+     
     }, [])
 
 

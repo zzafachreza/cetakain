@@ -14,14 +14,15 @@ export default function PrintHijabku({ navigation, route }) {
 
     const [comp, setComp] = useState({});
 
+   
+
+    const [bahan, setBahan] = useState([]);
+    const [motif, setMotif] = useState([]);
     const [kirim, setKirim] = useState({
         fid_bahanhijab: '',
         fid_motifhijab: '',
         qty: ''
     });
-
-    const [bahan, setBahan] = useState([]);
-    const [motif, setMotif] = useState([]);
     const __getDataBahan = () => {
 
         getDataByTable('bahanhijab').then(res => {

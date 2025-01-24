@@ -1,5 +1,5 @@
 import { FlatList, Image, ImageBackground, Linking, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Color, colors, fonts, windowHeight, windowWidth } from '../../utils'
 import { StatusBar } from 'react-native'
 import moment from 'moment';
@@ -18,20 +18,27 @@ export default function Detail({ navigation, route }) {
     const item = route.params;
     let myUrl = webURL + item.modul + '/detail/' + item.id;
     console.log(myUrl);
+    const webRef = useRef();
+    const isFocused = useIsFocused();
+    useEffect(() => {
+        if (isFocused) {
+            webRef.reload()
+        }
+    }, [isFocused])
     return (
         <SafeAreaView style={{
             flex: 1,
             backgroundColor: colors.background
         }}>
-         <View style={{
-            padding:10
-         }}>
-         <MyHeader onPress={() => navigation.goBack()} title={item.jenis + ' - ' + item.nomor_pesanan} />
-         </View>
+            <View style={{
+                padding: 10
+            }}>
+                <MyHeader onPress={() => navigation.goBack()} title={item.jenis + ' - ' + item.nomor_pesanan} />
+            </View>
             <View style={{
                 flex: 1, padding: 20
             }}>
-                <WebView javaScriptEnabledAndroid={true}
+                <WebView ref={(ref) => webRef.current = ref} javaScriptEnabledAndroid={true}
                     source={{ uri: myUrl }} style={{ flex: 1 }} />
             </View>
         </SafeAreaView>
