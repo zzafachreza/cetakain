@@ -178,7 +178,7 @@ export default function Home({ navigation, route }) {
             </View>
 
             <View>
-              <Icon name='notifications-outline' type='ionicon' />
+              {/* <Icon name='notifications-outline' type='ionicon' /> */}
             </View>
           </View>
 

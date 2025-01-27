@@ -23,6 +23,7 @@ export default function DetailHijab({ navigation, route }) {
         POSDataByTable('transaksihijab', {
             nomor_pesanan: ITEM.nomor_pesanan
         }).then(res => {
+            console.log('detail', res.data)
             setItem(res.data);
             setTimeout(() => {
                 setLoading(false);
@@ -77,7 +78,7 @@ export default function DetailHijab({ navigation, route }) {
                                 flex: 1,
                                 fontFamily: fonts.secondary[400],
                                 fontSize: 11,
-                            }}>{moment(item.tanggal + ' ' + item.jam).format('DD MMMM YYYY, HH:mm')} WIB</Text>
+                            }}>{moment(ITEM.tanggal + ' ' + ITEM.jam).format('DD MMMM YYYY, HH:mm')} WIB</Text>
                             <Text style={{
                                 // flex: 1,
                                 fontFamily: fonts.secondary[400],

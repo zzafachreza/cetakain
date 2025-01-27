@@ -333,41 +333,43 @@ export default function SamplePrint({ navigation }) {
                         </View>
 
                         {/* PILIHAN JENIS KAIN (DEFUALT ARMANI SLIK) */}
-                        <View style={{
-                          flexDirection: "row",
-                          justifyContent: 'flex-start',
-                          padding: 0,
+                        <ScrollView horizontal>
+                          <View style={{
+                            flexDirection: "row",
+                            justifyContent: 'flex-start',
+                            padding: 0,
 
-                        }}>
+                          }}>
 
-                          {data.map((fabric, index) => (
-                            <TouchableWithoutFeedback key={fabric.nama_bahan} onPress={() => {
-                              setActiveIndex(index);
-                              carouselRef.current.snapToItem(index);
-                              setKirim({
-                                ...kirim,
-                                fid_sample: fabric.id_sample
-                              })
-                            }
-                            }>
-                              <View style={{
-                                marginRight: 10,
-                                borderRadius: 4,
-                                padding: 10,
-                                backgroundColor: Color.blueGray[200],
-                                width: windowWidth / 3.5,
-                                borderWidth: 2,
-                                borderColor: index == activeIndex ? colors.primary : Color.blueGray[200]
+                            {data.map((fabric, index) => (
+                              <TouchableWithoutFeedback key={fabric.nama_bahan} onPress={() => {
+                                setActiveIndex(index);
+                                carouselRef.current.snapToItem(index);
+                                setKirim({
+                                  ...kirim,
+                                  fid_sample: fabric.id_sample
+                                })
+                              }
+                              }>
+                                <View style={{
+                                  marginRight: 10,
+                                  borderRadius: 4,
+                                  padding: 10,
+                                  backgroundColor: Color.blueGray[200],
+                                  width: windowWidth / 3.5,
+                                  borderWidth: 2,
+                                  borderColor: index == activeIndex ? colors.primary : Color.blueGray[200]
 
-                              }}>
-                                <Text style={{ fontFamily: fonts.primary[300], fontSize: 8, textAlign: 'center' }}>
-                                  {fabric.judul}
-                                </Text>
-                              </View>
-                            </TouchableWithoutFeedback>
-                          ))}
+                                }}>
+                                  <Text style={{ fontFamily: fonts.primary[300], fontSize: 8, textAlign: 'center' }}>
+                                    {fabric.judul}
+                                  </Text>
+                                </View>
+                              </TouchableWithoutFeedback>
+                            ))}
 
-                        </View>
+                          </View>
+                        </ScrollView>
 
 
 
